@@ -118,7 +118,9 @@ a {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-color: #0A0A0E;
+  background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #0a0a0e);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   color: #FFFFFF;
   margin-top: 72px;
   overflow: hidden;
@@ -151,18 +153,17 @@ a {
   animation: float 12s ease-in-out infinite reverse;
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 @keyframes float {
-  0% {
-    transform: translateY(0) scale(1);
-  }
-
-  50% {
-    transform: translateY(30px) scale(1.05);
-  }
-
-  100% {
-    transform: translateY(0) scale(1);
-  }
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 .hero .container {
@@ -171,13 +172,7 @@ a {
   padding: 60px 0;
 }
 
-.hero-main-logo {
-  height: 200px;
-  width: auto;
-  margin: 0 auto 40px;
-  display: block;
-  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
-}
+
 
 .hero .badge {
   display: inline-block;
