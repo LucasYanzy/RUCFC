@@ -139,6 +139,23 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "Reuters & Bloomberg financial news delivered instantly to your feed.",
     zh: "路透社、彭博社财经新闻实时推送到你的频道。",
   },
+
+  // LinkedIn
+  "linkedin.label": { en: "Network", zh: "人脉社交" },
+  "linkedin.title": { en: "Follow Our LinkedIn", zh: "关注我们的 LinkedIn" },
+  "linkedin.desc": {
+    en: "Stay updated with our professional network, recruitment cycles, panel discussions, alumni stories, and exclusive career events.",
+    zh: "与我们的专业网络接轨，获取最新的招新动态、论坛讲座、校友专访以及独家职业发展活动。",
+  },
+  "linkedin.cta": { en: "Follow Rutgers CFC", zh: "关注 RUCF 官方账号" },
+  "linkedin.followers": { en: "followers", zh: "位关注者" },
+  "linkedin.following": { en: "Following", zh: "已关注" },
+  "linkedin.follow": { en: "Follow", zh: "关注" },
+  "linkedin.connect": { en: "Connect", zh: "建立联系" },
+  "linkedin.connected": { en: "Pending", zh: "已申请" },
+  "linkedin.tab.about": { en: "About Us", zh: "关于社团" },
+  "linkedin.tab.posts": { en: "Recent Posts", zh: "最新动态" },
+  "linkedin.tab.people": { en: "Alumni & Team", zh: "校友与团队" },
 };
 
 const LangContext = createContext<LangContextType>({

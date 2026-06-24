@@ -7,6 +7,7 @@ import Hero from "./components/Hero";
 import StatsBar from "./components/StatsBar";
 import Programs from "./components/Programs";
 import Discord from "./components/Discord";
+import LinkedIn from "./components/LinkedIn";
 import Insights from "./components/Insights";
 import CTA from "./components/CTA";
 import Board from "./components/Board";
@@ -24,6 +25,7 @@ export default function Home() {
         <StatsBar />
         <Programs />
         <Discord />
+        <LinkedIn />
         <Insights />
         <CTA />
         <Board />

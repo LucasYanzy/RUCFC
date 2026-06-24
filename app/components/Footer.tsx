@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLang } from "./LangProvider";
+import logo from "@/public/logo.png";
 
 export default function Footer() {
   const { t } = useLang();
@@ -12,7 +13,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand-section">
             <div className="footer-logo">
-              <Image src="/logo.png" alt="RUCF" width={40} height={40} />
+              <Image src={logo} alt="RUCF" width={40} height={40} />
               <span>Rutgers Chinese Finance Club</span>
             </div>
             <p>{t("footer.desc")}</p>
@@ -48,7 +49,7 @@ export default function Footer() {
           <p>{t("footer.copyright")}</p>
           <div className="footer-socials">
             <a href="#" aria-label="Instagram">📷</a>
-            <a href="#" aria-label="LinkedIn">💼</a>
+            <a href="https://www.linkedin.com/company/rutgers-chinese-finance-club/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">💼</a>
             <a href="#" aria-label="WeChat">💬</a>
           </div>
         </div>

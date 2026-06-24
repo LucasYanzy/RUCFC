@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
 import { useLang } from "./LangProvider";
+import logo from "@/public/logo.png";
+import logoWhite from "@/public/logo-white.png";
 
 const JOIN_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSejjOl4pe0uux4EFgA-422cIIHpvoisIeId5vv1sS0zmfvwCQ/viewform?usp=header";
@@ -34,7 +36,7 @@ export default function Navbar() {
   ];
 
   // Use white-bg logo for light theme, dark logo for dark theme
-  const logoSrc = theme === "light" ? "/logo-white.png" : "/logo.png";
+  const logoSrc = theme === "light" ? logoWhite : logo;
 
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`} id="navbar">
