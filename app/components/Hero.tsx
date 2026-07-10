@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useLang } from "./LangProvider";
 
 const JOIN_URL =
@@ -51,21 +51,24 @@ function GeometricMesh() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animationId: number;
+    let animationId: number | undefined;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // Nodes for the mesh
     const nodes: { x: number; y: number; vx: number; vy: number; baseX: number; baseY: number }[] = [];
-    const NODE_COUNT = 40;
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * 2;
-      canvas.height = canvas.offsetHeight * 2;
-      ctx.scale(2, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(canvas.offsetWidth * dpr);
+      canvas.height = Math.floor(canvas.offsetHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
       // Reset nodes
       nodes.length = 0;
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
-      for (let i = 0; i < NODE_COUNT; i++) {
+      const nodeCount = reducedMotion ? 18 : window.innerWidth < 768 ? 24 : 40;
+      for (let i = 0; i < nodeCount; i++) {
         const x = Math.random() * w;
         const y = Math.random() * h;
         nodes.push({
@@ -125,13 +128,15 @@ function GeometricMesh() {
         ctx.fill();
       });
 
-      animationId = requestAnimationFrame(draw);
+      if (!reducedMotion) {
+        animationId = requestAnimationFrame(draw);
+      }
     };
 
     draw();
 
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationId) cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
     };
   }, []);
@@ -142,10 +147,13 @@ function GeometricMesh() {
 export default function Hero() {
   const { t, lang } = useLang();
 
-  const typingTexts =
-    lang === "en"
-      ? ["East Meets West", "Career Success", "Global Vision", "Business Excellence"]
-      : ["东西融合", "职业成功", "全球视野", "商业卓越"];
+  const typingTexts = useMemo(
+    () =>
+      lang === "en"
+        ? ["East Meets West", "Career Success", "Global Vision", "Business Excellence"]
+        : ["东西融合", "职业成功", "全球视野", "商业卓越"],
+    [lang]
+  );
 
   return (
     <section className="hero" id="hero">

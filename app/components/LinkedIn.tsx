@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useLang } from "./LangProvider";
+import { useInteractiveTilt } from "./useInteractiveTilt";
 import logo from "@/public/logo.png";
 
 const LINKEDIN_URL = "https://www.linkedin.com/company/rutgers-chinese-finance-club/";
@@ -15,6 +16,7 @@ export default function LinkedIn() {
   const [postLikes, setPostLikes] = useState(68);
   const [hasLiked, setHasLiked] = useState(false);
   const [connected, setConnected] = useState<Record<number, boolean>>({});
+  const tiltRef = useInteractiveTilt({ maxTilt: 2.2, scale: 1.012, gyroTilt: 1.1 });
 
   const handleFollowClick = () => {
     if (isFollowing) {
@@ -69,7 +71,6 @@ export default function LinkedIn() {
 
   return (
     <section className="linkedin-section" id="linkedin">
-      <div className="linkedin-ambient" />
       <div className="container">
         <div className="linkedin-wrapper reveal">
           
@@ -82,7 +83,7 @@ export default function LinkedIn() {
               {t("linkedin.label")}
             </div>
             
-            <h2 className="section-title" style={{ textAlign: "left", margin: "12px 0 20px" }}>
+            <h2 className="section-title section-title-left">
               {t("linkedin.title")}
             </h2>
             
@@ -91,7 +92,7 @@ export default function LinkedIn() {
             </p>
 
             <div className="linkedin-features">
-              <div className="linkedin-feature" style={{ cursor: "pointer" }}>
+              <div className="linkedin-feature">
                 <span className="linkedin-feature-emoji">👔</span>
                 <div>
                   <strong>
@@ -105,7 +106,7 @@ export default function LinkedIn() {
                 </div>
               </div>
 
-              <div className="linkedin-feature" style={{ cursor: "pointer" }}>
+              <div className="linkedin-feature">
                 <span className="linkedin-feature-emoji">🤝</span>
                 <div>
                   <strong>
@@ -119,7 +120,7 @@ export default function LinkedIn() {
                 </div>
               </div>
 
-              <div className="linkedin-feature" style={{ cursor: "pointer" }}>
+              <div className="linkedin-feature">
                 <span className="linkedin-feature-emoji">📅</span>
                 <div>
                   <strong>
@@ -143,15 +144,14 @@ export default function LinkedIn() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
               </svg>
-              {t("linkedin.cta")}
+              <span className="btn-label">{t("linkedin.cta")}</span>
               <span className="btn-arrow">→</span>
             </a>
           </div>
 
           {/* Right Column: 2.5D LinkedIn Interactive Mockup */}
           <div className="linkedin-preview">
-            <div className="linkedin-mockup-glow" />
-            <div className="linkedin-mockup-wrapper">
+            <div className="linkedin-mockup-wrapper interactive-tilt" ref={tiltRef}>
               <div className="linkedin-mockup">
                 
                 {/* LinkedIn Card Top Header Section */}

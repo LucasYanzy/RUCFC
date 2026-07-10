@@ -56,7 +56,7 @@ export default function Board() {
 
           <div className="board-card board-card-wide">
             <div className="board-card-role">{t("board.cofounders")}</div>
-            <div className="board-card-divider" style={{ width: "100%", height: "1px" }} />
+            <div className="board-card-divider board-card-divider-wide" />
             <div className="cofounders-grid">
               {cofounders.map((name, i) => (
                 <div key={i} className="cofounder-name">{name}</div>

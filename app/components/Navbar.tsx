@@ -22,6 +22,26 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", menuOpen);
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    const onResize = () => {
+      if (window.innerWidth > 768) setMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("resize", onResize);
+    return () => {
+      document.body.classList.remove("menu-open");
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [menuOpen]);
+
   const handleNavClick = (href: string) => {
     setMenuOpen(false);
     const el = document.querySelector(href);
@@ -53,7 +73,7 @@ export default function Navbar() {
           <span>RUCF</span>
         </a>
 
-        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+        <div className={`nav-links ${menuOpen ? "open" : ""}`} id="mobile-navigation">
           {navItems.map((item) => (
             <a
               key={item.href}
@@ -115,12 +135,21 @@ export default function Navbar() {
         <button
           className={`nav-hamburger ${menuOpen ? "open" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle navigation menu"
+          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
         >
           <span />
           <span />
           <span />
         </button>
+
+        <button
+          className={`nav-overlay ${menuOpen ? "open" : ""}`}
+          aria-label="Close navigation menu"
+          onClick={() => setMenuOpen(false)}
+          tabIndex={menuOpen ? 0 : -1}
+        />
       </div>
     </nav>
   );

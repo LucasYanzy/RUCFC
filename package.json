@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "prebuild": "node scripts/fetch-finnhub-news.mjs",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "RAILWAY_NEXT_START=1 next start -p ${PORT:-3000}",
+    "newsletter:server": "node server/newsletter-server.mjs",
     "lint": "next lint"
   },
   "dependencies": {

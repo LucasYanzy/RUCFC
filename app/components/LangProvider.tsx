@@ -71,6 +71,23 @@ const translations: Record<string, Record<Lang, string>> = {
     zh: "我们的研究团队正在准备独家市场分析和洞察，敬请期待。",
   },
 
+  // Market News
+  "news.label": { en: "Market News", zh: "市场新闻" },
+  "news.title": { en: "China & US Finance Brief", zh: "中美金融新闻简报" },
+  "news.subtitle": {
+    en: "A curated feed of finance headlines relevant to China, the United States, and global capital markets.",
+    zh: "精选与中国、美国及全球资本市场相关的金融新闻标题。",
+  },
+  "news.updated": { en: "Updated", zh: "更新于" },
+  "news.regionFilter": { en: "Filter market news by region", zh: "按地区筛选市场新闻" },
+  "news.region.All": { en: "All", zh: "全部" },
+  "news.region.China": { en: "China", zh: "中国" },
+  "news.region.United States": { en: "United States", zh: "美国" },
+  "news.region.Global": { en: "Global", zh: "全球" },
+  "news.readMore": { en: "Read story", zh: "阅读全文" },
+  "news.poweredBy": { en: "News data refreshed from Finnhub during site build.", zh: "新闻数据在网站构建时由 Finnhub 刷新。" },
+  "news.fallback": { en: "Preview items shown until Finnhub data is available.", zh: "Finnhub 数据可用前显示预览条目。" },
+
   // CTA
   "cta.title": { en: "Ready to Shape Your Future?", zh: "准备好塑造你的未来了吗？" },
   "cta.subtitle": {
@@ -108,6 +125,16 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "© 2026 Rutgers Chinese Finance Club. All rights reserved.",
     zh: "© 2026 罗格斯华人金融社团 版权所有",
   },
+
+  // Newsletter
+  "newsletter.email": { en: "Email address", zh: "邮箱地址" },
+  "newsletter.helper": { en: "Rutgers email preferred. No spam.", zh: "建议使用 Rutgers 邮箱。我们不会发送垃圾邮件。" },
+  "newsletter.invalid": { en: "Enter a valid email address.", zh: "请输入有效邮箱地址。" },
+  "newsletter.submitting": { en: "Subscribing...", zh: "订阅中..." },
+  "newsletter.submittingMessage": { en: "Adding you to the newsletter list.", zh: "正在加入订阅名单。" },
+  "newsletter.subscribed": { en: "Subscribed", zh: "已订阅" },
+  "newsletter.success": { en: "You're on the RUCF newsletter list.", zh: "你已加入 RUCF 订阅名单。" },
+  "newsletter.error": { en: "Subscription failed. Please try again.", zh: "订阅失败，请稍后再试。" },
 
   // Discord
   "discord.label": { en: "Community", zh: "社区" },

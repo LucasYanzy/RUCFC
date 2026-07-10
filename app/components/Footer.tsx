@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLang } from "./LangProvider";
+import NewsletterForm from "./NewsletterForm";
 import logo from "@/public/logo.png";
 
 export default function Footer() {
@@ -32,16 +33,7 @@ export default function Footer() {
             <p style={{ fontSize: "0.9rem", color: "var(--text-muted)", marginBottom: "8px" }}>
               {t("footer.newsletterDesc")}
             </p>
-            <form
-              className="newsletter-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert("Thank you for subscribing!");
-              }}
-            >
-              <input type="email" placeholder="your@rutgers.edu" required aria-label="Email" />
-              <button type="submit">{t("footer.subscribe")}</button>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
 

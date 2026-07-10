@@ -1,11 +1,21 @@
 import type { NextConfig } from "next";
 
+const isRailway =
+  Boolean(process.env.RAILWAY_ENVIRONMENT) ||
+  Boolean(process.env.RAILWAY_PROJECT_ID) ||
+  Boolean(process.env.RAILWAY_SERVICE_ID) ||
+  Boolean(process.env.RAILWAY_SERVICE_NAME) ||
+  Boolean(process.env.RAILWAY_NEXT_START);
+
 const nextConfig: NextConfig = {
-  output: "export",
   images: {
     unoptimized: true,
   },
-  basePath: "/RUCF",
 };
+
+if (!isRailway) {
+  nextConfig.output = "export";
+  nextConfig.basePath = "/RUCF";
+}
 
 export default nextConfig;
