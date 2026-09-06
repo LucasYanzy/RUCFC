@@ -14,8 +14,6 @@ export default function Footer() {
   const links = [
     { href: "#hero", label: t("nav.home") },
     { href: "#programs", label: t("nav.programs") },
-    { href: "#insights", label: t("nav.insights") },
-    { href: "#board", label: t("nav.board") },
     { href: "#join", label: t("nav.join") },
   ];
 

@@ -14,8 +14,6 @@ const translations: Record<string, Record<Lang, string>> = {
   // Navbar
   "nav.home": { en: "Home", zh: "首页" },
   "nav.programs": { en: "Programs", zh: "项目活动" },
-  "nav.insights": { en: "Insights", zh: "市场洞察" },
-  "nav.board": { en: "Board", zh: "执行团队" },
   "nav.join": { en: "Join Us", zh: "加入我们" },
 
   // Hero
@@ -28,6 +26,11 @@ const translations: Record<string, Record<Lang, string>> = {
   },
   "hero.cta1": { en: "Become a Member", zh: "成为会员" },
   "hero.cta2": { en: "Explore Programs", zh: "探索项目" },
+  "hero.newsletter": { en: "Newsletter", zh: "邮件订阅" },
+  "hero.newsletterDesc": {
+    en: "Events, workshops, and Chinese market insights in your inbox.",
+    zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
+  },
 
   // Programs
   "programs.label": { en: "What We Do", zh: "我们做什么" },
@@ -48,42 +51,9 @@ const translations: Record<string, Record<Lang, string>> = {
   },
   "programs.card3.title": { en: "Build an Exclusive Community", zh: "构建精英社群" },
   "programs.card3.desc": {
-    en: "Peers to job-hunt and study with, plus regular briefings on Chinese market developments.",
-    zh: "一起求职和学习的同伴，以及定期的中国市场动态简报。",
+    en: "Peers to job-hunt and study with, from across finance, economics, and business.",
+    zh: "一起求职和学习的同伴，来自金融、经济与商科。",
   },
-
-  // Insights -- one header for one section. This used to be two stacked headers,
-  // "Research / Chinese Market Insights" wrapped around "Market News / China & US
-  // Finance Brief", the outer one being a permanent "Coming Soon" empty state.
-  "insights.label": { en: "Market Insights", zh: "市场洞察" },
-  "insights.title": { en: "China & US Finance Brief", zh: "中美金融简报" },
-  "insights.subtitle": {
-    en: "Finance headlines from China, the US, and global capital markets.",
-    zh: "来自中国、美国及全球资本市场的金融要闻。",
-  },
-  "news.updated": { en: "Updated", zh: "更新于" },
-  "news.regionFilter": { en: "Filter market news by region", zh: "按地区筛选市场新闻" },
-  "news.region.All": { en: "All", zh: "全部" },
-  "news.region.China": { en: "China", zh: "中国" },
-  "news.region.United States": { en: "United States", zh: "美国" },
-  "news.region.Global": { en: "Global", zh: "全球" },
-  "news.readMore": { en: "Read story", zh: "阅读全文" },
-  "news.poweredBy": { en: "News data refreshed from Finnhub during site build.", zh: "新闻数据在网站构建时由 Finnhub 刷新。" },
-  "news.fallback": { en: "Preview items shown until Finnhub data is available.", zh: "Finnhub 数据可用前显示预览条目。" },
-
-  // Board
-  "board.label": { en: "Leadership", zh: "领导团队" },
-  "board.title": { en: "Executive Board Members", zh: "执行委员会成员" },
-  "board.subtitle": {
-    en: "The founding team.",
-    zh: "创始团队。",
-  },
-  "board.founder": { en: "Founder", zh: "创始人" },
-  "board.cto": { en: "CTO", zh: "首席技术官" },
-  "board.vp": { en: "Vice President", zh: "副主席" },
-  "board.secretary": { en: "Secretary", zh: "秘书长" },
-  "board.treasurer": { en: "Treasurer", zh: "财务" },
-  "board.cofounders": { en: "26Fall Cohort 1 Co-Founders", zh: "26秋季第一期联合创始人" },
 
   // Join
   "join.label": { en: "Join Us", zh: "加入我们" },
@@ -104,11 +74,6 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "Club updates, recruitment cycles, and career events.",
     zh: "社团动态、招新信息与职业活动。",
   },
-  "join.newsletter": { en: "Newsletter", zh: "邮件订阅" },
-  "join.newsletterDesc": {
-    en: "Events, workshops, and Chinese market insights in your inbox.",
-    zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
-  },
 
   // Footer
   "footer.desc": {
@@ -124,7 +89,6 @@ const translations: Record<string, Record<Lang, string>> = {
   // Newsletter
   "newsletter.subscribe": { en: "Subscribe", zh: "订阅" },
   "newsletter.email": { en: "Email address", zh: "邮箱地址" },
-  "newsletter.helper": { en: "Rutgers email preferred. No spam.", zh: "建议使用 Rutgers 邮箱。我们不会发送垃圾邮件。" },
   "newsletter.invalid": { en: "Enter a valid email address.", zh: "请输入有效邮箱地址。" },
   "newsletter.submitting": { en: "Subscribing...", zh: "订阅中..." },
   "newsletter.submittingMessage": { en: "Adding you to the newsletter list.", zh: "正在加入订阅名单。" },
