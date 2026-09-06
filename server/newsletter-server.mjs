@@ -257,14 +257,77 @@ async function storeLocal(subscription) {
   return true;
 }
 
-async function storeSubscription(subscription) {
-  if (await postWebhook(subscription)) return "webhook";
-  if (await storeGitHub(subscription)) return "github";
-  if (await storeLocal(subscription)) return "local";
+async function storeResend(subscription) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  if (!apiKey || !audienceId) return false;
 
-  const error = new Error("Newsletter storage is not configured.");
-  error.statusCode = 503;
-  throw error;
+  const response = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    // Resend keys contacts by address, so re-adding one that is already in the
+    // audience returns that same contact rather than duplicating it. A repeat
+    // signup therefore needs no membership check first.
+    body: JSON.stringify({ email: subscription.email, unsubscribed: false }),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text().catch(() => "");
+    throw new Error(
+      `Resend storage write failed with ${response.status}.${detail ? ` ${detail.slice(0, 200)}` : ""}`
+    );
+  }
+
+  return true;
+}
+
+// Every configured backend runs, rather than the first one winning, so a local
+// file kept alongside a remote list stays a complete backup of it. Writing the
+// same address twice is harmless: GitHub and Resend both key subscribers by
+// address, and storeLocal counts repeats instead of appending them.
+const backends = [
+  // Disk first. An address that reached the local file can always be replayed
+  // to a remote list afterwards; the reverse leaves nothing to replay from.
+  ["local", storeLocal],
+  ["resend", storeResend],
+  ["webhook", postWebhook],
+  ["github", storeGitHub],
+];
+
+async function storeSubscription(subscription) {
+  const storedIn = [];
+  const failures = [];
+
+  for (const [name, store] of backends) {
+    try {
+      if (await store(subscription)) storedIn.push(name);
+    } catch (error) {
+      failures.push(`${name}: ${error.message}`);
+    }
+  }
+
+  if (failures.length) {
+    console.error(`[newsletter] ${subscription.email}: ${failures.join("; ")}`);
+  }
+
+  // A partial failure is not worth rejecting the visitor's signup: if any
+  // backend took the address it is not lost, and the log above names the ones
+  // that still need reconciling.
+  if (storedIn.length === 0) {
+    const error = new Error(
+      failures.length
+        ? "Every configured newsletter store failed."
+        : "Newsletter storage is not configured."
+    );
+    error.statusCode = 503;
+    throw error;
+  }
+
+  return storedIn.join("+");
 }
 
 async function handleNewsletter(req, res) {
