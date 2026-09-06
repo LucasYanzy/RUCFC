@@ -27,8 +27,6 @@ export interface CardNavProps {
   ease?: string;
   baseColor?: string;
   menuColor?: string;
-  buttonBgColor?: string;
-  buttonTextColor?: string;
   /* Added locally. The stock component hardcodes a "Get Started" <button> and
      has nowhere to put the theme and language toggles, which this site needs on
      every breakpoint. `slot` renders alongside the call to action; ctaLabel and
@@ -49,8 +47,6 @@ const CardNav: React.FC<CardNavProps> = ({
   ctaHref,
   baseColor = '#fff',
   menuColor,
-  buttonBgColor,
-  buttonTextColor
 }) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -203,7 +199,6 @@ const CardNav: React.FC<CardNavProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="card-nav-cta-button"
-                style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
               >
                 {ctaLabel}
               </a>
@@ -211,7 +206,6 @@ const CardNav: React.FC<CardNavProps> = ({
               <button
                 type="button"
                 className="card-nav-cta-button"
-                style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
               >
                 {ctaLabel}
               </button>

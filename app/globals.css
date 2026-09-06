@@ -113,6 +113,7 @@ html {
   --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   /* Institutional surfaces sit closer to a square than a pill. 16px cards read
      as a consumer app; these read as a terminal. */
+  --control-h: 46px;
   --radius-card: 6px;
   --radius-control: 5px;
 }
@@ -233,17 +234,18 @@ button, input { font: inherit; }
 .card-nav-cta-button {
   display: inline-flex;
   align-items: center;
-  border-radius: var(--radius-control) !important;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.85rem;
-  padding: 10px 22px;
-  border: none;
-  cursor: pointer;
-  transition: background-color var(--transition-base), transform var(--transition-base);
+  padding: 0 16px 0 18px;
   white-space: nowrap;
 }
-.card-nav-cta-button:hover { background-color: var(--accent-deep) !important; transform: translateY(-1px); }
+/* Reads as "go" without spending a word on it, and gives the hover something
+   to do other than lift the whole button off the page. */
+.card-nav-cta-button::after {
+  content: '\2192';
+  margin-left: 9px;
+  letter-spacing: normal;
+  transition: transform var(--transition-base);
+}
+.card-nav-cta-button:hover::after { transform: translateX(3px); }
 .card-nav-content { padding: 0 12px 12px; }
 .card-nav .nav-card {
   border-radius: var(--radius-card);
@@ -584,7 +586,7 @@ a.specular-button {
 }
 .newsletter-field { min-width: 0; }
 .newsletter-form input {
-  width: 100%; padding: 12px 16px;
+  width: 100%; height: var(--control-h); padding: 0 16px;
   background: var(--bg-card); border: 1px solid var(--border-color);
   border-radius: var(--radius-control);
   color: var(--text-primary); font-family: var(--font-body); font-size: 0.9rem;
@@ -592,14 +594,8 @@ a.specular-button {
 }
 .newsletter-form input::placeholder { color: var(--text-dim); }
 .newsletter-form input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.newsletter-form button {
-  padding: 12px 24px; background: var(--accent); color: #fff;
-  border: none; border-radius: var(--radius-control); font-family: var(--font-body);
-  font-weight: 600; font-size: 0.85rem; cursor: pointer;
-  transition: all var(--transition-base); white-space: nowrap;
-}
-.newsletter-form button:hover { background: var(--accent-deep); transform: translateY(-1px); }
-.newsletter-form button:disabled { cursor: wait; opacity: 0.75; transform: none; }
+.newsletter-form button { height: var(--control-h); padding: 0 24px; white-space: nowrap; }
+.newsletter-form button:disabled { cursor: wait; opacity: 0.6; }
 /* Idle renders nothing -- collapse the gap the empty line would leave. */
 .newsletter-status:empty { margin-top: 0; }
 .newsletter-status { margin-top: 8px; color: var(--text-dim); font-size: 0.76rem; line-height: 1.45; }
@@ -737,4 +733,42 @@ a.specular-button {
 [data-theme="light"] .join-channels .icon-btn__front {
   background: rgba(255, 255, 255, 0.16);
   border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   UTILITY ACTIONS  --  the nav CTA and the newsletter submit
+   Both were the default SaaS shape: a candy-red rounded rectangle with a bold
+   sans label. That made them read as small copies of "Become a Member" rather
+   than a different kind of action, and the roundness was the plastic itself.
+   Set in the mono the section labels, the field hints and the footer headings
+   already use, so they belong to this page instead of to every page.
+   ========================================================================== */
+.card-nav .card-nav-cta-button,
+.newsletter-form button {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 4px !important;
+  cursor: pointer;
+  /* A hairline of shadow inside the edge rather than a drop shadow under it:
+     it defines the button on both grounds without the moulded bevel. */
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.24);
+  transition: background-color var(--transition-base), box-shadow var(--transition-base);
+}
+.card-nav .card-nav-cta-button:hover,
+.newsletter-form button:hover {
+  background: var(--accent-deep);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.34);
+}
+.card-nav .card-nav-cta-button:active,
+.newsletter-form button:active { background: #7a0b14; }
+.card-nav .card-nav-cta-button:focus-visible,
+.newsletter-form button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }

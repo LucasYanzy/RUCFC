@@ -98,8 +98,6 @@ export default function Navbar() {
       ctaHref={JOIN_URL}
       baseColor="var(--nav-bg-solid)"
       menuColor="var(--text-primary)"
-      buttonBgColor="var(--accent)"
-      buttonTextColor="#ffffff"
     />
   );
 }
