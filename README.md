@@ -2,7 +2,8 @@
 
 The website for the **Rutgers Chinese Finance Club** — a bilingual (EN/中文) single-page site with a dark/light theme, build-time market news, and an email newsletter signup.
 
-**Live:** https://lucasyanzy.github.io/RUCFC/
+**Live:** https://rucfc.gotclass.xyz and https://lucasyanzy.github.io/RUCFC/ — the same
+site, deployed twice. See [Deployment](#deployment).
 
 ---
 
@@ -13,8 +14,8 @@ The website for the **Rutgers Chinese Finance Club** — a bilingual (EN/中文)
 | Framework | Next.js 15 (App Router) |
 | UI | React 19, TypeScript |
 | Styling | Hand-written CSS — `app/globals.css`, ~2,000 lines. 36 custom properties define both themes. No UI library. |
-| Hosting | GitHub Pages (static export) via GitHub Actions |
-| Newsletter API | Standalone Node HTTP server on Railway |
+| Hosting | Static export, served from GitHub Pages and from a Caddy VPS |
+| Newsletter API | Standalone Node HTTP server on the VPS, storing to Resend |
 | News data | Finnhub, fetched at build time |
 
 ---
@@ -79,7 +80,27 @@ public/
 
 ## Deployment
 
-Every push to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds on Node 20 and publishes `out/` to GitHub Pages. A deploy takes about a minute.
+The site is deployed twice from one codebase. `basePath` is what differs, so it is
+read from `SITE_BASE_PATH` — see [`next.config.ts`](next.config.ts).
+
+**GitHub Pages** — automatic. Every push to `main` triggers
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds on Node 20
+and publishes `out/` to Pages. A deploy takes about a minute. The workflow leaves
+`SITE_BASE_PATH` unset, so the build picks up the default `/RUCFC`.
+
+**VPS** (`rucfc.gotclass.xyz`) — manual, and served at a domain root, so it needs an
+empty base path:
+
+```bash
+SITE_BASE_PATH="" NEXT_PUBLIC_NEWSLETTER_ENDPOINT="https://rucfc.gotclass.xyz/api/newsletter" npx next build
+rsync -az --delete out/ vps:/root/rucfc-site/
+```
+
+Use `npx next build` rather than `npm run build` unless `FINNHUB_API_KEY` is set
+locally — the `prebuild` hook would otherwise overwrite `public/data/market-news.json`
+with placeholders. Caddy serves `/root/rucfc-site` and reverse-proxies
+`/api/newsletter` to the newsletter server on `127.0.0.1:3003`, which runs under
+systemd as `rucfc-newsletter`.
 
 ### ⚠️ If the repository is ever renamed
 
@@ -96,9 +117,11 @@ Two things make this safer than it used to be:
 - Reference assets in `public/` with **relative** paths (`data/market-news.json`, not `/data/market-news.json`), so they resolve against the base path.
 - Use Next's file conventions for metadata assets. `metadata.icons` does **not** get a `basePath` prefix, which is why the favicon lives at `app/icon.png` instead.
 
-### Railway (newsletter only)
+### Railway (unused)
 
-`railway.json` deploys **only** the newsletter API — it never builds the Next site. `next.config.ts` detects Railway and disables static export there, but that path is currently unused.
+`railway.json` deploys **only** the newsletter API — it never builds the Next site.
+`next.config.ts` detects Railway and disables static export there. Nothing is deployed
+there now; the newsletter API runs on the VPS instead.
 
 ---
 
@@ -112,9 +135,21 @@ Two things make this safer than it used to be:
 
 ## Newsletter
 
-The site is a static export and cannot accept form posts, so `NewsletterForm` submits to an external endpoint. With `NEXT_PUBLIC_NEWSLETTER_ENDPOINT` unset, it silently falls back to storing addresses in the visitor's own `localStorage` — useful for local testing, useless for collecting real signups.
+The site is a static export and cannot accept form posts, so `NewsletterForm` submits to
+[`server/newsletter-server.mjs`](server/newsletter-server.mjs) at
+`https://rucfc.gotclass.xyz/api/newsletter`. Both deployments post to that one endpoint;
+its CORS allowlist names both origins.
 
-Setup, storage backends (webhook / private GitHub repo / local file), and CORS are documented in [NEWSLETTER_BACKEND.md](NEWSLETTER_BACKEND.md).
+Addresses go to the **Resend** audience, and to a file on the server as a backup. Every
+configured backend runs on each signup, so a signup is lost only if all of them fail.
+
+> `NEXT_PUBLIC_NEWSLETTER_ENDPOINT` is baked in **at build time**. With it unset, the form
+> silently falls back to the visitor's own `localStorage` and no signup ever reaches a
+> server — which is what both deployments did until it was set. If signups stop arriving,
+> check that variable first.
+
+Storage backends, CORS, and setup are documented in
+[NEWSLETTER_BACKEND.md](NEWSLETTER_BACKEND.md).
 
 ---
 
@@ -128,10 +163,14 @@ Copy `.env.example` to `.env.local` for local work.
 |---|---|---|
 | `FINNHUB_API_KEY` | Actions *secret* | Market news fetch. Without it, placeholders are used. |
 | `NEXT_PUBLIC_NEWSLETTER_ENDPOINT` | Actions *variable* | Newsletter API URL. Without it, signups go to localStorage. |
+| `SITE_BASE_PATH` | build env | Base path. Unset means `/RUCFC`; set it to `""` to serve from a domain root. |
 
-**Newsletter server (set on Railway):** `NEWSLETTER_ALLOWED_ORIGINS`, plus one storage backend — `NEWSLETTER_WEBHOOK_URL` / `NEWSLETTER_GITHUB_*` / `NEWSLETTER_LOCAL_FILE`. See [NEWSLETTER_BACKEND.md](NEWSLETTER_BACKEND.md).
+**Newsletter server** (in `/root/rucfc-newsletter/.env` on the VPS, mode 600):
+`NEWSLETTER_ALLOWED_ORIGINS`, `RESEND_API_KEY`, `RESEND_AUDIENCE_ID`, and
+`NEWSLETTER_LOCAL_FILE`. See [NEWSLETTER_BACKEND.md](NEWSLETTER_BACKEND.md).
 
-> Store subscriber emails in a **private** repository, never in this public one.
+> Subscriber emails and the Resend key live on the server only. Never commit either, and
+> never store subscriber emails in this public repository.
 
 ---
 
@@ -156,5 +195,6 @@ Some copy in `Discord.tsx` and `LinkedIn.tsx` is inlined as `lang === "en" ? ...
 
 - The follower counts, likes, and Connect buttons in the Discord and LinkedIn sections are **mockups** — local React state, not live data.
 - `Insights.tsx` builds its fallback payload with `new Date()` at module scope and formats dates with `Intl`, so the prerendered HTML and the client's first render can disagree. This shows up as React hydration warning #418 in the console.
-- The newsletter endpoint has no rate limiting, and its CORS origin check passes any request that sends no `Origin` header.
+- The newsletter endpoint has no rate limiting, and its CORS origin check passes any request that sends no `Origin` header — so a browser on another site cannot post, but curl can.
+- Deploying to the VPS is a manual `npx next build` + `rsync`; only GitHub Pages redeploys on push.
 - `npm run lint` is declared but ESLint is not installed or configured.

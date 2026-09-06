@@ -24,7 +24,26 @@ NEXT_PUBLIC_NEWSLETTER_ENDPOINT=https://<your-railway-service>.up.railway.app/ap
 
 ## Storage Options
 
-Use one of these on Railway.
+**Every backend you configure runs on each signup, and the response reports which
+ones accepted the address** (`{"ok":true,"storedIn":"local+resend"}`). Configuring
+a local file alongside a remote list therefore gives you a complete backup of it
+rather than nothing. Writing the same address twice is harmless: Resend and GitHub
+both key subscribers by address, and the local file counts repeats.
+
+A signup is only rejected with a 503 if *every* configured backend failed. A partial
+failure returns 200 — the address is not lost — and logs which backend needs
+reconciling, so check the server log if a name is missing downstream.
+
+Resend (the current production backend):
+
+```text
+RESEND_API_KEY=
+RESEND_AUDIENCE_ID=
+```
+
+Create the audience in the Resend dashboard under **Audiences**; the id is the UUID
+in its URL. Adding contacts needs no verified domain — that is only required to
+*send* mail to the list.
 
 Webhook:
 
@@ -45,13 +64,23 @@ NEWSLETTER_GITHUB_PATH=newsletter/subscribers.json
 
 Use a private repository for subscriber emails. Do not store subscriber emails in the public website repo.
 
-## CORS
-
-Allow the GitHub Pages origin:
+Local file (also used as the on-server backup in production):
 
 ```text
-NEWSLETTER_ALLOWED_ORIGINS=https://lucasyanzy.github.io,http://127.0.0.1:3001
+NEWSLETTER_LOCAL_FILE=/root/rucfc-newsletter/subscribers.json
 ```
+
+## CORS
+
+List every origin that serves the site — both deployments post to the same endpoint:
+
+```text
+NEWSLETTER_ALLOWED_ORIGINS=https://rucfc.gotclass.xyz,https://lucasyanzy.github.io
+```
+
+The check only rejects a request that sends a disallowed `Origin`. A request with no
+`Origin` header at all still passes, so this stops other websites from posting on a
+visitor's behalf but does nothing against a direct client such as curl.
 
 ## Local Test
 
