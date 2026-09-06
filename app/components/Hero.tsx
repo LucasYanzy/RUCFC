@@ -63,19 +63,20 @@ export default function Hero() {
           text={`${t("hero.title1")} ${t("hero.title2")}`}
           tag="h1"
           src={mesh.src}
-          align="center"
+          align="left"
+          weight={400}
           reveal="rise"
           trigger="mount"
           duration={1.1}
           stagger={0.05}
           parallax={18}
           drift={14}
-          textScale={0.108}
-          tracking={-0.02}
+          textScale={0.125}
+          tracking={-0.018}
           lineHeight={1.04}
         />
 
-        <p className="animate-hero-desc">{t("hero.desc")}</p>
+        <p className="animate-hero-desc hero-lede">{t("hero.desc")}</p>
 
         <div className="hero-buttons animate-hero-buttons">
           <SpecularButton
