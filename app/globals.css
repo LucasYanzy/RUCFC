@@ -136,27 +136,32 @@ input { font: inherit; }
 }
 
 /* ======================== SCROLL REVEAL ======================== */
-.reveal {
+/* Gated on .js-reveal, which the inline script in layout.tsx sets on <html>
+   before first paint. Content is therefore visible by default and only hidden
+   once something is around to reveal it again -- with JS off, or if that
+   script never runs, the page still shows its text instead of a column of
+   invisible sections. */
+.js-reveal .reveal {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.js-reveal .reveal.visible { opacity: 1; transform: translateY(0); }
 
-.reveal-stagger > * {
+.js-reveal .reveal-stagger > * {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
-.reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.12s; }
-.reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.19s; }
-.reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.26s; }
-.reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.33s; }
-.reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.4s; }
-.reveal-stagger.visible > * { opacity: 1; transform: translateY(0); }
+.js-reveal .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+.js-reveal .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.12s; }
+.js-reveal .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.19s; }
+.js-reveal .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.26s; }
+.js-reveal .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.33s; }
+.js-reveal .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.4s; }
+.js-reveal .reveal-stagger.visible > * { opacity: 1; transform: translateY(0); }
 
 /* ======================== NAVBAR ======================== */
 .navbar {
@@ -264,6 +269,16 @@ input { font: inherit; }
   position: relative; min-height: 100vh; display: flex; align-items: center;
   justify-content: center; text-align: center; overflow: hidden;
   background: var(--bg-deep);
+  /* The navbar is fixed on top of this, so its height has to be reserved here
+     or the first thing in the hero sits underneath it. */
+  padding-top: var(--nav-height);
+  /* Reserving the height is not enough on a short window: once the content is
+     taller than what is left, plain centring splits the overflow between top
+     and bottom and pushes the badge back up under the nav, where overflow:
+     hidden then clips it. `safe` falls back to start-alignment in exactly that
+     case. Browsers that do not know the keyword drop this line and keep the
+     `center` above. */
+  align-items: safe center;
 }
 
 [data-theme="light"] .hero { background: linear-gradient(180deg, #f0f2f8 0%, #fff 100%); }
@@ -310,7 +325,7 @@ input { font: inherit; }
 
 /* Hero content */
 .hero-content {
-  position: relative; z-index: 2; padding: 0 24px; max-width: 900px;
+  position: relative; z-index: 2; padding: 48px 24px; max-width: 900px;
 }
 
 /* Hero badge */
@@ -561,11 +576,14 @@ input { font: inherit; }
 }
 .footer-bottom p { font-size: 0.8rem; color: var(--text-dim); }
 .footer-socials { display: flex; gap: 12px; }
+/* These were 36x36 squares back when they held icons. They hold the words
+   "Discord" and "LinkedIn" now, which are wider than 36px, so a fixed size let
+   the labels spill out of both sides of the box and collide with each other. */
 .footer-socials a {
-  width: 36px; height: 36px; border-radius: 8px;
+  padding: 8px 14px; border-radius: 8px;
   background: var(--bg-card); border: 1px solid var(--border-color);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.9rem; color: var(--text-muted);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; color: var(--text-muted); white-space: nowrap;
   transition: all var(--transition-fast);
 }
 .footer-socials a:hover {
@@ -627,7 +645,8 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
 @media (max-width: 968px) {
   .container { width: min(100% - 40px, var(--max-width)); }
   .programs-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
-  .footer-top { grid-template-columns: 1fr; gap: 40px; }}
+  .footer-top { grid-template-columns: 1fr; gap: 40px; }
+}
 
 @media (max-width: 768px) {
   :root { --nav-height: 68px; }
@@ -696,7 +715,8 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
 .program-card { padding: 30px 24px; border-radius: 14px; }
   .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
   .newsletter-form { grid-template-columns: 1fr; }
-  .newsletter-form button { width: 100%; }}
+  .newsletter-form button { width: 100%; }
+}
 
 @media (max-width: 480px) {
   .container { width: min(100% - 28px, var(--max-width)); }
@@ -718,7 +738,8 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
   .program-card { flex-direction: column; align-items: flex-start; gap: 2px; }
   .footer-top { gap: 34px; }
   .footer-logo { justify-content: center; }
-  .footer-brand-section { max-width: none; text-align: center; }}
+  .footer-brand-section { max-width: none; text-align: center; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -730,15 +751,18 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
     transition-duration: 0.01ms !important;
   }
 
-  .reveal,
-  .reveal-stagger > * {
+  .js-reveal .reveal,
+  .js-reveal .reveal-stagger > * {
     opacity: 1;
     transform: none;
-  }}
+  }
+}
 
 @media (max-width: 968px) {
   .join-grid { grid-template-columns: 1fr; }
-  .footer-top { grid-template-columns: 1fr; gap: 40px; }}
+  .footer-top { grid-template-columns: 1fr; gap: 40px; }
+}
 @media (max-width: 768px) {
   .join-section { padding: 76px 0; }
-  .join-card { padding: 20px; }}
+  .join-card { padding: 20px; }
+}
