@@ -7,13 +7,13 @@ const executives = [
   { roleKey: "board.cto", name: "Bowen Rui", linkedin: "https://www.linkedin.com/in/bowenrui/" },
   { roleKey: "board.vp", name: "JianXia Sun (Harry)" },
   { roleKey: "board.secretary", name: "SanMu Zhang (Ethan)" },
-  { roleKey: "board.treasurer", name: "ZhenHe Shi (Spark)" },
+  { roleKey: "board.treasurer", name: "JiaYin Wang" },
 ];
 
 const cofounders = [
   "LiLi Gu (Lily)", "ShuoXin Wang (Peter)",
   "YuanYuan Meng (Emma)", "DaWei Dai (David)", "WenDing Lu (Lucas)",
-  "ZhanBo Zhang (Shawn)", "LeYang Yu (Julia)", "JiaYin Wang (Jiayin)",
+  "ZhanBo Zhang (Shawn)", "LeYang Yu (Julia)",
   "XinYan Zhang (Connie)", "MengDi Liu (Mandy)",
 ];
 
