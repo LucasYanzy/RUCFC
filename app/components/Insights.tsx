@@ -99,25 +99,17 @@ export default function Insights() {
           <div>
             <div className="section-label">{t("insights.label")}</div>
             <h2 className="section-title">{t("insights.title")}</h2>
+            <p className="section-subtitle insights-subtitle">
+              {t("insights.subtitle")}
+            </p>
           </div>
-          <p className="section-subtitle insights-subtitle">
-            {t("insights.subtitle")}
-          </p>
+          <div className="news-updated">
+            <span>{t("news.updated")}</span>
+            <strong>{formatDate(news.generatedAt)}</strong>
+          </div>
         </div>
 
         <div className="market-news reveal">
-          <div className="market-news-header">
-            <div>
-              <div className="section-label">{t("news.label")}</div>
-              <h3>{t("news.title")}</h3>
-              <p>{t("news.subtitle")}</p>
-            </div>
-            <div className="news-updated">
-              <span>{t("news.updated")}</span>
-              <strong>{formatDate(news.generatedAt)}</strong>
-            </div>
-          </div>
-
           <div className="news-tabs" aria-label={t("news.regionFilter")}>
             {regions.map((region) => (
               <button

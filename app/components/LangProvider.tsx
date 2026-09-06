@@ -23,60 +23,43 @@ const translations: Record<string, Record<Lang, string>> = {
   "hero.title1": { en: "Bridging Cultures,", zh: "跨越文化，" },
   "hero.title2": { en: "Advancing Careers", zh: "驱动未来" },
   "hero.desc": {
-    en: "A dynamic platform empowering Rutgers students in finance by bridging Eastern and Western business cultures. We drive career success through an inclusive community, tech-driven financial skills, and unique insights into global and Chinese markets.",
-    zh: "一个赋能罗格斯大学金融学生的动态平台，连接东西方商业文化。我们通过包容的社区、科技驱动的金融技能和独特的全球与中国市场洞察，推动职业成功。",
+    en: "A Rutgers finance community bridging Eastern and Western business cultures — practical skills, industry access, and a perspective on Chinese markets.",
+    zh: "连接东西方商业文化的罗格斯金融社区——实用技能、行业资源，以及对中国市场的独特视角。",
   },
   "hero.cta1": { en: "Become a Member", zh: "成为会员" },
   "hero.cta2": { en: "Explore Programs", zh: "探索项目" },
-
-  // Stats
-  "stat.members": { en: "Active Members", zh: "活跃成员" },
-  "stat.workshops": { en: "Workshops", zh: "工作坊" },
-  "stat.speakers": { en: "Industry Speakers", zh: "业界嘉宾" },
-  "stat.first": { en: "Chinese Finance Club", zh: "华人金融社团" },
 
   // Programs
   "programs.label": { en: "What We Do", zh: "我们做什么" },
   "programs.title": { en: "Our Programs & Events", zh: "项目与活动" },
   "programs.subtitle": {
-    en: "Comprehensive programs designed to bridge the gap between academic knowledge and real-world finance expertise.",
-    zh: "全面的项目设计，旨在弥合学术知识与真实金融经验之间的差距。",
+    en: "Bridging the gap between coursework and how finance actually works.",
+    zh: "弥合课堂知识与真实金融工作之间的差距。",
   },
   "programs.card1.title": { en: "Skill Advancement Workshops", zh: "技能进阶工作坊" },
   "programs.card1.desc": {
-    en: "Master the Bloomberg Terminal and earn BMC & ESG certifications together. Embrace cutting-edge FinTech by learning how to deploy AI agents for VibeCoding, bridging Finance and Artificial Intelligence.",
-    zh: "一起掌握彭博终端并获取BMC和ESG认证。通过学习部署AI代理进行VibeCoding，拥抱前沿金融科技，连接金融与人工智能。",
+    en: "Bloomberg Terminal, BMC and ESG certifications, and hands-on work with AI tools in finance.",
+    zh: "彭博终端、BMC 与 ESG 认证，以及 AI 工具在金融中的实操。",
   },
   "programs.card2.title": { en: "Engage with Industry Leaders", zh: "对话行业领袖" },
   "programs.card2.desc": {
-    en: "Broaden your horizons as we regularly invite frontline practitioners to share real workplace insights. Go beyond textbooks to deeply understand macro markets and accurately capture cutting-edge industry trends.",
-    zh: "拓展视野，我们定期邀请一线从业者分享真实职场洞察。超越课本，深入理解宏观市场，精准把握行业前沿趋势。",
+    en: "Frontline practitioners on how the work actually happens — markets, careers, and current trends.",
+    zh: "一线从业者讲真实的工作方式——市场、职业路径与当下趋势。",
   },
   "programs.card3.title": { en: "Build an Exclusive Community", zh: "构建精英社群" },
   "programs.card3.desc": {
-    en: "Connect with outstanding peers for job hunting and study techniques. We regularly introduce and share Chinese Market Insights to provide you with a unique global perspective in the financial landscape.",
-    zh: "与优秀同伴交流求职和学习技巧。我们定期分享中国市场洞察，为你提供独特的全球金融视角。",
+    en: "Peers to job-hunt and study with, plus regular briefings on Chinese market developments.",
+    zh: "一起求职和学习的同伴，以及定期的中国市场动态简报。",
   },
 
-  // Insights
-  "insights.label": { en: "Research", zh: "研究" },
-  "insights.title": { en: "Chinese Market Insights", zh: "中国市场洞察" },
+  // Insights -- one header for one section. This used to be two stacked headers,
+  // "Research / Chinese Market Insights" wrapped around "Market News / China & US
+  // Finance Brief", the outer one being a permanent "Coming Soon" empty state.
+  "insights.label": { en: "Market Insights", zh: "市场洞察" },
+  "insights.title": { en: "China & US Finance Brief", zh: "中美金融简报" },
   "insights.subtitle": {
-    en: "A unique global perspective on finance, bringing you the latest trend analysis and macroeconomic views from the Chinese market.",
-    zh: "独特的全球金融视角，为您带来最新的中国市场趋势分析和宏观经济观点。",
-  },
-  "insights.coming": { en: "Coming Soon", zh: "即将推出" },
-  "insights.comingDesc": {
-    en: "Our research team is preparing exclusive market analysis and insights. Stay tuned.",
-    zh: "我们的研究团队正在准备独家市场分析和洞察，敬请期待。",
-  },
-
-  // Market News
-  "news.label": { en: "Market News", zh: "市场新闻" },
-  "news.title": { en: "China & US Finance Brief", zh: "中美金融新闻简报" },
-  "news.subtitle": {
-    en: "A curated feed of finance headlines relevant to China, the United States, and global capital markets.",
-    zh: "精选与中国、美国及全球资本市场相关的金融新闻标题。",
+    en: "Finance headlines from China, the US, and global capital markets.",
+    zh: "来自中国、美国及全球资本市场的金融要闻。",
   },
   "news.updated": { en: "Updated", zh: "更新于" },
   "news.regionFilter": { en: "Filter market news by region", zh: "按地区筛选市场新闻" },
@@ -88,19 +71,12 @@ const translations: Record<string, Record<Lang, string>> = {
   "news.poweredBy": { en: "News data refreshed from Finnhub during site build.", zh: "新闻数据在网站构建时由 Finnhub 刷新。" },
   "news.fallback": { en: "Preview items shown until Finnhub data is available.", zh: "Finnhub 数据可用前显示预览条目。" },
 
-  // CTA
-  "cta.title": { en: "Ready to Shape Your Future?", zh: "准备好塑造你的未来了吗？" },
-  "cta.subtitle": {
-    en: "Join a community of ambitious finance students bridging cultures and building careers together.",
-    zh: "加入一个志同道合的金融学生社区，跨越文化，共同成长。",
-  },
-
   // Board
   "board.label": { en: "Leadership", zh: "领导团队" },
   "board.title": { en: "Executive Board Members", zh: "执行委员会成员" },
   "board.subtitle": {
-    en: "Meet the founding team driving RUCFC's mission forward.",
-    zh: "认识推动RUCFC使命前进的创始团队。",
+    en: "The founding team.",
+    zh: "创始团队。",
   },
   "board.founder": { en: "Founder", zh: "创始人" },
   "board.cto": { en: "CTO", zh: "首席技术官" },
@@ -109,24 +85,44 @@ const translations: Record<string, Record<Lang, string>> = {
   "board.treasurer": { en: "Treasurer", zh: "财务" },
   "board.cofounders": { en: "26Fall Cohort 1 Co-Founders", zh: "26秋季第一期联合创始人" },
 
+  // Join
+  "join.label": { en: "Join Us", zh: "加入我们" },
+  "join.title": { en: "Become a Member", zh: "成为会员" },
+  "join.subtitle": {
+    en: "Open to all Rutgers students. No finance background required.",
+    zh: "面向所有罗格斯学生开放，无需金融背景。",
+  },
+  "join.form": { en: "Membership Form", zh: "会员申请表" },
+  "join.formNote": { en: "Takes about a minute.", zh: "大约一分钟。" },
+  "join.discord": { en: "Discord", zh: "Discord" },
+  "join.discordDesc": {
+    en: "Day-to-day chat, event announcements, and questions.",
+    zh: "日常交流、活动通知与答疑。",
+  },
+  "join.linkedin": { en: "LinkedIn", zh: "LinkedIn" },
+  "join.linkedinDesc": {
+    en: "Club updates, recruitment cycles, and career events.",
+    zh: "社团动态、招新信息与职业活动。",
+  },
+  "join.newsletter": { en: "Newsletter", zh: "邮件订阅" },
+  "join.newsletterDesc": {
+    en: "Events, workshops, and Chinese market insights in your inbox.",
+    zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
+  },
+
   // Footer
   "footer.desc": {
-    en: "Empowering Rutgers students in finance by bridging Eastern and Western business cultures since 2026.",
-    zh: "自2026年起，通过连接东西方商业文化，赋能罗格斯大学金融学生。",
+    en: "Bridging Eastern and Western business cultures for Rutgers finance students since 2026.",
+    zh: "自 2026 年起，为罗格斯金融学生连接东西方商业文化。",
   },
   "footer.links": { en: "Quick Links", zh: "快速链接" },
-  "footer.newsletter": { en: "Newsletter", zh: "订阅通讯" },
-  "footer.newsletterDesc": {
-    en: "Get the latest updates on events, workshops, and Chinese market insights.",
-    zh: "获取最新活动、工作坊和中国市场洞察资讯。",
-  },
-  "footer.subscribe": { en: "Subscribe", zh: "订阅" },
   "footer.copyright": {
     en: "© 2026 Rutgers Chinese Finance Club. All rights reserved.",
     zh: "© 2026 罗格斯华人金融社团 版权所有",
   },
 
   // Newsletter
+  "newsletter.subscribe": { en: "Subscribe", zh: "订阅" },
   "newsletter.email": { en: "Email address", zh: "邮箱地址" },
   "newsletter.helper": { en: "Rutgers email preferred. No spam.", zh: "建议使用 Rutgers 邮箱。我们不会发送垃圾邮件。" },
   "newsletter.invalid": { en: "Enter a valid email address.", zh: "请输入有效邮箱地址。" },
@@ -135,54 +131,6 @@ const translations: Record<string, Record<Lang, string>> = {
   "newsletter.subscribed": { en: "Subscribed", zh: "已订阅" },
   "newsletter.success": { en: "You're on the RUCFC newsletter list.", zh: "你已加入 RUCFC 订阅名单。" },
   "newsletter.error": { en: "Subscription failed. Please try again.", zh: "订阅失败，请稍后再试。" },
-
-  // Discord
-  "discord.label": { en: "Community", zh: "社区" },
-  "discord.title": { en: "Join Our Community", zh: "加入我们的社区" },
-  "discord.desc": {
-    en: "Connect with members, access exclusive automation tools, and stay ahead with real-time trading signals — all in our Discord server.",
-    zh: "与成员交流，获取独家自动化工具，通过实时交易信号保持领先——尽在我们的 Discord 服务器。",
-  },
-  "discord.join": { en: "Join Discord Server", zh: "加入 Discord 服务器" },
-  "discord.period": { en: "Period", zh: "周期" },
-  "discord.direction": { en: "Direction", zh: "方向" },
-  "discord.feat1.title": { en: "Options Radar", zh: "期权雷达" },
-  "discord.feat1.desc": {
-    en: "AI-powered options flow scanner detecting unusual activity in real-time.",
-    zh: "AI驱动的期权异动扫描器，实时捕捉异常交易。",
-  },
-  "discord.feat2.title": { en: "Stock Signal Bot", zh: "股票信号机器人" },
-  "discord.feat2.desc": {
-    en: "RSI, MACD and multi-indicator alerts for stocks & crypto.",
-    zh: "RSI、MACD等多指标信号提醒，覆盖股票和加密货币。",
-  },
-  "discord.feat3.title": { en: "Community Chat", zh: "社区交流" },
-  "discord.feat3.desc": {
-    en: "Discuss strategies, share insights, and learn together.",
-    zh: "讨论策略、分享洞察、共同学习成长。",
-  },
-  "discord.feat4.title": { en: "Live News Feed", zh: "实时新闻推送" },
-  "discord.feat4.desc": {
-    en: "Reuters & Bloomberg financial news delivered instantly to your feed.",
-    zh: "路透社、彭博社财经新闻实时推送到你的频道。",
-  },
-
-  // LinkedIn
-  "linkedin.label": { en: "Network", zh: "人脉社交" },
-  "linkedin.title": { en: "Follow Our LinkedIn", zh: "关注我们的 LinkedIn" },
-  "linkedin.desc": {
-    en: "Stay updated with our professional network, recruitment cycles, panel discussions, alumni stories, and exclusive career events.",
-    zh: "与我们的专业网络接轨，获取最新的招新动态、论坛讲座、校友专访以及独家职业发展活动。",
-  },
-  "linkedin.cta": { en: "Follow Rutgers CFC", zh: "关注 RUCFC 官方账号" },
-  "linkedin.followers": { en: "followers", zh: "位关注者" },
-  "linkedin.following": { en: "Following", zh: "已关注" },
-  "linkedin.follow": { en: "Follow", zh: "关注" },
-  "linkedin.connect": { en: "Connect", zh: "建立联系" },
-  "linkedin.connected": { en: "Pending", zh: "已申请" },
-  "linkedin.tab.about": { en: "About Us", zh: "关于社团" },
-  "linkedin.tab.posts": { en: "Recent Posts", zh: "最新动态" },
-  "linkedin.tab.people": { en: "Alumni & Team", zh: "校友与团队" },
 };
 
 const LangContext = createContext<LangContextType>({

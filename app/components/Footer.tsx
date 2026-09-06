@@ -2,11 +2,22 @@
 
 import Image from "next/image";
 import { useLang } from "./LangProvider";
-import NewsletterForm from "./NewsletterForm";
+import { DISCORD_INVITE, LINKEDIN_URL } from "@/app/lib/links";
 import logo from "@/public/logo.png";
 
+// The newsletter form moved to the Join section, which is where someone reading
+// top to bottom is ready to act. The Instagram and WeChat icons that used to sit
+// here were href="#" -- no account exists yet, so they are gone rather than dead.
 export default function Footer() {
   const { t } = useLang();
+
+  const links = [
+    { href: "#hero", label: t("nav.home") },
+    { href: "#programs", label: t("nav.programs") },
+    { href: "#insights", label: t("nav.insights") },
+    { href: "#board", label: t("nav.board") },
+    { href: "#join", label: t("nav.join") },
+  ];
 
   return (
     <footer className="footer">
@@ -22,27 +33,23 @@ export default function Footer() {
 
           <div className="footer-col">
             <h4>{t("footer.links")}</h4>
-            <a href="#hero">{t("nav.home")}</a>
-            <a href="#programs">{t("nav.programs")}</a>
-            <a href="#insights">{t("nav.insights")}</a>
-            <a href="#board">{t("nav.board")}</a>
-          </div>
-
-          <div className="footer-col">
-            <h4>{t("footer.newsletter")}</h4>
-            <p style={{ fontSize: "0.9rem", color: "var(--text-muted)", marginBottom: "8px" }}>
-              {t("footer.newsletterDesc")}
-            </p>
-            <NewsletterForm />
+            {links.map((link) => (
+              <a key={link.href} href={link.href}>
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
 
         <div className="footer-bottom">
           <p>{t("footer.copyright")}</p>
           <div className="footer-socials">
-            <a href="#" aria-label="Instagram">📷</a>
-            <a href="https://www.linkedin.com/company/rutgers-chinese-finance-club/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">💼</a>
-            <a href="#" aria-label="WeChat">💬</a>
+            <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
+              Discord
+            </a>
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+              LinkedIn
+            </a>
           </div>
         </div>
       </div>

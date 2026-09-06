@@ -37,7 +37,7 @@ export default function NewsletterForm() {
   const buttonLabel = useMemo(() => {
     if (state === "submitting") return t("newsletter.submitting");
     if (state === "success") return t("newsletter.subscribed");
-    return t("footer.subscribe");
+    return t("newsletter.subscribe");
   }, [state, t]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

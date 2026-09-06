@@ -6,9 +6,7 @@ import { useTheme } from "./ThemeProvider";
 import { useLang } from "./LangProvider";
 import logo from "@/public/logo.png";
 import logoWhite from "@/public/logo-white.png";
-
-const JOIN_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSejjOl4pe0uux4EFgA-422cIIHpvoisIeId5vv1sS0zmfvwCQ/viewform?usp=header";
+import { JOIN_URL } from "@/app/lib/links";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -53,6 +51,7 @@ export default function Navbar() {
     { label: t("nav.programs"), href: "#programs" },
     { label: t("nav.insights"), href: "#insights" },
     { label: t("nav.board"), href: "#board" },
+    { label: t("nav.join"), href: "#join" },
   ];
 
   // Use white-bg logo for light theme, dark logo for dark theme

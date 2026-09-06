@@ -1,45 +1,8 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useLang } from "./LangProvider";
-
-const JOIN_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSejjOl4pe0uux4EFgA-422cIIHpvoisIeId5vv1sS0zmfvwCQ/viewform?usp=header";
-
-function TypingText({ texts, className }: { texts: string[]; className?: string }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const current = texts[currentIndex];
-    let timeout: NodeJS.Timeout;
-
-    if (!isDeleting && displayed.length < current.length) {
-      timeout = setTimeout(() => {
-        setDisplayed(current.slice(0, displayed.length + 1));
-      }, 80);
-    } else if (!isDeleting && displayed.length === current.length) {
-      timeout = setTimeout(() => setIsDeleting(true), 2000);
-    } else if (isDeleting && displayed.length > 0) {
-      timeout = setTimeout(() => {
-        setDisplayed(current.slice(0, displayed.length - 1));
-      }, 40);
-    } else if (isDeleting && displayed.length === 0) {
-      setIsDeleting(false);
-      setCurrentIndex((prev) => (prev + 1) % texts.length);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayed, isDeleting, currentIndex, texts]);
-
-  return (
-    <span className={className}>
-      {displayed}
-      <span className="typing-cursor">|</span>
-    </span>
-  );
-}
+import { JOIN_URL } from "@/app/lib/links";
 
 /* ── Animated geometric mesh background ── */
 function GeometricMesh() {
@@ -145,15 +108,7 @@ function GeometricMesh() {
 }
 
 export default function Hero() {
-  const { t, lang } = useLang();
-
-  const typingTexts = useMemo(
-    () =>
-      lang === "en"
-        ? ["East Meets West", "Career Success", "Global Vision", "Business Excellence"]
-        : ["东西融合", "职业成功", "全球视野", "商业卓越"],
-    [lang]
-  );
+  const { t } = useLang();
 
   return (
     <section className="hero" id="hero">
@@ -178,11 +133,6 @@ export default function Hero() {
           <br />
           <span className="hero-title-accent">{t("hero.title2")}</span>
         </h1>
-
-        {/* Typing subtitle */}
-        <div className="hero-typing">
-          <TypingText texts={typingTexts} className="typing-text" />
-        </div>
 
         <p className="animate-hero-desc">{t("hero.desc")}</p>
 
