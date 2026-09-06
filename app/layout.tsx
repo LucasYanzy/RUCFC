@@ -5,7 +5,6 @@ export const metadata: Metadata = {
   title: "Rutgers Chinese Finance Club — Bridging Cultures, Advancing Careers",
   description:
     "A dynamic platform empowering Rutgers students in finance by bridging Eastern and Western business cultures.",
-  icons: { icon: "/logo.png" },
 };
 
 export default function RootLayout({
@@ -19,7 +18,7 @@ export default function RootLayout({
             __html: `
               (function(){
                 try {
-                  var t = localStorage.getItem('rucf-theme');
+                  var t = localStorage.getItem('rucfc-theme');
                   if (t === 'light' || t === 'dark') {
                     document.documentElement.setAttribute('data-theme', t);
                   }
