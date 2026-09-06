@@ -48,21 +48,21 @@ export default function LinkedIn() {
   const teamMembers = [
     {
       name: "ZhiYao Yan (Lucas)",
-      role: lang === "en" ? "Founder @ RUCF" : "创始人 @ RUCF",
+      role: lang === "en" ? "Founder @ RUCFC" : "创始人 @ RUCFC",
       headline: lang === "en" ? "Incoming IB Analyst" : "准投行分析师",
       avatar: "👑",
       bg: "#7289da",
     },
     {
       name: "BoWen Rui (Bowen)",
-      role: lang === "en" ? "CTO @ RUCF" : "首席技术官 @ RUCF",
+      role: lang === "en" ? "CTO @ RUCFC" : "首席技术官 @ RUCFC",
       headline: lang === "en" ? "Incoming Quant Researcher" : "准量化研究员",
       avatar: "💻",
       bg: "#43b581",
     },
     {
       name: "JianXia Sun (Harry)",
-      role: lang === "en" ? "Vice President @ RUCF" : "副主席 @ RUCF",
+      role: lang === "en" ? "Vice President @ RUCFC" : "副主席 @ RUCFC",
       headline: lang === "en" ? "Incoming PE / VC Analyst" : "准私募股权分析师",
       avatar: "🤝",
       bg: "#faa61a",
@@ -163,7 +163,7 @@ export default function LinkedIn() {
                   {/* profile photo & action bar */}
                   <div className="linkedin-profile-bar">
                     <div className="linkedin-avatar">
-                      <Image src={logo} alt="RUCF Logo" width={68} height={68} />
+                      <Image src={logo} alt="RUCFC Logo" width={68} height={68} />
                     </div>
                     <button
                       className={`linkedin-follow-btn ${isFollowing ? "following" : ""}`}
@@ -184,7 +184,7 @@ export default function LinkedIn() {
                   </div>
                   {/* club name & details */}
                   <div className="linkedin-info-block">
-                    <h3 className="linkedin-company-name">Rutgers Chinese Finance Club (RUCF)</h3>
+                    <h3 className="linkedin-company-name">Rutgers Chinese Finance Club (RUCFC)</h3>
                     <p className="linkedin-tagline">
                       {lang === "en" 
                         ? "Bridging Eastern and Western business cultures • Finance & Tech Community at Rutgers"
@@ -226,8 +226,8 @@ export default function LinkedIn() {
                       <h4>{lang === "en" ? "Overview" : "社团概述"}</h4>
                       <p>
                         {lang === "en"
-                          ? "Rutgers Chinese Finance Club (RUCF) is a premier student-led organization at Rutgers University. We aim to empower undergraduate and graduate students by providing comprehensive resources in finance, macro market analyses, and quantitative trading tools, while serving as a cultural and professional bridge between East and West."
-                          : "罗格斯华人金融协会 (RUCF) 是罗格斯大学领先的学生社团。我们旨在通过提供丰富的金融求职资源、宏观市场分析和量化交易工具，赋能本科生及研究生，同时致力于打造连接东西方商业文化的专业桥梁。"}
+                          ? "Rutgers Chinese Finance Club (RUCFC) is a premier student-led organization at Rutgers University. We aim to empower undergraduate and graduate students by providing comprehensive resources in finance, macro market analyses, and quantitative trading tools, while serving as a cultural and professional bridge between East and West."
+                          : "罗格斯华人金融协会 (RUCFC) 是罗格斯大学领先的学生社团。我们旨在通过提供丰富的金融求职资源、宏观市场分析和量化交易工具，赋能本科生及研究生，同时致力于打造连接东西方商业文化的专业桥梁。"}
                       </p>
                       <div className="linkedin-about-grid">
                         <div className="linkedin-about-item">
@@ -246,9 +246,9 @@ export default function LinkedIn() {
                     <div className="linkedin-post-content animate-fade-in">
                       {/* Post Author Bar */}
                       <div className="linkedin-post-author">
-                        <Image src={logo} alt="RUCF Logo" width={36} height={36} className="post-author-avatar" />
+                        <Image src={logo} alt="RUCFC Logo" width={36} height={36} className="post-author-avatar" />
                         <div>
-                          <div className="post-author-name">Rutgers Chinese Finance Club (RUCF)</div>
+                          <div className="post-author-name">Rutgers Chinese Finance Club (RUCFC)</div>
                           <div className="post-author-sub">850+ followers • 1w • Edited • 🌐</div>
                         </div>
                       </div>
@@ -256,14 +256,14 @@ export default function LinkedIn() {
                       {/* Post Copy */}
                       <p className="linkedin-post-text">
                         {lang === "en"
-                          ? "🚀 We are thrilled to launch the Rutgers Chinese Finance Club (RUCF) for the upcoming Fall 2026 cohort! Our mission is to bridge Eastern and Western financial markets, equipping members with career-essential skills, BMC & ESG certifications, and hands-on quantitative analytics training. Let's shape the future of finance together. 📈💼 #Rutgers #Finance #CareerAdvancement #Networking"
-                          : "🚀 我们非常高兴地宣布启动 RUCF 2026秋季招新！我们的使命是搭建连接东西方金融市场的桥梁，助力成员掌握核心职业技能、考取 BMC & ESG 认证，并参与前沿量化分析实践。让我们携手并肩，共同塑造金融行业的未来！📈💼 #罗格斯大学 #金融 #求职 #人脉拓展"}
+                          ? "🚀 We are thrilled to launch the Rutgers Chinese Finance Club (RUCFC) for the upcoming Fall 2026 cohort! Our mission is to bridge Eastern and Western financial markets, equipping members with career-essential skills, BMC & ESG certifications, and hands-on quantitative analytics training. Let's shape the future of finance together. 📈💼 #Rutgers #Finance #CareerAdvancement #Networking"
+                          : "🚀 我们非常高兴地宣布启动 RUCFC 2026秋季招新！我们的使命是搭建连接东西方金融市场的桥梁，助力成员掌握核心职业技能、考取 BMC & ESG 认证，并参与前沿量化分析实践。让我们携手并肩，共同塑造金融行业的未来！📈💼 #罗格斯大学 #金融 #求职 #人脉拓展"}
                       </p>
 
                       {/* Post Visual Media Block */}
                       <div className="linkedin-post-media">
                         <div className="linkedin-post-media-gradient">
-                          <span className="media-tag">{lang === "en" ? "RUCF ROUNDTABLE" : "RUCF 圆桌论坛"}</span>
+                          <span className="media-tag">{lang === "en" ? "RUCFC ROUNDTABLE" : "RUCFC 圆桌论坛"}</span>
                           <span className="media-title">
                             {lang === "en" 
                               ? "Bridging Markets: Finance & AI Agent Tech" 

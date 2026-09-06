@@ -99,8 +99,8 @@ const translations: Record<string, Record<Lang, string>> = {
   "board.label": { en: "Leadership", zh: "领导团队" },
   "board.title": { en: "Executive Board Members", zh: "执行委员会成员" },
   "board.subtitle": {
-    en: "Meet the founding team driving RUCF's mission forward.",
-    zh: "认识推动RUCF使命前进的创始团队。",
+    en: "Meet the founding team driving RUCFC's mission forward.",
+    zh: "认识推动RUCFC使命前进的创始团队。",
   },
   "board.founder": { en: "Founder", zh: "创始人" },
   "board.cto": { en: "CTO", zh: "首席技术官" },
@@ -133,7 +133,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "newsletter.submitting": { en: "Subscribing...", zh: "订阅中..." },
   "newsletter.submittingMessage": { en: "Adding you to the newsletter list.", zh: "正在加入订阅名单。" },
   "newsletter.subscribed": { en: "Subscribed", zh: "已订阅" },
-  "newsletter.success": { en: "You're on the RUCF newsletter list.", zh: "你已加入 RUCF 订阅名单。" },
+  "newsletter.success": { en: "You're on the RUCFC newsletter list.", zh: "你已加入 RUCFC 订阅名单。" },
   "newsletter.error": { en: "Subscription failed. Please try again.", zh: "订阅失败，请稍后再试。" },
 
   // Discord
@@ -174,7 +174,7 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "Stay updated with our professional network, recruitment cycles, panel discussions, alumni stories, and exclusive career events.",
     zh: "与我们的专业网络接轨，获取最新的招新动态、论坛讲座、校友专访以及独家职业发展活动。",
   },
-  "linkedin.cta": { en: "Follow Rutgers CFC", zh: "关注 RUCF 官方账号" },
+  "linkedin.cta": { en: "Follow Rutgers CFC", zh: "关注 RUCFC 官方账号" },
   "linkedin.followers": { en: "followers", zh: "位关注者" },
   "linkedin.following": { en: "Following", zh: "已关注" },
   "linkedin.follow": { en: "Follow", zh: "关注" },
@@ -199,7 +199,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Lang>("en");
 
   useEffect(() => {
-    const stored = localStorage.getItem("rucf-lang") as Lang | null;
+    const stored = localStorage.getItem("rucfc-lang") as Lang | null;
     if (stored === "en" || stored === "zh") {
       setLang(stored);
     }
@@ -208,7 +208,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const toggleLang = () => {
     const next = lang === "en" ? "zh" : "en";
     setLang(next);
-    localStorage.setItem("rucf-lang", next);
+    localStorage.setItem("rucfc-lang", next);
   };
 
   const t = (key: string): string => {

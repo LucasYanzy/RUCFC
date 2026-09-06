@@ -5,7 +5,7 @@ import { useLang } from "./LangProvider";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
-const STORAGE_KEY = "rucf-newsletter-subscribers";
+const STORAGE_KEY = "rucfc-newsletter-subscribers";
 const NEWSLETTER_ENDPOINT = process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT;
 
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -60,9 +60,9 @@ export default function NewsletterForm() {
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({
             email: normalizedEmail,
-            list: "RUCF Newsletter",
+            list: "RUCFC Newsletter",
             language: lang,
-            source: "rucf-website",
+            source: "rucfc-website",
             page: window.location.href,
             createdAt: new Date().toISOString(),
           }),

@@ -38,7 +38,7 @@ const fallbackItems = [
     headline: "China credit and property policy remain central to market sentiment",
     summary:
       "Investors continue watching monetary support, housing measures, and yuan stability for signals on Chinese market momentum.",
-    source: "RUCF Research Desk",
+    source: "RUCFC Research Desk",
     url: "https://finnhub.io/",
     datetime: new Date().toISOString(),
   },
@@ -48,7 +48,7 @@ const fallbackItems = [
     headline: "US rate expectations continue to drive equity and bond volatility",
     summary:
       "Treasury yields, inflation data, and Federal Reserve guidance remain key inputs for US financial market pricing.",
-    source: "RUCF Research Desk",
+    source: "RUCFC Research Desk",
     url: "https://finnhub.io/",
     datetime: new Date().toISOString(),
   },
@@ -58,7 +58,7 @@ const fallbackItems = [
     headline: "Global capital flows rotate between growth, policy, and currency themes",
     summary:
       "Cross-border investors are balancing US earnings resilience with China policy expectations and broader currency moves.",
-    source: "RUCF Research Desk",
+    source: "RUCFC Research Desk",
     url: "https://finnhub.io/",
     datetime: new Date().toISOString(),
   },

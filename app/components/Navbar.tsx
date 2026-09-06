@@ -69,8 +69,8 @@ export default function Navbar() {
             handleNavClick("#hero");
           }}
         >
-          <Image src={logoSrc} alt="RUCF Logo" width={44} height={44} />
-          <span>RUCF</span>
+          <Image src={logoSrc} alt="RUCFC Logo" width={44} height={44} />
+          <span>RUCFC</span>
         </a>
 
         <div className={`nav-links ${menuOpen ? "open" : ""}`} id="mobile-navigation">
