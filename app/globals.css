@@ -269,6 +269,16 @@ input { font: inherit; }
   position: relative; min-height: 100vh; display: flex; align-items: center;
   justify-content: center; text-align: center; overflow: hidden;
   background: var(--bg-deep);
+  /* The navbar is fixed on top of this, so its height has to be reserved here
+     or the first thing in the hero sits underneath it. */
+  padding-top: var(--nav-height);
+  /* Reserving the height is not enough on a short window: once the content is
+     taller than what is left, plain centring splits the overflow between top
+     and bottom and pushes the badge back up under the nav, where overflow:
+     hidden then clips it. `safe` falls back to start-alignment in exactly that
+     case. Browsers that do not know the keyword drop this line and keep the
+     `center` above. */
+  align-items: safe center;
 }
 
 [data-theme="light"] .hero { background: linear-gradient(180deg, #f0f2f8 0%, #fff 100%); }
@@ -315,7 +325,7 @@ input { font: inherit; }
 
 /* Hero content */
 .hero-content {
-  position: relative; z-index: 2; padding: 0 24px; max-width: 900px;
+  position: relative; z-index: 2; padding: 48px 24px; max-width: 900px;
 }
 
 /* Hero badge */
