@@ -86,9 +86,9 @@ function normalizeSubscription(payload) {
 
   return {
     email,
-    list: cleanString(payload.list, "RUCF Newsletter"),
+    list: cleanString(payload.list, "RUCFC Newsletter"),
     language: cleanString(payload.language, "en").slice(0, 8),
-    source: cleanString(payload.source, "rucf-website").slice(0, 80),
+    source: cleanString(payload.source, "rucfc-website").slice(0, 80),
     page: cleanString(payload.page || payload.url).slice(0, 500),
     createdAt: new Date().toISOString(),
   };
@@ -147,7 +147,7 @@ async function fetchGitHubSubscribers(config) {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${config.token}`,
       "X-GitHub-Api-Version": "2022-11-28",
-      "User-Agent": "rucf-newsletter-server",
+      "User-Agent": "rucfc-newsletter-server",
     },
   });
 
@@ -210,10 +210,10 @@ async function storeGitHub(subscription) {
         Authorization: `Bearer ${config.token}`,
         "Content-Type": "application/json",
         "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "rucf-newsletter-server",
+        "User-Agent": "rucfc-newsletter-server",
       },
       body: JSON.stringify({
-        message: "Update RUCF newsletter subscribers",
+        message: "Update RUCFC newsletter subscribers",
         content: Buffer.from(JSON.stringify(data, null, 2)).toString("base64"),
         branch: config.branch,
         ...(sha ? { sha } : {}),
@@ -297,7 +297,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === "GET" && (req.url === "/" || req.url === "/health")) {
-      jsonResponse(res, 200, { ok: true, service: "rucf-newsletter" });
+      jsonResponse(res, 200, { ok: true, service: "rucfc-newsletter" });
       return;
     }
 
@@ -311,5 +311,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`RUCF newsletter server listening on ${host}:${port}`);
+  console.log(`RUCFC newsletter server listening on ${host}:${port}`);
 });

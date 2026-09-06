@@ -1,4 +1,4 @@
-# RUCF Newsletter Backend
+# RUCFC Newsletter Backend
 
 The website is exported as a static GitHub Pages site, so newsletter collection runs as a small standalone Node server.
 

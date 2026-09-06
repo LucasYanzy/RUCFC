@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
 
 if (!isRailway) {
   nextConfig.output = "export";
-  nextConfig.basePath = "/RUCF";
+  nextConfig.basePath = "/RUCFC";
 }
 
 export default nextConfig;
