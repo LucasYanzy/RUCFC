@@ -109,7 +109,6 @@ const translations: Record<string, Record<Lang, string>> = {
   // Newsletter
   "newsletter.subscribe": { en: "Subscribe", zh: "订阅" },
   "newsletter.email": { en: "Email address", zh: "邮箱地址" },
-  "newsletter.helper": { en: "Rutgers email preferred. No spam.", zh: "建议使用 Rutgers 邮箱。我们不会发送垃圾邮件。" },
   "newsletter.invalid": { en: "Enter a valid email address.", zh: "请输入有效邮箱地址。" },
   "newsletter.submitting": { en: "Subscribing...", zh: "订阅中..." },
   "newsletter.submittingMessage": { en: "Adding you to the newsletter list.", zh: "正在加入订阅名单。" },

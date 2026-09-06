@@ -752,6 +752,8 @@ input { font: inherit; }
   opacity: 0.75;
   transform: none;
 }
+/* Idle renders nothing -- collapse the gap the empty line would leave. */
+.newsletter-status:empty { margin-top: 0; }
 .newsletter-status {
   margin-top: 8px;
   color: var(--text-dim);

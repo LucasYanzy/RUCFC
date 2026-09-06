@@ -32,7 +32,7 @@ export default function NewsletterForm() {
   const { t, lang } = useLang();
   const [email, setEmail] = useState("");
   const [state, setState] = useState<SubmitState>("idle");
-  const [messageKey, setMessageKey] = useState("newsletter.helper");
+  const [messageKey, setMessageKey] = useState("");
 
   const buttonLabel = useMemo(() => {
     if (state === "submitting") return t("newsletter.submitting");
@@ -95,7 +95,7 @@ export default function NewsletterForm() {
             setEmail(event.target.value);
             if (state !== "submitting") {
               setState("idle");
-              setMessageKey("newsletter.helper");
+              setMessageKey("");
             }
           }}
         />
@@ -103,7 +103,7 @@ export default function NewsletterForm() {
           className={`newsletter-status ${state === "error" ? "error" : state === "success" ? "success" : ""}`}
           aria-live="polite"
         >
-          {t(messageKey)}
+          {messageKey ? t(messageKey) : ""}
         </p>
       </div>
       <button type="submit" disabled={state === "submitting"}>
