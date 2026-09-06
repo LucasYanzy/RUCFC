@@ -256,6 +256,20 @@ async function fetchFinnhubNews(apiKey) {
   return [...marketNews, ...chinaCompanyNews, ...usCompanyNews];
 }
 
+// Real articles already on disk beat three placeholders. Returns them only when
+// a previous run actually reached Finnhub.
+function existingFinnhubNews() {
+  try {
+    const data = JSON.parse(fs.readFileSync(outputFile, "utf8"));
+    if (data.source === "finnhub" && Array.isArray(data.items) && data.items.length) {
+      return data;
+    }
+  } catch {
+    // No usable file yet -- placeholders it is.
+  }
+  return null;
+}
+
 async function main() {
   loadLocalEnv();
   const apiKey = process.env.FINNHUB_API_KEY;
@@ -268,10 +282,23 @@ async function main() {
       source = "finnhub";
     } catch (error) {
       console.warn(`[news] ${error instanceof Error ? error.message : String(error)}`);
-      console.warn("[news] Falling back to curated placeholder items.");
     }
   } else {
-    console.warn("[news] FINNHUB_API_KEY is not set. Using fallback items.");
+    console.warn("[news] FINNHUB_API_KEY is not set.");
+  }
+
+  if (source !== "finnhub") {
+    // Leave the file untouched rather than overwriting real articles -- and
+    // rather than stamping a fresh generatedAt onto stale ones, which would
+    // show the site's "Updated" line as today.
+    const existing = existingFinnhubNews();
+    if (existing) {
+      console.warn(
+        `[news] Keeping ${existing.items.length} existing articles from ${existing.generatedAt}.`
+      );
+      return;
+    }
+    console.warn("[news] No existing articles to keep. Writing placeholders.");
   }
 
   fs.mkdirSync(outputDir, { recursive: true });

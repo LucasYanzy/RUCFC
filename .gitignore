@@ -13,3 +13,6 @@ out/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Claude Code local dev config
+.claude/
