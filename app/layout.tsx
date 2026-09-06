@@ -17,6 +17,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function(){
+                document.documentElement.classList.add('js-reveal');
                 try {
                   var t = localStorage.getItem('rucfc-theme');
                   if (t === 'light' || t === 'dark') {
