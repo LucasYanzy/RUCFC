@@ -63,7 +63,7 @@ export default function Hero() {
           text={`${t("hero.title1")} ${t("hero.title2")}`}
           tag="h1"
           src={mesh.src}
-          align="left"
+          align="center"
           weight={400}
           reveal="rise"
           trigger="mount"
