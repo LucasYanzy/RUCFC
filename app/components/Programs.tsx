@@ -1,16 +1,15 @@
 "use client";
 
 import { useLang } from "./LangProvider";
-import SpotlightCard from "./SpotlightCard";
-import AnimatedContent from "./AnimatedContent";
+import ScrollStack, { ScrollStackItem } from "./ScrollStack";
+import ScrollReveal from "./ScrollReveal";
 
-// One scarlet for all three. The first pass gave each card its own hue -- red,
-// cyan, amber -- which looked lively and read as a consumer product. The Rutgers
-// identity budgets supporting colours at roughly a tenth of the page, so the
-// accent stays scarlet everywhere and the cards are told apart by their index
-// rather than by colour.
-const SPOTLIGHT = "rgba(204, 0, 51, 0.18)";
-
+// Was a three-column grid of bordered boxes. That grid is the single most
+// generic thing a page can do, and no amount of palette work rescues it -- all
+// three cards are on screen at once, at the same size, saying "this is a
+// template". ScrollStack gives the same three items a sequence instead: each one
+// pins, scales and blurs behind the next, so the section is read rather than
+// scanned.
 const programs = [
   { titleKey: "programs.card1.title", descKey: "programs.card1.desc" },
   { titleKey: "programs.card2.title", descKey: "programs.card2.desc" },
@@ -23,34 +22,47 @@ export default function Programs() {
   return (
     <section className="programs-section" id="programs">
       <div className="container">
-        <AnimatedContent distance={60} duration={0.9} threshold={0.15}>
-          <div className="programs-header">
-            <div className="section-label">{t("programs.label")}</div>
-            <h2 className="section-title">{t("programs.title")}</h2>
-            <p className="section-subtitle">{t("programs.subtitle")}</p>
-          </div>
-        </AnimatedContent>
-
-        <div className="programs-grid">
-          {programs.map((prog, i) => (
-            <AnimatedContent
-              key={prog.titleKey}
-              distance={50}
-              duration={0.8}
-              delay={i * 0.09}
-              threshold={0.1}
-            >
-              <SpotlightCard className="program-card" spotlightColor={SPOTLIGHT}>
-                <span className="program-index" aria-hidden="true">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3>{t(prog.titleKey)}</h3>
-                <p>{t(prog.descKey)}</p>
-              </SpotlightCard>
-            </AnimatedContent>
-          ))}
+        <div className="programs-header">
+          <div className="section-label">{t("programs.label")}</div>
+          <h2 className="section-title">{t("programs.title")}</h2>
+          <ScrollReveal
+            containerClassName="section-subtitle-reveal"
+            textClassName="section-subtitle"
+            enableBlur
+            baseOpacity={0.12}
+            baseRotation={2}
+            blurStrength={5}
+          >
+            {t("programs.subtitle")}
+          </ScrollReveal>
         </div>
       </div>
+
+      {/* useWindowScroll keeps this on the page's own scroll rather than opening
+          a nested scroller, and installs Lenis on the window -- which is where
+          the whole page's smoothing comes from. */}
+      <ScrollStack
+        className="programs-stack"
+        useWindowScroll
+        itemDistance={90}
+        itemStackDistance={26}
+        itemScale={0.025}
+        baseScale={0.88}
+        stackPosition="22%"
+        scaleEndPosition="12%"
+        rotationAmount={0}
+        blurAmount={1.4}
+      >
+        {programs.map((prog, i) => (
+          <ScrollStackItem key={prog.titleKey} itemClassName="program-card">
+            <span className="program-index" aria-hidden="true">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3>{t(prog.titleKey)}</h3>
+            <p>{t(prog.descKey)}</p>
+          </ScrollStackItem>
+        ))}
+      </ScrollStack>
     </section>
   );
 }

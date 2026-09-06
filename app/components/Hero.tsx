@@ -3,33 +3,39 @@
 import { useLang } from "./LangProvider";
 import NewsletterForm from "./NewsletterForm";
 import { JOIN_URL } from "@/app/lib/links";
-import Threads from "./Threads";
+import LightRays from "./LightRays";
+import MaskedHeading from "./MaskedHeading";
+import SpecularButton from "./SpecularButton";
 import StarBorder from "./StarBorder";
-import SplitText from "./SplitText";
+import mesh from "@/public/mesh.svg";
 
-// The hand-rolled canvas mesh that used to live here is replaced by Threads, a
-// WebGL shader from @react-bits. Aurora was the first choice and was wrong for
-// this: a three-stop colour wash spends the whole palette on decoration, and the
-// stops it needed were not Rutgers colours. Threads is a single-hue line field,
-// so it runs entirely on scarlet and reads as a tape rather than as a gradient.
-// It draws nothing when WebGL is missing, so .hero-grid and the CSS gradient
-// behind it stay as the floor.
-//
-// ogl wants linear 0-1 components, not hex: #CC0033 -> 204/255, 0, 51/255.
-const THREAD_SCARLET: [number, number, number] = [0.8, 0, 0.2];
-
+// Fourth background this section has had: a hand-rolled canvas mesh, Aurora,
+// DarkVeil, now LightRays. DarkVeil looked right but could not be made to obey
+// the palette -- it paints a fixed blue-violet field and exposes only a hue
+// rotation, so scarlet was reachable only by guessing at a rotation in YIQ
+// space, and every guess landed on green or magenta. LightRays takes the colour
+// as a hex, so #CC0033 is #CC0033. Volumetric beams also read as depth rather
+// than as a coloured sheet, which is the actual problem being solved here.
 export default function Hero() {
   const { t, lang } = useLang();
 
   return (
     <section className="hero" id="hero">
-      <div className="hero-bg" />
-
-      <div className="hero-threads" aria-hidden="true">
-        <Threads color={THREAD_SCARLET} amplitude={0.7} distance={0.25} enableMouseInteraction />
+      <div className="hero-veil" aria-hidden="true">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#cc0033"
+          raysSpeed={0.7}
+          lightSpread={0.85}
+          rayLength={2.4}
+          fadeDistance={1.1}
+          saturation={0.85}
+          followMouse
+          mouseInfluence={0.08}
+          noiseAmount={0.06}
+          distortion={0.04}
+        />
       </div>
-
-      <div className="hero-grid" />
 
       <div className="hero-content">
         <StarBorder
@@ -46,51 +52,63 @@ export default function Hero() {
           {t("hero.badge")}
         </StarBorder>
 
-        {/* Two SplitText runs rather than one: the second line carries the accent
-            colour, and splitting per line keeps the stagger reading left to right
-            on each. `lang` in the key forces a clean re-split on toggle. */}
-        <h1 className="hero-title-split">
-          <SplitText
-            key={`t1-${lang}`}
-            text={t("hero.title1")}
-            tag="span"
-            className="hero-title-line"
-            delay={35}
-            duration={1}
-            splitType="chars"
-            from={{ opacity: 0, y: 44 }}
-            to={{ opacity: 1, y: 0 }}
-            textAlign="center"
-          />
-          <SplitText
-            key={`t2-${lang}`}
-            text={t("hero.title2")}
-            tag="span"
-            className="hero-title-line hero-title-accent"
-            delay={35}
-            duration={1}
-            splitType="chars"
-            from={{ opacity: 0, y: 44 }}
-            to={{ opacity: 1, y: 0 }}
-            textAlign="center"
-          />
-        </h1>
+        {/* The headline is a window onto public/mesh.svg rather than a block of
+            solid colour -- that mesh is built from the Rutgers scarlet, dark red
+            and dark grey, so the type is lit by brand colour instead of painted
+            with it. `lang` in the key forces a clean re-measure on toggle, since
+            the mask is laid out per glyph. */}
+        <MaskedHeading
+          key={`mh-${lang}`}
+          className="hero-masked"
+          text={`${t("hero.title1")} ${t("hero.title2")}`}
+          tag="h1"
+          src={mesh.src}
+          align="center"
+          reveal="rise"
+          trigger="mount"
+          duration={1.1}
+          stagger={0.05}
+          parallax={18}
+          drift={14}
+          textScale={0.108}
+          tracking={-0.02}
+          lineHeight={1.04}
+        />
 
         <p className="animate-hero-desc">{t("hero.desc")}</p>
 
         <div className="hero-buttons animate-hero-buttons">
-          <a
+          <SpecularButton
+            
             href={JOIN_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary"
+            size="lg"
+            radius={6}
+            baseColor="#cc0033"
+            tint="#ff2d55"
+            tintOpacity={0.25}
+            textColor="#ffffff"
+            lineColor="#ffffff"
+            intensity={1.15}
           >
             {t("hero.cta1")}
-            <span className="btn-arrow">→</span>
-          </a>
-          <a href="#programs" className="btn-secondary">
+          </SpecularButton>
+
+          <SpecularButton
+            
+            href="#programs"
+            size="lg"
+            radius={6}
+            baseColor="#222222"
+            tint="#ffffff"
+            tintOpacity={0.06}
+            textColor="var(--text-primary)"
+            lineColor="#ffffff"
+            intensity={0.7}
+          >
             {t("hero.cta2")}
-          </a>
+          </SpecularButton>
         </div>
 
         <div className="hero-newsletter animate-hero-buttons">

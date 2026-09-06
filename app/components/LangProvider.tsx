@@ -15,6 +15,10 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.home": { en: "Home", zh: "首页" },
   "nav.programs": { en: "Programs", zh: "项目活动" },
   "nav.join": { en: "Join Us", zh: "加入我们" },
+  "nav.explore": { en: "Explore", zh: "了解" },
+  "nav.community": { en: "Community", zh: "社群" },
+  "nav.getStarted": { en: "Get Started", zh: "加入我们" },
+  "nav.menu": { en: "Menu", zh: "菜单" },
 
   // Hero
   "hero.badge": { en: "Founding Cohort · Fall 2026", zh: "创始成员 · 2026秋" },
