@@ -148,7 +148,7 @@ export default function Discord() {
                           <div className="discord-msg-avatar" style={{ background: "#43b581", color: "#fff" }}>💻</div>
                           <div>
                             <div className="discord-msg-name">
-                              BoWen Rui (Bowen)
+                              Bowen Rui
                               <span className="bot-badge" style={{ background: "#43b581" }}>CTO</span>
                               <span className="discord-msg-time" style={{ marginLeft: 8 }}>Today at 10:24 AM</span>
                             </div>

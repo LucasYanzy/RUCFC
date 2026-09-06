@@ -4,7 +4,7 @@ import { useLang } from "./LangProvider";
 
 const executives = [
   { roleKey: "board.founder", name: "ZhiYao Yan (Lucas)", linkedin: "https://www.linkedin.com/in/lucasyanzy" },
-  { roleKey: "board.cto", name: "BoWen Rui (Bowen)", linkedin: "https://www.linkedin.com/in/bowenrui/" },
+  { roleKey: "board.cto", name: "Bowen Rui", linkedin: "https://www.linkedin.com/in/bowenrui/" },
   { roleKey: "board.vp", name: "JianXia Sun (Harry)" },
   { roleKey: "board.secretary", name: "SanMu Zhang (Ethan)" },
   { roleKey: "board.treasurer", name: "ZhenHe Shi (Spark)" },
