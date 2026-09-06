@@ -50,8 +50,6 @@ export default function Navbar() {
     { label: t("nav.home"), href: "#hero" },
     { label: t("nav.programs"), href: "#programs" },
     { label: t("nav.insights"), href: "#insights" },
-    { label: t("nav.board"), href: "#board" },
-    { label: t("nav.join"), href: "#join" },
   ];
 
   // Use white-bg logo for light theme, dark logo for dark theme

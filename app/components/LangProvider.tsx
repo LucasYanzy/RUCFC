@@ -15,7 +15,6 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.home": { en: "Home", zh: "首页" },
   "nav.programs": { en: "Programs", zh: "项目活动" },
   "nav.insights": { en: "Insights", zh: "市场洞察" },
-  "nav.board": { en: "Board", zh: "执行团队" },
   "nav.join": { en: "Join Us", zh: "加入我们" },
 
   // Hero
@@ -70,20 +69,6 @@ const translations: Record<string, Record<Lang, string>> = {
   "news.readMore": { en: "Read story", zh: "阅读全文" },
   "news.poweredBy": { en: "News data refreshed from Finnhub during site build.", zh: "新闻数据在网站构建时由 Finnhub 刷新。" },
   "news.fallback": { en: "Preview items shown until Finnhub data is available.", zh: "Finnhub 数据可用前显示预览条目。" },
-
-  // Board
-  "board.label": { en: "Leadership", zh: "领导团队" },
-  "board.title": { en: "Executive Board Members", zh: "执行委员会成员" },
-  "board.subtitle": {
-    en: "The founding team.",
-    zh: "创始团队。",
-  },
-  "board.founder": { en: "Founder", zh: "创始人" },
-  "board.cto": { en: "CTO", zh: "首席技术官" },
-  "board.vp": { en: "Vice President", zh: "副主席" },
-  "board.secretary": { en: "Secretary", zh: "秘书长" },
-  "board.treasurer": { en: "Treasurer", zh: "财务" },
-  "board.cofounders": { en: "26Fall Cohort 1 Co-Founders", zh: "26秋季第一期联合创始人" },
 
   // Join
   "join.label": { en: "Join Us", zh: "加入我们" },
