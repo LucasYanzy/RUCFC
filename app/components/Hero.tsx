@@ -77,8 +77,17 @@ export default function Hero() {
           stagger={0.05}
           parallax={18}
           drift={14}
-          textScale={0.125}
-          tracking={-0.018}
+          /* Han glyphs fill their em box far more densely than Latin, so the
+             two languages do not balance at one size -- Chinese set at the
+             Latin size reads as significantly larger and heavier. Sizing it
+             down is an optical match, not a smaller headline. */
+          textScale={lang === "zh" ? 0.105 : 0.125}
+          /* Tracking is a per-language value, not a constant. -0.018em is the
+             optical correction for Instrument Serif's Latin; the same number
+             applied to ZCOOL XiaoWei leaves the Han characters visibly apart,
+             since its sidebearings are much wider and Chinese has no word
+             spaces to absorb them. */
+          tracking={lang === "zh" ? -0.14 : -0.018}
           lineHeight={1.04}
         />
 

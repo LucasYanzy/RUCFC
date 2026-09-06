@@ -121,6 +121,15 @@ export function LangProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // layout.tsx renders lang="en" for the static export, which stayed "en" even
+  // with the whole UI in Chinese. The attribute is not decoration: browsers
+  // pick Han glyph variants from it (several characters are drawn differently
+  // in Chinese and Japanese), screen readers pick a voice from it, and the
+  // stylesheet keys the Chinese text colour off it.
+  useEffect(() => {
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  }, [lang]);
+
   const toggleLang = () => {
     const next = lang === "en" ? "zh" : "en";
     setLang(next);

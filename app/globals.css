@@ -3,7 +3,7 @@
    Dark + Light Theme / CN-EN Toggle / Heavy Animations
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
 
 /* ====================== DARK THEME (default) ======================
    Built on the Rutgers Visual Identity System palette. Everything neutral here
@@ -99,12 +99,21 @@ html {
      over Inter -- two neutral grotesques a few degrees from each other, which
      is why nothing on the page had a voice. A high-contrast serif against a
      neutral sans against a mono reads as an editorial hierarchy instead. */
-  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
-  --font-heading: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
-  --font-body: 'Inter', sans-serif;
+  /* The Latin face comes first and the Chinese face second in every stack.
+     Font fallback is resolved per glyph, not per element, so a Latin character
+     is drawn by Instrument Serif and a Han character -- which Instrument Serif
+     has no glyph for -- falls through to ZCOOL XiaoWei on its own. Mixed
+     strings like "2026秋" get both, with no lang switching in CSS.
+     ZCOOL XiaoWei is a display face, so it is deliberately absent from
+     --font-body: it is loose and lightly built, which reads as elegant at
+     headline size and as thin and hard to scan at 16px. Chinese body copy gets
+     Noto Sans SC instead. */
+  --font-display: 'Instrument Serif', 'ZCOOL XiaoWei', 'Iowan Old Style', Georgia, serif;
+  --font-heading: 'Instrument Serif', 'ZCOOL XiaoWei', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'Inter', 'Noto Sans SC', sans-serif;
   /* The data/label layer. Small caps in a mono face with wide tracking is what
      separates a finance page from a startup page; it reads as tabular. */
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: 'IBM Plex Mono', 'Noto Sans SC', ui-monospace, SFMono-Regular, Menlo, monospace;
   --tracking-label: 0.16em;
   --max-width: 1200px;
   --nav-height: 72px;
@@ -747,3 +756,41 @@ a.specular-button {
   .card-nav .nav-cta { display: none; }
 }
 .newsletter-submit.specular-button { height: var(--control-h); padding: 0 26px; font-size: 0.85rem; }
+
+/* ==========================================================================
+   CHINESE TYPOGRAPHY
+   The Latin and Han faces are selected per glyph by the fallback chain in
+   --font-display / --font-body, so nothing here switches fonts. These are the
+   corrections that a per-glyph swap cannot make on its own, because they apply
+   to a whole element: colour and tracking.
+   ========================================================================== */
+
+/* Han characters put far more stroke inside the same em than Latin letters do,
+   so at an identical colour they lay down more ink and read as brighter and a
+   shade bolder. Pure white Chinese beside pure white English looks mis-set.
+   Stepping the primary text down evens the two out. This is a perceptual
+   correction rather than a contrast reduction -- #e6e6e6 on #0a0a0a is still
+   about 17:1, far above AA. Light mode has the mirror-image problem (dense
+   glyphs read heavier, not brighter) and is left alone until asked. */
+[data-theme="dark"]:lang(zh) {
+  --text-primary: #e6e6e6;
+}
+
+/* ZCOOL XiaoWei is drawn with generous sidebearings. That is what makes it feel
+   airy at display size and what makes a headline come apart: Chinese sets solid,
+   with no word spaces, so the gaps have nothing to hide behind and the line
+   reads as spaced-out rather than open. Pulling the tracking back in is the
+   cost of using a display face for display. */
+:lang(zh) .section-title,
+:lang(zh) .program-body h3 {
+  letter-spacing: -0.12em;
+}
+
+/* CJK has no word spaces to break at, so a long run wraps mid-phrase wherever
+   the box happens to end. This keeps breaks off punctuation. */
+:lang(zh) .section-subtitle,
+:lang(zh) .hero-lede,
+:lang(zh) .program-body p {
+  line-break: strict;
+  overflow-wrap: break-word;
+}
