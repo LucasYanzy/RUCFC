@@ -278,7 +278,22 @@ const SpecularButton = ({
     };
     raf = requestAnimationFrame(update);
 
+    // Every instance holds a WebGL context and an rAF that runs for the life of
+    // the page whether or not the button is on screen. With five of these that
+    // is real battery for no visible effect, so park the loop while off screen.
+    let running = true;
+    const io = new IntersectionObserver(
+      entries => {
+        const visible = entries[0]?.isIntersecting ?? true;
+        if (visible && !running) { running = true; raf = requestAnimationFrame(update); }
+        else if (!visible && running) { running = false; cancelAnimationFrame(raf); }
+      },
+      { rootMargin: '120px' }
+    );
+    io.observe(btn);
+
     return () => {
+      io.disconnect();
       cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener('pointermove', onPointerMove);

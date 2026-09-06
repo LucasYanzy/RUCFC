@@ -2,6 +2,7 @@
 
 import { useTheme } from "./ThemeProvider";
 import { useLang } from "./LangProvider";
+import SpecularButton from "./SpecularButton";
 import CardNav, { type CardNavItem } from "./CardNav";
 import logo from "@/public/logo.png";
 import logoWhite from "@/public/logo-white.png";
@@ -94,8 +95,24 @@ export default function Navbar() {
       logoAlt="RUCFC"
       items={items}
       slot={toggles}
-      ctaLabel={t("nav.join")}
-      ctaHref={JOIN_URL}
+      ctaNode={
+        <SpecularButton
+          className="nav-cta"
+          href={JOIN_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          size="sm"
+          radius={6}
+          baseColor="#cc0033"
+          tint="#ff2d55"
+          tintOpacity={0.25}
+          textColor="#ffffff"
+          lineColor="#ffffff"
+          intensity={1.15}
+        >
+          {t("nav.join")}
+        </SpecularButton>
+      }
       baseColor="var(--nav-bg-solid)"
       menuColor="var(--text-primary)"
     />

@@ -16,3 +16,4 @@ Thumbs.db
 
 # Claude Code local dev config
 .claude/
+tsconfig.tsbuildinfo

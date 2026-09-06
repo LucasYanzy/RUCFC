@@ -104,6 +104,7 @@ export default function Hero() {
           </SpecularButton>
 
           <SpecularButton
+            className="cta-secondary"
             
             href="#programs"
             size="lg"

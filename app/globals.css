@@ -231,21 +231,8 @@ button, input { font: inherit; }
 .card-nav-top { padding: 0 8px 0 18px; }
 .card-nav .logo { height: 36px; width: auto; border-radius: 5px; }
 .card-nav-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-.card-nav-cta-button {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 16px 0 18px;
-  white-space: nowrap;
-}
-/* Reads as "go" without spending a word on it, and gives the hover something
-   to do other than lift the whole button off the page. */
-.card-nav-cta-button::after {
-  content: '\2192';
-  margin-left: 9px;
-  letter-spacing: normal;
-  transition: transform var(--transition-base);
-}
-.card-nav-cta-button:hover::after { transform: translateX(3px); }
+/* Kept for the component's own fallback CTA; the site supplies ctaNode. */
+.card-nav-cta-button { display: inline-flex; align-items: center; white-space: nowrap; }
 .card-nav-content { padding: 0 12px 12px; }
 .card-nav .nav-card {
   border-radius: var(--radius-card);
@@ -706,8 +693,17 @@ a.specular-button {
    the primary CTA came out pale pink with white text on top -- the least
    legible element on the page was the one asking for the click. An opaque fill
    behind the canvas gives the sheen something to sit on. */
-[data-theme="light"] .cta-primary { background-color: var(--accent-deep); }
-[data-theme="light"] .specular-button:not(.cta-primary) {
+/* Each button names its own light fill. This was a :not(.cta-primary) rule
+   while the scarlet primary was the only exception, and the nav CTA and the
+   newsletter submit -- added later, both scarlet -- silently matched it and
+   came back white. A blanket rule with a growing exception list gets the
+   default wrong for every button added after it. */
+[data-theme="light"] .cta-primary,
+[data-theme="light"] .nav-cta,
+[data-theme="light"] .newsletter-submit {
+  background-color: var(--accent-deep);
+}
+[data-theme="light"] .cta-secondary {
   background-color: var(--bg-card);
   box-shadow: inset 0 0 0 1px var(--border-color);
 }
@@ -735,40 +731,9 @@ a.specular-button {
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* ==========================================================================
-   UTILITY ACTIONS  --  the nav CTA and the newsletter submit
-   Both were the default SaaS shape: a candy-red rounded rectangle with a bold
-   sans label. That made them read as small copies of "Become a Member" rather
-   than a different kind of action, and the roundness was the plastic itself.
-   Set in the mono the section labels, the field hints and the footer headings
-   already use, so they belong to this page instead of to every page.
-   ========================================================================== */
-.card-nav .card-nav-cta-button,
-.newsletter-form button {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #fff;
-  background: var(--accent);
-  border: none;
-  border-radius: 4px !important;
-  cursor: pointer;
-  /* A hairline of shadow inside the edge rather than a drop shadow under it:
-     it defines the button on both grounds without the moulded bevel. */
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.24);
-  transition: background-color var(--transition-base), box-shadow var(--transition-base);
-}
-.card-nav .card-nav-cta-button:hover,
-.newsletter-form button:hover {
-  background: var(--accent-deep);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.34);
-}
-.card-nav .card-nav-cta-button:active,
-.newsletter-form button:active { background: #7a0b14; }
-.card-nav .card-nav-cta-button:focus-visible,
-.newsletter-form button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
+/* The nav CTA and the newsletter submit are SpecularButtons now, like both
+   primary CTAs -- react-bits ships exactly one button component and this is it.
+   Hierarchy comes from size (sm here, lg for the primary actions) rather than
+   from a second button design. */
+.nav-cta.specular-button { font-size: 0.85rem; padding: 9px 20px; }
+.newsletter-submit.specular-button { height: var(--control-h); padding: 0 26px; font-size: 0.85rem; }

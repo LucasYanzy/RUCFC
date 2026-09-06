@@ -33,6 +33,8 @@ export interface CardNavProps {
      ctaHref make that call to action a real link. */
   slot?: React.ReactNode;
   ctaLabel?: string;
+  /** Supply the CTA element outright; overrides ctaLabel/ctaHref. */
+  ctaNode?: React.ReactNode;
   ctaHref?: string;
 }
 
@@ -44,6 +46,7 @@ const CardNav: React.FC<CardNavProps> = ({
   ease = 'power3.out',
   slot,
   ctaLabel = 'Get Started',
+  ctaNode,
   ctaHref,
   baseColor = '#fff',
   menuColor,
@@ -193,7 +196,7 @@ const CardNav: React.FC<CardNavProps> = ({
 
           <div className="card-nav-actions">
             {slot}
-            {ctaHref ? (
+            {ctaNode ?? (ctaHref ? (
               <a
                 href={ctaHref}
                 target="_blank"
@@ -209,7 +212,7 @@ const CardNav: React.FC<CardNavProps> = ({
               >
                 {ctaLabel}
               </button>
-            )}
+            ))}
           </div>
         </div>
 
