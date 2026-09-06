@@ -22,7 +22,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const stored = localStorage.getItem("rucf-theme") as Theme | null;
+    const stored = localStorage.getItem("rucfc-theme") as Theme | null;
     if (stored === "light" || stored === "dark") {
       setTheme(stored);
       document.documentElement.setAttribute("data-theme", stored);
@@ -32,7 +32,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
-    localStorage.setItem("rucf-theme", next);
+    localStorage.setItem("rucfc-theme", next);
     document.documentElement.setAttribute("data-theme", next);
   };
 

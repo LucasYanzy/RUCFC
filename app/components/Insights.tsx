@@ -31,7 +31,7 @@ const fallbackNews: MarketNewsPayload = {
       headline: "China credit and policy signals remain key for market sentiment",
       summary:
         "Investors are watching monetary support, property-sector measures, and yuan stability for signals on Chinese financial markets.",
-      source: "RUCF Research Desk",
+      source: "RUCFC Research Desk",
       url: "https://finnhub.io/",
       datetime: new Date().toISOString(),
     },
@@ -41,7 +41,7 @@ const fallbackNews: MarketNewsPayload = {
       headline: "US rates and earnings expectations drive cross-asset pricing",
       summary:
         "Treasury yields, Federal Reserve guidance, and corporate earnings remain core drivers for US equity and bond markets.",
-      source: "RUCF Research Desk",
+      source: "RUCFC Research Desk",
       url: "https://finnhub.io/",
       datetime: new Date().toISOString(),
     },

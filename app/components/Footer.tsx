@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand-section">
             <div className="footer-logo">
-              <Image src={logo} alt="RUCF" width={40} height={40} />
+              <Image src={logo} alt="RUCFC" width={40} height={40} />
               <span>Rutgers Chinese Finance Club</span>
             </div>
             <p>{t("footer.desc")}</p>

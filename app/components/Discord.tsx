@@ -89,7 +89,7 @@ export default function Discord() {
               <div className="discord-mockup">
                 {/* Sidebar */}
                 <div className="discord-sidebar">
-                  <div className="discord-server-icon">RUCF</div>
+                  <div className="discord-server-icon">RUCFC</div>
                   <div className="discord-sidebar-divider" />
                   <div className="discord-channel-list">
                     <div className="discord-category">
@@ -137,8 +137,8 @@ export default function Discord() {
                             </div>
                             <div style={{ fontSize: "0.8rem", color: "#dcddde", lineHeight: "1.4" }}>
                               {lang === "en"
-                                ? "Welcome to RUCF! Excited to launch our Fall 2026 cohort. Let's bridge Eastern and Western business cultures together."
-                                : "欢迎来到 RUCF！很高兴启动我们的 2026 秋季招新。让我们一起搭建连接东西方商业文化的桥梁。"}
+                                ? "Welcome to RUCFC! Excited to launch our Fall 2026 cohort. Let's bridge Eastern and Western business cultures together."
+                                : "欢迎来到 RUCFC！很高兴启动我们的 2026 秋季招新。让我们一起搭建连接东西方商业文化的桥梁。"}
                             </div>
                           </div>
                         </div>
