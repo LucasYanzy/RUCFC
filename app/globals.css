@@ -736,4 +736,14 @@ a.specular-button {
    Hierarchy comes from size (sm here, lg for the primary actions) rather than
    from a second button design. */
 .nav-cta.specular-button { font-size: 0.85rem; padding: 9px 20px; }
+
+/* CardNav.css hides the nav CTA below 768px, where the bar only has room for
+   the logo and the hamburger. That rule targets .card-nav-cta-button, which
+   the SpecularButton replacing it does not carry, so the button reappeared on
+   mobile and landed under the logo. Restated here against the class actually
+   rendered, and in this file rather than CardNav.css because the two are not
+   guaranteed a bundle order. */
+@media (max-width: 768px) {
+  .card-nav .nav-cta { display: none; }
+}
 .newsletter-submit.specular-button { height: var(--control-h); padding: 0 26px; font-size: 0.85rem; }
