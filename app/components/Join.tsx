@@ -2,6 +2,8 @@
 
 import { useLang } from "./LangProvider";
 import { JOIN_URL, DISCORD_INVITE, LINKEDIN_URL } from "@/app/lib/links";
+import GlareHover from "./GlareHover";
+import AnimatedContent from "./AnimatedContent";
 
 // Replaces the old Discord, LinkedIn and CTA sections. Those rendered simulated
 // clients -- fake avatars, fake like buttons, a hardcoded follower count -- around
@@ -36,13 +38,14 @@ export default function Join() {
   return (
     <section className="join-section" id="join">
       <div className="container">
-        <div className="join-header reveal">
+        <AnimatedContent distance={60} duration={0.9} threshold={0.15}>
+        <div className="join-header">
           <div className="section-label">{t("join.label")}</div>
           <h2 className="section-title">{t("join.title")}</h2>
           <p className="section-subtitle">{t("join.subtitle")}</p>
         </div>
 
-        <div className="join-primary reveal">
+        <div className="join-primary">
           <a
             href={JOIN_URL}
             target="_blank"
@@ -54,27 +57,51 @@ export default function Join() {
           </a>
           <span className="join-primary-note">{t("join.formNote")}</span>
         </div>
+        </AnimatedContent>
 
-        <div className="join-grid reveal-stagger">
-          {channels.map((channel) => (
-            <a
+        <div className="join-grid">
+          {channels.map((channel, i) => (
+            <AnimatedContent
               key={channel.href}
-              className="join-card"
-              href={channel.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              distance={40}
+              duration={0.7}
+              delay={i * 0.08}
+              threshold={0.1}
             >
-              <span className="join-card-icon">{channel.icon}</span>
-              <span className="join-card-body">
-                <strong>{t(channel.labelKey)}</strong>
-                <span>{t(channel.descKey)}</span>
-              </span>
-              <span className="join-card-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
+              {/* GlareHover is a div, so the anchor wraps it rather than the other
+                  way round -- the sweep is decoration and the link is the element
+                  that has to stay focusable and announced. */}
+              <a
+                className="join-card-link"
+                href={channel.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GlareHover
+                  className="join-card"
+                  width="100%"
+                  height="100%"
+                  background="var(--bg-card)"
+                  borderColor="var(--border-color)"
+                  borderRadius="var(--radius-card)"
+                  glareColor="#ffffff"
+                  glareOpacity={0.14}
+                  glareAngle={-32}
+                  glareSize={260}
+                  transitionDuration={780}
+                >
+                  <span className="join-card-icon">{channel.icon}</span>
+                  <span className="join-card-body">
+                    <strong>{t(channel.labelKey)}</strong>
+                    <span>{t(channel.descKey)}</span>
+                  </span>
+                  <span className="join-card-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </GlareHover>
+              </a>
+            </AnimatedContent>
           ))}
-
         </div>
       </div>
     </section>
