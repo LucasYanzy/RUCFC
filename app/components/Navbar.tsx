@@ -49,7 +49,6 @@ export default function Navbar() {
   const navItems = [
     { label: t("nav.home"), href: "#hero" },
     { label: t("nav.programs"), href: "#programs" },
-    { label: t("nav.insights"), href: "#insights" },
   ];
 
   // Use white-bg logo for light theme, dark logo for dark theme

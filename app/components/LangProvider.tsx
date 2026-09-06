@@ -14,7 +14,6 @@ const translations: Record<string, Record<Lang, string>> = {
   // Navbar
   "nav.home": { en: "Home", zh: "首页" },
   "nav.programs": { en: "Programs", zh: "项目活动" },
-  "nav.insights": { en: "Insights", zh: "市场洞察" },
   "nav.join": { en: "Join Us", zh: "加入我们" },
 
   // Hero
@@ -52,28 +51,9 @@ const translations: Record<string, Record<Lang, string>> = {
   },
   "programs.card3.title": { en: "Build an Exclusive Community", zh: "构建精英社群" },
   "programs.card3.desc": {
-    en: "Peers to job-hunt and study with, plus regular briefings on Chinese market developments.",
-    zh: "一起求职和学习的同伴，以及定期的中国市场动态简报。",
+    en: "Peers to job-hunt and study with, from across finance, economics, and business.",
+    zh: "一起求职和学习的同伴，来自金融、经济与商科。",
   },
-
-  // Insights -- one header for one section. This used to be two stacked headers,
-  // "Research / Chinese Market Insights" wrapped around "Market News / China & US
-  // Finance Brief", the outer one being a permanent "Coming Soon" empty state.
-  "insights.label": { en: "Market Insights", zh: "市场洞察" },
-  "insights.title": { en: "China & US Finance Brief", zh: "中美金融简报" },
-  "insights.subtitle": {
-    en: "Finance headlines from China, the US, and global capital markets.",
-    zh: "来自中国、美国及全球资本市场的金融要闻。",
-  },
-  "news.updated": { en: "Updated", zh: "更新于" },
-  "news.regionFilter": { en: "Filter market news by region", zh: "按地区筛选市场新闻" },
-  "news.region.All": { en: "All", zh: "全部" },
-  "news.region.China": { en: "China", zh: "中国" },
-  "news.region.United States": { en: "United States", zh: "美国" },
-  "news.region.Global": { en: "Global", zh: "全球" },
-  "news.readMore": { en: "Read story", zh: "阅读全文" },
-  "news.poweredBy": { en: "News data refreshed from Finnhub during site build.", zh: "新闻数据在网站构建时由 Finnhub 刷新。" },
-  "news.fallback": { en: "Preview items shown until Finnhub data is available.", zh: "Finnhub 数据可用前显示预览条目。" },
 
   // Join
   "join.label": { en: "Join Us", zh: "加入我们" },
