@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useLang } from "./LangProvider";
+import NewsletterForm from "./NewsletterForm";
 import { JOIN_URL } from "@/app/lib/links";
 
 /* ── Animated geometric mesh background ── */
@@ -149,6 +150,12 @@ export default function Hero() {
           <a href="#programs" className="btn-secondary">
             {t("hero.cta2")}
           </a>
+        </div>
+
+        <div className="hero-newsletter animate-hero-buttons">
+          <div className="hero-newsletter-label">{t("hero.newsletter")}</div>
+          <p className="hero-newsletter-desc">{t("hero.newsletterDesc")}</p>
+          <NewsletterForm />
         </div>
       </div>
       

@@ -1,7 +1,6 @@
 "use client";
 
 import { useLang } from "./LangProvider";
-import NewsletterForm from "./NewsletterForm";
 import { JOIN_URL, DISCORD_INVITE, LINKEDIN_URL } from "@/app/lib/links";
 
 // Replaces the old Discord, LinkedIn and CTA sections. Those rendered simulated
@@ -76,13 +75,6 @@ export default function Join() {
             </a>
           ))}
 
-          <div className="join-card join-card-newsletter">
-            <span className="join-card-body">
-              <strong>{t("join.newsletter")}</strong>
-              <span>{t("join.newsletterDesc")}</span>
-            </span>
-            <NewsletterForm />
-          </div>
         </div>
       </div>
     </section>

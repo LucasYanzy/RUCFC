@@ -462,6 +462,18 @@ input { font: inherit; }
   }
 }
 
+.hero-newsletter {
+  max-width: 440px; margin: 40px auto 0; text-align: left;
+  padding-top: 28px; border-top: 1px solid var(--border-color);
+}
+.hero-newsletter-label {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.hero-newsletter-desc {
+  margin: 6px 0 0; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary);
+}
+
 /* ======================== PROGRAMS ======================== */
 .programs-section { padding: 120px 0; background: var(--bg-deep); position: relative; }
 .programs-header { text-align: center; margin-bottom: 64px; }
@@ -785,7 +797,12 @@ input { font: inherit; }
 }
 .join-primary-note { font-size: 0.85rem; color: var(--text-muted); }
 
-.join-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+/* Two channels now that the newsletter sits in the hero; capped so the pair
+   does not stretch across a wide screen. */
+.join-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
+  align-items: start; max-width: 760px; margin: 0 auto;
+}
 
 .join-card {
   display: flex; align-items: center; gap: 16px;
@@ -816,8 +833,6 @@ a.join-card:hover {
 }
 a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: translateX(4px); }
 
-/* This card holds the signup form, so it stacks rather than sitting in a row. */
-.join-card-newsletter { flex-direction: column; align-items: stretch; gap: 14px; }
 
 /* ======================== RESPONSIVE ======================== */
 @media (max-width: 968px) {

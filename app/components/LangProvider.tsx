@@ -27,6 +27,11 @@ const translations: Record<string, Record<Lang, string>> = {
   },
   "hero.cta1": { en: "Become a Member", zh: "成为会员" },
   "hero.cta2": { en: "Explore Programs", zh: "探索项目" },
+  "hero.newsletter": { en: "Newsletter", zh: "邮件订阅" },
+  "hero.newsletterDesc": {
+    en: "Events, workshops, and Chinese market insights in your inbox.",
+    zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
+  },
 
   // Programs
   "programs.label": { en: "What We Do", zh: "我们做什么" },
@@ -88,11 +93,6 @@ const translations: Record<string, Record<Lang, string>> = {
   "join.linkedinDesc": {
     en: "Club updates, recruitment cycles, and career events.",
     zh: "社团动态、招新信息与职业活动。",
-  },
-  "join.newsletter": { en: "Newsletter", zh: "邮件订阅" },
-  "join.newsletterDesc": {
-    en: "Events, workshops, and Chinese market insights in your inbox.",
-    zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
   },
 
   // Footer
