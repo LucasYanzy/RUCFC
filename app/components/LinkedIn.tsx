@@ -54,7 +54,7 @@ export default function LinkedIn() {
       bg: "#7289da",
     },
     {
-      name: "BoWen Rui (Bowen)",
+      name: "Bowen Rui",
       role: lang === "en" ? "CTO @ RUCFC" : "首席技术官 @ RUCFC",
       headline: lang === "en" ? "Incoming Quant Researcher" : "准量化研究员",
       avatar: "💻",
