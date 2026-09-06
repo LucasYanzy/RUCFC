@@ -153,8 +153,20 @@ const SpecularButton = ({
     if (!btn || !fx) return;
 
     const dpr = window.devicePixelRatio || 1;
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
+
+    // The specular sheen is decoration; the button is plain DOM and works
+    // without it. ogl's Renderer throws when no context can be had (GPU
+    // blocklist, WebGL off, low memory), and an uncaught throw here unwinds
+    // the whole React tree -- this is a primary CTA, so it must degrade to a
+    // flat button rather than take the page down.
+    let renderer: Renderer;
+    try {
+      renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
+    } catch {
+      return;
+    }
     const gl = renderer.gl;
+    if (!gl) return;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);

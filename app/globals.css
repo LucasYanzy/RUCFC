@@ -305,15 +305,28 @@ button, input { font: inherit; }
 /* Must NOT be a `ch` width. MaskedHeading sizes itself from its own box
    (fontSize = clientWidth * textScale), so a font-relative max-width feeds back
    into the measurement it depends on and the loop settles on the 20px floor. */
-.hero-masked { margin: 0 auto 30px; max-width: min(100%, 880px); }
+.hero-masked { margin: 0 auto 22px; max-width: min(100%, 880px); }
 .masked-heading.hero-masked,
 .hero-masked .masked-heading__measure {
   font-family: var(--font-display);
   font-style: normal;
 }
 
+/* On a short viewport the hero cannot have both a 110px headline and a visible
+   form. The form wins: it is the thing the page is asking for. */
+@media (max-height: 840px) {
+  .hero { padding-top: calc(var(--nav-height) + 4px); }
+  .hero-content { padding: 18px 0; }
+  .hero-badge-star { margin-bottom: 16px; }
+  .hero-masked { max-width: min(100%, 680px); margin-bottom: 16px; }
+  .hero p { font-size: 1rem; margin-bottom: 22px; }
+  .hero-newsletter { margin-top: 22px; padding-top: 16px; }
+  .hero-newsletter-desc { display: none; }
+  .scroll-arrow { display: none; }
+}
+
 /* ---------- StarBorder badge ---------- */
-.hero-badge-star { margin-bottom: 34px; border-radius: 100px; max-width: 100%; }
+.hero-badge-star { margin-bottom: 24px; border-radius: 100px; max-width: 100%; }
 .hero-badge-star .inner-content {
   display: inline-flex;
   align-items: center;
@@ -353,21 +366,6 @@ a.specular-button {
 /* ---------- ScrollStack ---------- */
 /* The stock stylesheet makes the scroller a 100%-height overflow:auto box, which
    is right for the demo's nested scroller and wrong with useWindowScroll -- it
-   would trap the page inside a second scroll region. Reset it to flow. */
-.programs-stack.scroll-stack-scroller {
-  height: auto;
-  overflow: visible;
-  overscroll-behavior: auto;
-  will-change: auto;
-  transform: none;
-  -webkit-transform: none;
-}
-.programs-stack .scroll-stack-inner {
-  padding: 4vh 0 22vh;
-  min-height: 0;
-  width: min(100% - 48px, 940px);
-  margin: 0 auto;
-}
 
 /* ---------- GlassIcons ---------- */
 .join-channels.icon-btns {
@@ -390,19 +388,19 @@ a.specular-button {
   border-color: var(--glass-border);
 }
 
-/* ---------- ScrollReveal ---------- */
-/* It wraps the text in its own container with a large default font size; this
-   section wants body copy, not a second headline. */
-.section-subtitle-reveal { margin: 0 auto; }
-.section-subtitle-reveal.scroll-reveal { margin: 0 auto; }
-.section-subtitle-reveal .scroll-reveal-text,
-.section-subtitle-reveal .section-subtitle {
-  font-size: 1.05rem !important;
-  line-height: 1.7 !important;
-  font-weight: 400;
+/* These two were rendered by ScrollReveal, which blurred them to 5px and faded
+   them to 0.12 until a scroll range completed -- and for a single line that
+   range computes to zero length, so the blur never lifted. Plain paragraphs
+   now: nothing the reader has to be able to read should depend on an animation
+   reaching its end. `margin: 0 auto` because the box is narrower than the
+   header it sits in, so centring the text is not enough to centre the block. */
+.programs-header .section-subtitle,
+.join-header .section-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.7;
   color: var(--text-secondary);
   max-width: 54ch;
-  margin: 0;
+  margin: 0 auto;
 }
 
 /* ==========================================================================
@@ -422,11 +420,23 @@ a.specular-button {
      in the hero sits underneath it. `safe` falls back to start-alignment when
      the content is taller than what is left, instead of pushing the badge back
      up under the nav where overflow:hidden clips it. */
-  padding-top: calc(var(--nav-height) + 24px);
+  padding-top: calc(var(--nav-height) + 12px);
   align-items: center;
   align-items: safe center;
 }
+/* Painted in CSS, not by the canvas, so the hero still reads as designed when
+   the WebGL layer is absent instead of falling back to flat black. */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(204, 0, 51, 0.18) 0%, transparent 58%),
+    radial-gradient(80% 60% at 50% 108%, rgba(142, 13, 24, 0.14) 0%, transparent 62%);
+}
 [data-theme="light"] .hero { background: linear-gradient(180deg, #efefef 0%, #fff 100%); }
+[data-theme="light"] .hero::before {
+  background: radial-gradient(120% 80% at 50% -10%, rgba(204, 0, 51, 0.09) 0%, transparent 58%);
+}
 
 /* Centred, but every block still carries its own measure -- the column is
    centred, the lines inside it are not allowed to run the full 1200px. Without
@@ -435,7 +445,7 @@ a.specular-button {
   position: relative; z-index: 2;
   width: min(100% - 48px, var(--max-width));
   margin: 0 auto;
-  padding: 48px 0;
+  padding: 32px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -456,14 +466,14 @@ a.specular-button {
 
 .hero p {
   font-size: 1.05rem; color: var(--text-secondary);
-  max-width: 52ch; margin: 0 auto 44px; line-height: 1.7;
+  max-width: 52ch; margin: 0 auto 30px; line-height: 1.7;
 }
 .hero-buttons { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
 
 .hero-newsletter {
   width: 100%;
-  max-width: 460px; margin: 56px auto 0; text-align: center;
-  padding-top: 26px; border-top: 1px solid var(--border-color);
+  max-width: 500px; margin: 30px auto 0; text-align: center;
+  padding-top: 22px; border-top: 1px solid var(--border-color);
 }
 .hero-newsletter-label {
   font-family: var(--font-mono);
@@ -471,7 +481,7 @@ a.specular-button {
   text-transform: uppercase; color: var(--text-muted);
 }
 .hero-newsletter-desc {
-  margin: 6px 0 0; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary);
+  margin: 5px 0 12px; font-size: 0.85rem; line-height: 1.4; color: var(--text-secondary);
 }
 
 .scroll-arrow {
@@ -496,75 +506,61 @@ a.specular-button {
 /* No border, no fixed height, no 40px radius. The stock ScrollStack card is a
    rounded slab; this is a panel with a lit top edge that only appears while the
    card is the one on top of the stack. */
-.program-card.scroll-stack-card {
-  height: auto;
-  min-height: 17rem;
-  padding: 54px 58px 58px;
-  margin: 0;
-  border-radius: var(--radius-card);
-  border: 1px solid var(--border-color);
-  background:
-    linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 46%),
-    var(--bg-card);
-  box-shadow: var(--shadow-lg);
-  /* An editorial two-column setting rather than a stack of centred text: the
-     index is a display element in its own column, the copy runs beside it. */
-  display: grid;
-  grid-template-columns: 104px minmax(0, 620px);
-  align-content: center;
-  justify-content: center;
+/* A ruled list, not a row of boxes. Each entry is separated by a hairline
+   instead of wrapped in its own bordered rectangle -- the box outline was the
+   shape doing most of the "template" work, and the rule carries the same
+   grouping without it. */
+.program-list {
+  list-style: none;
+  margin: 48px auto 0;
+  padding: 0;
+  max-width: 940px;
+  border-top: 1px solid var(--border-color);
   text-align: left;
+}
+.program-row {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
   gap: 0 40px;
-  overflow: hidden;
+  align-items: start;
+  padding: 42px 8px 44px;
+  border-bottom: 1px solid var(--border-color);
+  transition: background var(--transition-base);
 }
-[data-theme="light"] .program-card.scroll-stack-card {
-  background: linear-gradient(160deg, rgba(0, 0, 0, 0.035) 0%, rgba(0, 0, 0, 0) 46%), var(--bg-card);
-}
-.program-card.scroll-stack-card::after {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, var(--accent), transparent 62%);
-  pointer-events: none;
-}
+.program-row:hover { background: rgba(255, 255, 255, 0.018); }
+[data-theme="light"] .program-row:hover { background: rgba(0, 0, 0, 0.018); }
 
-/* 42px against an 11px label elsewhere on the page. The contrast between the
-   two is doing the work -- at 0.7rem this was just a caption. */
+/* 42px against the 11px section label. The contrast between the two is doing
+   the work -- at 0.7rem this was just a caption. */
 .program-index {
-  grid-column: 1;
-  grid-row: 1 / span 2;
   font-family: var(--font-mono);
   font-size: 2.6rem;
   font-weight: 400;
   letter-spacing: -0.04em;
   line-height: 0.9;
   color: var(--accent);
-  padding-top: 0.15em;
-  border-right: 1px solid var(--border-color);
-  height: 100%;
-  display: flex;
-  align-items: flex-start;
+  padding-top: 0.12em;
 }
-.program-card h3 {
-  grid-column: 2;
+.program-body h3 {
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  font-size: clamp(1.9rem, 3.6vw, 2.9rem);
   font-weight: 400;
   color: var(--text-primary);
-  margin-bottom: 16px;
-  line-height: 1.03;
+  margin: 0 0 14px;
+  line-height: 1.05;
   letter-spacing: -0.015em;
 }
-.program-card p {
-  grid-column: 2;
+.program-body p {
+  margin: 0;
   font-size: 1rem;
   color: var(--text-secondary);
   line-height: 1.7;
-  max-width: 52ch;
+  max-width: 56ch;
 }
 
 /* ---------- JOIN ---------- */
 .join-section {
-  padding: 40px 0 120px; background: var(--bg-primary);
+  padding: 40px 0 88px; background: var(--bg-primary);
   border-top: 1px solid var(--border-color);
   position: relative;
 }
@@ -572,7 +568,7 @@ a.specular-button {
 .join-header .section-subtitle { margin: 0; }
 .join-primary {
   display: flex; flex-direction: row; align-items: center; justify-content: center;
-  gap: 20px; flex-wrap: wrap; margin-bottom: 72px;
+  gap: 20px; flex-wrap: wrap; margin-bottom: 56px;
 }
 .join-primary-note {
   font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em;
@@ -657,15 +653,13 @@ a.specular-button {
 @media (max-width: 968px) {
   .container { width: min(100% - 40px, var(--max-width)); }
   .footer-top { grid-template-columns: 1fr; gap: 40px; }
-  .programs-stack .scroll-stack-inner { width: min(100% - 40px, 940px); }
 }
 
 @media (max-width: 768px) {
   :root { --nav-height: 64px; }
   .container { width: min(100% - 32px, var(--max-width)); }
   .section-title { font-size: clamp(1.9rem, 8vw, 2.55rem); }
-  .section-subtitle,
-  .section-subtitle-reveal .section-subtitle { font-size: 0.98rem !important; }
+  .section-subtitle { font-size: 0.98rem; }
 
   .hero { min-height: 100svh; align-items: flex-start; }
   .hero-content { width: 100%; padding: 72px 20px 84px; }
@@ -677,19 +671,14 @@ a.specular-button {
   .programs-section { padding-top: 84px; }
   /* 104px of index gutter is most of a phone -- collapse to one column and let
      the number sit above the title as a header rather than beside it. */
-  .program-card.scroll-stack-card {
-    padding: 30px 24px 34px;
-    min-height: 0;
+  /* 104px of index gutter is most of a phone: stack the number above the title. */
+  .program-row {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;
+    padding: 30px 0 32px;
   }
-  .program-index {
-    grid-column: 1; grid-row: auto;
-    height: auto; border-right: none; padding-top: 0;
-    font-size: 1.6rem; margin-bottom: 14px;
-  }
-  .program-card h3, .program-card p { grid-column: 1; }
-  .programs-stack .scroll-stack-inner { padding: 2vh 0 16vh; }
+  .program-index { font-size: 1.6rem; margin-bottom: 12px; padding-top: 0; }
+  .program-list { margin-top: 32px; }
 
   .join-section { padding: 24px 0 84px; }
   .join-channels.icon-btns { gap: 28px; }

@@ -4,7 +4,6 @@ import { useLang } from "./LangProvider";
 import { JOIN_URL, DISCORD_INVITE, LINKEDIN_URL } from "@/app/lib/links";
 import GlassIcons from "./GlassIcons";
 import SpecularButton from "./SpecularButton";
-import ScrollReveal from "./ScrollReveal";
 
 const discordIcon = (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -49,16 +48,7 @@ export default function Join() {
         <div className="join-header">
           <div className="section-label">{t("join.label")}</div>
           <h2 className="section-title">{t("join.title")}</h2>
-          <ScrollReveal
-            containerClassName="section-subtitle-reveal"
-            textClassName="section-subtitle"
-            enableBlur
-            baseOpacity={0.12}
-            baseRotation={2}
-            blurStrength={5}
-          >
-            {t("join.subtitle")}
-          </ScrollReveal>
+          <p className="section-subtitle">{t("join.subtitle")}</p>
         </div>
 
         <div className="join-primary">

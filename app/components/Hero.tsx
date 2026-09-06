@@ -4,6 +4,7 @@ import { useLang } from "./LangProvider";
 import NewsletterForm from "./NewsletterForm";
 import { JOIN_URL } from "@/app/lib/links";
 import LightRays from "./LightRays";
+import SafeVisual, { useWebGLSupport } from "./SafeVisual";
 import MaskedHeading from "./MaskedHeading";
 import SpecularButton from "./SpecularButton";
 import StarBorder from "./StarBorder";
@@ -18,10 +19,13 @@ import mesh from "@/public/mesh.svg";
 // than as a coloured sheet, which is the actual problem being solved here.
 export default function Hero() {
   const { t, lang } = useLang();
+  const webgl = useWebGLSupport();
 
   return (
     <section className="hero" id="hero">
       <div className="hero-veil" aria-hidden="true">
+        {webgl && (
+        <SafeVisual>
         <LightRays
           raysOrigin="top-center"
           raysColor="#cc0033"
@@ -35,6 +39,8 @@ export default function Hero() {
           noiseAmount={0.06}
           distortion={0.04}
         />
+        </SafeVisual>
+        )}
       </div>
 
       <div className="hero-content">
