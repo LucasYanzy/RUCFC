@@ -86,6 +86,7 @@ export default function Hero() {
 
         <div className="hero-buttons animate-hero-buttons">
           <SpecularButton
+            className="cta-primary"
             
             href={JOIN_URL}
             target="_blank"

@@ -53,6 +53,7 @@ export default function Join() {
 
         <div className="join-primary">
           <SpecularButton
+            className="cta-primary"
             
             href={JOIN_URL}
             target="_blank"
