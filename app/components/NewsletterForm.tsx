@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { useLang } from "./LangProvider";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
@@ -10,6 +10,8 @@ const NEWSLETTER_ENDPOINT = process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT;
 
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
+/* Without a configured endpoint the address is kept in localStorage so the
+   form still behaves honestly in a preview build -- see NEWSLETTER_BACKEND.md. */
 function saveLocalSubscriber(email: string) {
   const raw = window.localStorage.getItem(STORAGE_KEY);
   let existing: Array<{ email: string; createdAt: string }> = [];
@@ -20,10 +22,8 @@ function saveLocalSubscriber(email: string) {
     existing = [];
   }
 
-  const normalized = email.toLowerCase();
-
-  if (!existing.some((item) => item.email.toLowerCase() === normalized)) {
-    existing.push({ email: normalized, createdAt: new Date().toISOString() });
+  if (!existing.some((item) => item.email === email)) {
+    existing.push({ email, createdAt: new Date().toISOString() });
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
   }
 }
@@ -42,9 +42,9 @@ export default function NewsletterForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const normalizedEmail = email.trim().toLowerCase();
+    const normalized = email.trim().toLowerCase();
 
-    if (!isValidEmail(normalizedEmail)) {
+    if (!isValidEmail(normalized)) {
       setState("error");
       setMessageKey("newsletter.invalid");
       return;
@@ -59,7 +59,7 @@ export default function NewsletterForm() {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({
-            email: normalizedEmail,
+            email: normalized,
             list: "RUCFC Newsletter",
             language: lang,
             source: "rucfc-website",
@@ -70,7 +70,7 @@ export default function NewsletterForm() {
 
         if (!response.ok) throw new Error("Newsletter endpoint rejected the request.");
       } else {
-        saveLocalSubscriber(normalizedEmail);
+        saveLocalSubscriber(normalized);
       }
 
       setEmail("");
@@ -83,12 +83,14 @@ export default function NewsletterForm() {
   };
 
   return (
-    <form className="newsletter-form" onSubmit={handleSubmit}>
-      <div className="newsletter-field">
+    <form className="newsletter" onSubmit={handleSubmit} noValidate>
+      <div className="newsletter__row">
         <input
+          className="field"
           type="email"
+          inputMode="email"
+          autoComplete="email"
           placeholder="your@rutgers.edu"
-          required
           aria-label={t("newsletter.email")}
           value={email}
           onChange={(event) => {
@@ -99,16 +101,13 @@ export default function NewsletterForm() {
             }
           }}
         />
-        <p
-          className={`newsletter-status ${state === "error" ? "error" : state === "success" ? "success" : ""}`}
-          aria-live="polite"
-        >
-          {messageKey ? t(messageKey) : ""}
-        </p>
+        <button type="submit" className="btn btn--primary" disabled={state === "submitting"}>
+          {buttonLabel}
+        </button>
       </div>
-      <button type="submit" disabled={state === "submitting"}>
-        {buttonLabel}
-      </button>
+      <p className="newsletter__status" data-state={state} aria-live="polite">
+        {messageKey ? t(messageKey) : ""}
+      </p>
     </form>
   );
 }

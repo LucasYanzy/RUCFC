@@ -1,0 +1,514 @@
+/* ==========================================================================
+   UI — buttons, surfaces, fields, navigation
+   ========================================================================== */
+
+/* ---------- Buttons ----------
+   8px corners, never pills. Scarlet is reserved for the single primary action
+   on a screen; everything else is a surface lift or plain text. */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 11px 20px;
+  border-radius: var(--r-md);
+  font-family: var(--font-text);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: background-color var(--dur-2) var(--ease-out),
+    border-color var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+}
+
+.btn__arrow {
+  display: inline-block;
+  transition: transform var(--dur-2) var(--ease-spring);
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(3px);
+}
+
+.btn--primary {
+  overflow: hidden;
+  background: var(--brand);
+  color: var(--on-brand);
+  box-shadow: 0 0 0 0 var(--brand-glow);
+}
+
+.btn--primary:hover {
+  background: var(--brand-hover);
+  box-shadow: 0 12px 36px -12px var(--brand-glow);
+}
+
+.btn--primary:active {
+  transform: translateY(1px);
+}
+
+/* A slow sheen that crosses the primary CTA once on hover. */
+.btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    100deg,
+    transparent 32%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 68%
+  );
+  transform: translateX(-120%);
+  transition: transform var(--dur-4) var(--ease-out);
+  pointer-events: none;
+}
+
+.btn--primary:hover::after {
+  transform: translateX(120%);
+}
+
+.btn--secondary {
+  background: var(--surface-1);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.btn--secondary:hover {
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline-strong);
+}
+
+.btn--ghost {
+  padding-inline: 12px;
+  color: var(--ink-subtle);
+}
+
+.btn--ghost:hover {
+  color: var(--ink);
+}
+
+.btn--sm {
+  min-height: 36px;
+  padding: 7px 14px;
+  font-size: 0.875rem;
+}
+
+/* ---------- Surfaces ---------- */
+
+.panel {
+  position: relative;
+  background: var(--surface-1);
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  transition: background-color var(--dur-3) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+}
+
+/* The faint top edge that keeps a dark panel from reading as a flat hole. */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--edge-highlight), transparent);
+  pointer-events: none;
+}
+
+.panel--lift:hover {
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline-strong), var(--shadow-lift);
+  transform: translateY(-3px);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 5px 12px 5px 10px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  letter-spacing: -0.005em;
+}
+
+.badge__dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-ink);
+  flex: none;
+}
+
+.badge__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--brand-ink);
+  animation: pulse-ring 2.4s var(--ease-out) infinite;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.7; }
+  70%  { transform: scale(3.2); opacity: 0; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+/* ---------- Fields ---------- */
+
+.field {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 14px;
+  border-radius: var(--r-md);
+  background: var(--surface-inset);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  color: var(--ink);
+  font-size: 0.9375rem;
+  transition: box-shadow var(--dur-2) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out);
+}
+
+.field::placeholder {
+  color: var(--ink-tertiary);
+}
+
+.field:focus {
+  outline: none;
+  background: var(--surface-1);
+  box-shadow: inset 0 0 0 1px var(--hairline-strong), 0 0 0 3px var(--brand-soft);
+}
+
+/* ---------- Navigation ---------- */
+
+.nav {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 80;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  transition: transform var(--dur-3) var(--ease-out),
+    background-color var(--dur-3) var(--ease-out),
+    box-shadow var(--dur-3) var(--ease-out);
+}
+
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--nav-scrim);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out);
+  pointer-events: none;
+}
+
+.nav[data-scrolled="true"]::before {
+  opacity: 1;
+}
+
+.nav[data-scrolled="true"] {
+  box-shadow: 0 1px 0 0 var(--hairline);
+}
+
+/* Retracts on the way down, returns the moment the user scrolls back up. */
+.nav[data-hidden="true"] {
+  transform: translateY(-100%);
+}
+
+.nav > .container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-inline-end: auto;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.nav__brand img {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-sm);
+  transition: transform var(--dur-3) var(--ease-spring);
+}
+
+.nav__brand:hover img {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+/* Underline grows from the centre — the same gesture as the eyebrow rule. */
+.nav__link {
+  position: relative;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  color: var(--ink-subtle);
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 2px;
+  inset-inline: 12px;
+  height: 1px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+.nav__link:hover {
+  color: var(--ink);
+}
+
+.nav__link:hover::after,
+.nav__link[aria-current="true"]::after {
+  transform: scaleX(1);
+}
+
+.nav__link[aria-current="true"] {
+  color: var(--ink);
+}
+
+.nav__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding-inline-start: var(--s-3);
+  margin-inline-start: var(--s-2);
+  box-shadow: inset 1px 0 0 0 var(--hairline);
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  color: var(--ink-subtle);
+  transition: color var(--dur-2) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out);
+}
+
+.icon-btn:hover {
+  color: var(--ink);
+  background: var(--surface-2);
+}
+
+.icon-btn__label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Sun and moon share one 36px box and cross-rotate between themes. */
+.theme-swap {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+
+.theme-swap svg {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--dur-3) var(--ease-spring),
+    opacity var(--dur-2) var(--ease-out);
+}
+
+.theme-swap[data-theme="dark"] .icon-sun,
+.theme-swap[data-theme="light"] .icon-moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+.theme-swap[data-theme="dark"] .icon-moon,
+.theme-swap[data-theme="light"] .icon-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* ---------- Mobile navigation ---------- */
+
+.nav__burger {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-md);
+  color: var(--ink);
+}
+
+.nav__burger span {
+  position: absolute;
+  inset-inline-start: 11px;
+  width: 18px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform var(--dur-3) var(--ease-spring),
+    opacity var(--dur-1) linear;
+}
+
+.nav__burger span:nth-child(1) { transform: translateY(-5px); }
+.nav__burger span:nth-child(2) { transform: translateY(0); }
+.nav__burger span:nth-child(3) { transform: translateY(5px); }
+
+.nav__burger[aria-expanded="true"] span:nth-child(1) { transform: rotate(45deg); }
+.nav__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav__burger[aria-expanded="true"] span:nth-child(3) { transform: rotate(-45deg); }
+
+.nav__sheet {
+  position: fixed;
+  inset: var(--nav-h) 0 auto 0;
+  z-index: 79;
+  display: none;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-5) var(--gutter) var(--s-7);
+  background: var(--canvas);
+  box-shadow: 0 1px 0 0 var(--hairline);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--dur-4) var(--ease-out);
+}
+
+.nav__sheet[data-open="true"] {
+  clip-path: inset(0 0 0 0);
+}
+
+.nav__sheet-link {
+  padding: 14px 4px;
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  box-shadow: inset 0 -1px 0 0 var(--hairline);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--dur-3) var(--ease-out) var(--delay, 0ms),
+    transform var(--dur-3) var(--ease-out) var(--delay, 0ms);
+}
+
+.nav__sheet[data-open="true"] .nav__sheet-link {
+  opacity: 1;
+  transform: none;
+}
+
+.nav__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 78;
+  display: none;
+  background: var(--scrim);
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.nav__scrim[data-open="true"] {
+  opacity: 1;
+}
+
+@media (max-width: 860px) {
+  .nav__links {
+    display: none;
+  }
+
+  /* The join CTA is the first thing in the sheet, so keeping a second copy in
+     the bar just crowds the toggles off a 375px screen. */
+  .nav__tools .btn {
+    display: none;
+  }
+
+  .nav__tools {
+    padding-inline-start: 0;
+    margin-inline-start: 0;
+    box-shadow: none;
+  }
+
+  .nav__burger {
+    display: block;
+  }
+
+  .nav__sheet {
+    display: flex;
+  }
+
+  .nav__scrim[data-open="true"] {
+    display: block;
+  }
+}
+
+/* ---------- Newsletter ---------- */
+
+.newsletter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.newsletter__row {
+  display: flex;
+  gap: var(--s-2);
+}
+
+.newsletter__row .field {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.newsletter__status {
+  min-height: 1.15rem;
+  font-size: 0.8125rem;
+  line-height: 1.15rem;
+  color: var(--ink-tertiary);
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.newsletter__status[data-state="error"] {
+  color: var(--brand-ink);
+}
+
+.newsletter__status[data-state="success"] {
+  color: var(--gold);
+}
+
+.newsletter button[disabled] {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+@media (max-width: 520px) {
+  .newsletter__row {
+    flex-direction: column;
+  }
+}

@@ -1,32 +1,42 @@
 "use client";
 
 import { useLang } from "./LangProvider";
+import MaskedText from "./motion/MaskedText";
+
+const PROGRAMS = [
+  { title: "programs.card1.title", desc: "programs.card1.desc" },
+  { title: "programs.card2.title", desc: "programs.card2.desc" },
+  { title: "programs.card3.title", desc: "programs.card3.desc" },
+];
 
 export default function Programs() {
   const { t } = useLang();
 
-  const programs = [
-    { titleKey: "programs.card1.title", descKey: "programs.card1.desc" },
-    { titleKey: "programs.card2.title", descKey: "programs.card2.desc" },
-    { titleKey: "programs.card3.title", descKey: "programs.card3.desc" },
-  ];
-
   return (
-    <section className="programs-section" id="programs">
+    <section className="section programs" id="programs">
       <div className="container">
-        <div className="programs-header reveal">
-          <div className="section-label">{t("programs.label")}</div>
-          <h2 className="section-title">{t("programs.title")}</h2>
-          <p className="section-subtitle">{t("programs.subtitle")}</p>
-        </div>
+        <header className="section-head">
+          <span className="eyebrow" data-reveal="fade">
+            {t("programs.label")}
+          </span>
+          <MaskedText as="h2" className="section-title" text={t("programs.title")} />
+          <p className="section-lead" data-reveal="up">
+            {t("programs.subtitle")}
+          </p>
+        </header>
 
-        <div className="programs-grid reveal-stagger">
-          {programs.map((prog, i) => (
-            <div key={i} className="program-card">
-              <h3>{t(prog.titleKey)}</h3>
-              <p>{t(prog.descKey)}</p>
-              <div className="card-shine" />
-            </div>
+        <div className="programs__grid">
+          {PROGRAMS.map((program, i) => (
+            <article
+              key={program.title}
+              className="panel panel--lift spotlight program"
+              data-reveal="up"
+            >
+              <span className="program__index mono">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="program__title">{t(program.title)}</h3>
+              <p className="program__body">{t(program.desc)}</p>
+              <span className="program__rule" />
+            </article>
           ))}
         </div>
       </div>

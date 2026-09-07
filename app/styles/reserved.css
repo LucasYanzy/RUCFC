@@ -1,0 +1,371 @@
+/* ==========================================================================
+   Reserved sections
+   Built, styled and translated, but switched off in app/lib/site.ts until the
+   club has real numbers, dates and names to put in them. Kept in the same
+   token system so turning one on needs no design work.
+   ========================================================================== */
+
+/* ---------- Ticker ---------- */
+
+.ticker {
+  padding-block: var(--s-5);
+  box-shadow: inset 0 1px 0 0 var(--hairline), inset 0 -1px 0 0 var(--hairline);
+}
+
+.ticker__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-7);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  white-space: nowrap;
+}
+
+.ticker__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--brand);
+  flex: none;
+}
+
+/* ---------- Stats ---------- */
+
+.stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-6) var(--s-5);
+  background: var(--canvas);
+  transition: background-color var(--dur-3) var(--ease-out);
+}
+
+.stat:hover {
+  background: var(--surface-1);
+}
+
+.stat__value {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat__label {
+  font-size: 0.8125rem;
+  color: var(--ink-subtle);
+}
+
+@media (max-width: 860px) {
+  .stats__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- About ---------- */
+
+.about__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-8);
+  align-items: start;
+}
+
+.about__sticky {
+  position: sticky;
+  top: calc(var(--nav-h) + var(--s-7));
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+
+.about__body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ink-muted);
+  text-wrap: pretty;
+}
+
+.about__pillars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.pillar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+}
+
+.pillar__title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.pillar__num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--brand-ink);
+}
+
+.pillar__desc {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink-subtle);
+}
+
+@media (max-width: 900px) {
+  .about__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-6);
+  }
+
+  .about__sticky {
+    position: static;
+  }
+}
+
+/* ---------- Timeline ---------- */
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding-inline-start: var(--s-7);
+}
+
+/* The spine, plus a scarlet fill that GSAP scrubs to the scroll position. */
+.timeline__spine {
+  position: absolute;
+  inset-block: 10px;
+  inset-inline-start: 5px;
+  width: 1px;
+  background: var(--hairline);
+  overflow: hidden;
+}
+
+.timeline__spine span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--brand), var(--gold));
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+}
+
+.event {
+  position: relative;
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--s-5);
+  padding-block: var(--s-3);
+}
+
+.event::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 22px;
+  inset-inline-start: calc(var(--s-7) * -1 + 2px);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  box-shadow: 0 0 0 4px var(--canvas), inset 0 0 0 1px var(--hairline-strong);
+  transition: background-color var(--dur-3) var(--ease-out);
+}
+
+.event:hover::before {
+  background: var(--brand);
+}
+
+.event__date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  padding-block-start: 4px;
+}
+
+.event__title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-block-end: 4px;
+}
+
+.event__desc {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink-subtle);
+  text-wrap: pretty;
+}
+
+@media (max-width: 640px) {
+  .event {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-2);
+  }
+}
+
+/* ---------- Speakers ---------- */
+
+.speakers__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+
+.speaker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+}
+
+.speaker__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--ink-subtle);
+}
+
+.speaker__name {
+  font-weight: 550;
+  letter-spacing: -0.01em;
+}
+
+.speaker__role {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-subtle);
+}
+
+@media (max-width: 980px) {
+  .speakers__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .speakers__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- FAQ ---------- */
+
+.faq {
+  display: flex;
+  flex-direction: column;
+  max-width: 52rem;
+}
+
+.faq__item {
+  box-shadow: inset 0 -1px 0 0 var(--hairline);
+}
+
+.faq__item:first-child {
+  box-shadow: inset 0 1px 0 0 var(--hairline), inset 0 -1px 0 0 var(--hairline);
+}
+
+.faq__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  width: 100%;
+  padding: var(--s-5) var(--s-2);
+  text-align: start;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 550;
+  letter-spacing: -0.015em;
+  color: var(--ink-muted);
+  transition: color var(--dur-2) var(--ease-out);
+}
+
+.faq__trigger:hover,
+.faq__trigger[aria-expanded="true"] {
+  color: var(--ink);
+}
+
+.faq__sign {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  color: var(--ink-tertiary);
+}
+
+.faq__sign::before,
+.faq__sign::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  width: 14px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform var(--dur-3) var(--ease-spring);
+}
+
+.faq__sign::after {
+  transform: rotate(90deg);
+}
+
+.faq__trigger[aria-expanded="true"] .faq__sign {
+  color: var(--brand-ink);
+}
+
+.faq__trigger[aria-expanded="true"] .faq__sign::after {
+  transform: rotate(0deg);
+}
+
+/* Height is animated by GSAP; the wrapper only needs to clip. */
+.faq__panel {
+  overflow: hidden;
+  height: 0;
+}
+
+.faq__answer {
+  padding: 0 var(--s-2) var(--s-5);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--ink-subtle);
+  max-width: 62ch;
+  text-wrap: pretty;
+}

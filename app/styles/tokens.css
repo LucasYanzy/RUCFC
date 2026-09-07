@@ -1,0 +1,143 @@
+/* ==========================================================================
+   RUCFC design tokens
+   The single source of truth for the visual system. Everything else in
+   app/styles/ composes these — see DESIGN.md for the reasoning behind them.
+   ========================================================================== */
+
+:root {
+  /* ---------- Radius ---------- */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-2xl: 24px;
+  --r-pill: 999px;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+
+  /* ---------- Layout ---------- */
+  --max-w: 1200px;
+  --gutter: clamp(20px, 5vw, 40px);
+  --nav-h: 64px;
+  --section-y: clamp(80px, 10vw, 148px);
+
+  /* ---------- Type ---------- */
+  /* Latin faces come from next/font (see app/layout.tsx). The CJK stack is
+     system-only on purpose: the team has not picked a Chinese webfont yet, and
+     shipping one would pre-empt that call. This at least stops Chinese from
+     rendering in a default serif fallback with no shared metrics. */
+  --font-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", "Source Han Sans SC", sans-serif;
+  --font-display: var(--font-sans), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, var(--font-cjk);
+  --font-text: var(--font-display);
+  --font-mono: var(--font-mono-face), ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --dur-1: 140ms;
+  --dur-2: 260ms;
+  --dur-3: 420ms;
+  --dur-4: 720ms;
+}
+
+/* ==========================================================================
+   Dark theme — the default canvas.
+   A four-step surface ladder carries hierarchy; hairline borders, not shadows.
+   ========================================================================== */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --canvas: #060608;
+  --surface-1: #0e0e12;
+  --surface-2: #141419;
+  --surface-3: #1b1b21;
+  --surface-inset: #08080a;
+
+  --hairline: rgba(255, 255, 255, 0.07);
+  --hairline-strong: rgba(255, 255, 255, 0.13);
+  --hairline-bright: rgba(255, 255, 255, 0.24);
+
+  --ink: #f4f4f6;
+  --ink-muted: #c3c3cd;
+  --ink-subtle: #8a8a97;
+  --ink-tertiary: #7a7a86;
+
+  /* Rutgers scarlet. --brand is the fill; --brand-ink is the text-safe cut,
+     because scarlet on near-black only reaches 3.5:1. */
+  --brand: #cc0033;
+  --brand-hover: #e30a3d;
+  --brand-ink: #ff3d63;
+  --brand-soft: rgba(204, 0, 51, 0.12);
+  --brand-glow: rgba(204, 0, 51, 0.45);
+  --on-brand: #ffffff;
+
+  /* The one secondary accent, kept for the eastern-market motif. Never a fill. */
+  --gold: #e2b45c;
+
+  --aurora-1: rgba(204, 0, 51, 0.55);
+  --aurora-2: rgba(72, 42, 160, 0.5);
+  --aurora-3: rgba(226, 180, 92, 0.28);
+  --aurora-opacity: 0.62;
+  --grain-opacity: 0.035;
+
+  --scrim: rgba(6, 6, 8, 0.72);
+  --nav-scrim: rgba(6, 6, 8, 0.7);
+  --shadow-lift: 0 24px 60px -24px rgba(0, 0, 0, 0.9);
+  --edge-highlight: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   Light theme — the same ladder inverted. Paper, not glare.
+   ========================================================================== */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --canvas: #ffffff;
+  --surface-1: #fafafb;
+  --surface-2: #f4f4f6;
+  --surface-3: #ededf1;
+  --surface-inset: #f7f7f9;
+
+  --hairline: rgba(10, 10, 14, 0.09);
+  --hairline-strong: rgba(10, 10, 14, 0.16);
+  --hairline-bright: rgba(10, 10, 14, 0.28);
+
+  --ink: #0a0a0e;
+  --ink-muted: #3d3d47;
+  --ink-subtle: #6b6b78;
+  --ink-tertiary: #71717e;
+
+  --brand: #cc0033;
+  --brand-hover: #b30029;
+  --brand-ink: #c00030;
+  --brand-soft: rgba(204, 0, 51, 0.07);
+  --brand-glow: rgba(204, 0, 51, 0.22);
+  --on-brand: #ffffff;
+
+  --gold: #a97c1e;
+
+  --aurora-1: rgba(204, 0, 51, 0.3);
+  --aurora-2: rgba(72, 42, 160, 0.22);
+  --aurora-3: rgba(226, 180, 92, 0.22);
+  --aurora-opacity: 0.5;
+  --grain-opacity: 0.028;
+
+  --scrim: rgba(255, 255, 255, 0.75);
+  --nav-scrim: rgba(255, 255, 255, 0.72);
+  --shadow-lift: 0 24px 50px -28px rgba(12, 12, 24, 0.24);
+  --edge-highlight: rgba(255, 255, 255, 0.9);
+}
