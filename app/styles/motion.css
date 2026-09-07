@@ -84,11 +84,16 @@
   z-index: 0;
 }
 
+/* The blur lives on the blobs, not here. With it on this parent the three
+   children animate inside a filtered subtree, so the filter result can never
+   be cached: the browser redoes a 90px blur over a surface ~2.9x the viewport
+   every frame, for as long as the hero is on screen. Per blob it is a static
+   texture the compositor only has to move. The bleed only has to cover the
+   blobs' own drift (max 10%), not a blur radius, so it shrinks too. */
 .atmosphere__aurora {
   position: absolute;
-  inset: -35%;
+  inset: -20%;
   opacity: var(--aurora-opacity);
-  filter: blur(90px) saturate(125%);
   will-change: transform;
 }
 
@@ -96,6 +101,7 @@
   position: absolute;
   border-radius: 50%;
   mix-blend-mode: screen;
+  filter: blur(60px) saturate(125%);
 }
 
 [data-theme="light"] .atmosphere__blob {
@@ -146,9 +152,12 @@
 
 /* Fine luminance noise. Inlined as an SVG data URI so it costs no request and
    cannot be blocked by the artifact/CSP rules a static host might apply. */
+/* inset only has to cover grain-shift's own travel, which peaks at 4% of this
+   element. At -100% the element is 3x wide and 3x tall -- nine viewports of
+   texture, ~122MB at 2560x1400, to move something 4%. */
 .atmosphere__grain {
   position: absolute;
-  inset: -100%;
+  inset: -10%;
   opacity: var(--grain-opacity);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation: grain-shift 7s steps(6) infinite;
@@ -161,6 +170,22 @@
   60%  { transform: translate3d(-3%, -3%, 0); }
   80%  { transform: translate3d(4%, 2%, 0); }
   100% { transform: translate3d(0, 0, 0); }
+}
+
+/* Phones pay the most for this and see it the least -- the aurora is a slow
+   wash behind a screen you scroll past in seconds, on the hardware least able
+   to composite it. The blobs and grain stay, they just stop moving, so the
+   compositor rasterises each one once instead of every frame. Smaller blur
+   for the same reason: cost climbs with the radius. */
+@media (max-width: 768px) {
+  .atmosphere__blob {
+    filter: blur(40px) saturate(125%);
+    animation: none;
+  }
+
+  .atmosphere__grain {
+    animation: none;
+  }
 }
 
 /* Hairline graph paper. Reads as a trading grid without being a motif. */
