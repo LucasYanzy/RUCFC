@@ -81,7 +81,7 @@ export default function Hero() {
              two languages do not balance at one size -- Chinese set at the
              Latin size reads as significantly larger and heavier. Sizing it
              down is an optical match, not a smaller headline. */
-          textScale={lang === "zh" ? 0.105 : 0.125}
+          textScale={lang === "zh" ? 0.10 : 0.118}
           /* Tracking is a per-language value, not a constant. -0.018em is the
              optical correction for Instrument Serif's Latin; the same number
              applied to ZCOOL XiaoWei leaves the Han characters visibly apart,

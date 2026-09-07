@@ -115,7 +115,7 @@ html {
      separates a finance page from a startup page; it reads as tabular. */
   --font-mono: 'IBM Plex Mono', 'Noto Sans SC', ui-monospace, SFMono-Regular, Menlo, monospace;
   --tracking-label: 0.16em;
-  --max-width: 1200px;
+  --max-width: 1360px;
   --nav-height: 72px;
   --transition-fast: 0.15s ease;
   --transition-base: 0.3s ease;
@@ -162,6 +162,14 @@ button, input { font: inherit; }
 /* ---------- Utility ---------- */
 .container { width: min(100% - 48px, var(--max-width)); margin: 0 auto; }
 
+/* CardNav.css caps its own container at 800px, which left the nav visibly
+   narrower than everything under it once the page measure went to 1360px.
+   Qualified with the element name so it outranks the component rule rather
+   than tying with it on specificity and depending on bundle order. Kept short
+   of the full container width -- a pill that runs the whole measure stops
+   reading as a pill. */
+div.card-nav-container { max-width: 1080px; }
+
 /* The label was a pink pill with scarlet text. A pill in the accent colour
    spends the brand's 60% allowance on a decoration, and scarlet text at 0.75rem
    sits below a readable contrast ratio on both grounds. This is the data-layer
@@ -200,7 +208,7 @@ button, input { font: inherit; }
 .section-subtitle {
   font-size: 1.05rem;
   color: var(--text-secondary);
-  max-width: 620px;
+  max-width: 700px;
   line-height: 1.7;
 }
 
@@ -303,7 +311,7 @@ button, input { font: inherit; }
 /* Must NOT be a `ch` width. MaskedHeading sizes itself from its own box
    (fontSize = clientWidth * textScale), so a font-relative max-width feeds back
    into the measurement it depends on and the loop settles on the 20px floor. */
-.hero-masked { margin: 0 auto; max-width: min(100%, 880px); }
+.hero-masked { margin: 0 auto; max-width: min(100%, 1000px); }
 
 /* The gap under the headline has to beat MaskedHeading.css's `.masked-heading
    { margin: 0 }`. Both are single-class selectors, so they tie on specificity
@@ -329,7 +337,7 @@ button, input { font: inherit; }
   .hero { padding-top: calc(var(--nav-height) + 4px); }
   .hero-content { padding: 18px 0; }
   .hero-badge-star { margin-bottom: 16px; }
-  .masked-heading.hero-masked { max-width: min(100%, 680px); margin-bottom: 0.24em; }
+  .masked-heading.hero-masked { max-width: min(100%, 780px); margin-bottom: 0.24em; }
   .hero p { font-size: 1rem; margin-bottom: 22px; }
   .hero-newsletter { margin-top: 22px; padding-top: 16px; }
   .hero-newsletter-desc { display: none; }
@@ -410,7 +418,7 @@ a.specular-button {
   font-size: 1.05rem;
   line-height: 1.7;
   color: var(--text-secondary);
-  max-width: 54ch;
+  max-width: 60ch;
   margin: 0 auto;
 }
 
@@ -463,7 +471,7 @@ a.specular-button {
   flex-direction: column;
   align-items: center;
 }
-.hero-lede { max-width: 52ch; }
+.hero-lede { max-width: 58ch; }
 
 .animate-float-in { animation: fadeInDown 0.8s ease-out 0.2s both; }
 .animate-hero-desc { animation: fadeInUp 0.8s ease-out 0.8s both; }
@@ -479,13 +487,13 @@ a.specular-button {
 
 .hero p {
   font-size: 1.05rem; color: var(--text-secondary);
-  max-width: 52ch; margin: 0 auto 30px; line-height: 1.7;
+  max-width: 58ch; margin: 0 auto 30px; line-height: 1.7;
 }
 .hero-buttons { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
 
 .hero-newsletter {
   width: 100%;
-  max-width: 500px; margin: 30px auto 0; text-align: center;
+  max-width: 560px; margin: 30px auto 0; text-align: center;
   padding-top: 22px; border-top: 1px solid var(--border-color);
 }
 .hero-newsletter-label {
@@ -513,7 +521,7 @@ a.specular-button {
 
 /* ---------- PROGRAMS ---------- */
 .programs-section { padding: 120px 0 0; background: var(--bg-deep); position: relative; }
-.programs-header { text-align: center; margin: 0 auto 8px; max-width: 62ch; }
+.programs-header { text-align: center; margin: 0 auto 8px; max-width: 68ch; }
 .programs-header .section-subtitle { margin: 0; }
 
 /* No border, no fixed height, no 40px radius. The stock ScrollStack card is a
@@ -527,7 +535,7 @@ a.specular-button {
   list-style: none;
   margin: 48px auto 0;
   padding: 0;
-  max-width: 940px;
+  max-width: 1120px;
   border-top: 1px solid var(--border-color);
   text-align: left;
 }
@@ -568,7 +576,7 @@ a.specular-button {
   font-size: 1rem;
   color: var(--text-secondary);
   line-height: 1.7;
-  max-width: 56ch;
+  max-width: 62ch;
 }
 
 /* ---------- JOIN ---------- */
@@ -577,7 +585,7 @@ a.specular-button {
   border-top: 1px solid var(--border-color);
   position: relative;
 }
-.join-header { text-align: center; margin: 0 auto 48px; max-width: 62ch; }
+.join-header { text-align: center; margin: 0 auto 48px; max-width: 68ch; }
 .join-header .section-subtitle { margin: 0; }
 .join-primary {
   display: flex; flex-direction: row; align-items: center; justify-content: center;
