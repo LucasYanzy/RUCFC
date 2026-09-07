@@ -15,6 +15,10 @@ const translations: Record<string, Record<Lang, string>> = {
   "nav.home": { en: "Home", zh: "首页" },
   "nav.programs": { en: "Programs", zh: "项目活动" },
   "nav.join": { en: "Join Us", zh: "加入我们" },
+  "nav.explore": { en: "Explore", zh: "了解" },
+  "nav.community": { en: "Community", zh: "社群" },
+  "nav.getStarted": { en: "Get Started", zh: "加入我们" },
+  "nav.menu": { en: "Menu", zh: "菜单" },
 
   // Hero
   "hero.badge": { en: "Founding Cohort · Fall 2026", zh: "创始成员 · 2026秋" },
@@ -116,6 +120,15 @@ export function LangProvider({ children }: { children: ReactNode }) {
       setLang(stored);
     }
   }, []);
+
+  // layout.tsx renders lang="en" for the static export, which stayed "en" even
+  // with the whole UI in Chinese. The attribute is not decoration: browsers
+  // pick Han glyph variants from it (several characters are drawn differently
+  // in Chinese and Japanese), screen readers pick a voice from it, and the
+  // stylesheet keys the Chinese text colour off it.
+  useEffect(() => {
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  }, [lang]);
 
   const toggleLang = () => {
     const next = lang === "en" ? "zh" : "en";

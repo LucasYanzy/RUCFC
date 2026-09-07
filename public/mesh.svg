@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600">
+  <!-- Fill for MaskedHeading. The headline is a window onto this, so it has to
+       read as a lit surface rather than as a flat colour. Every stop is a
+       Rutgers colour: scarlet #CC0033, dark red #8E0D18, dark gray #222222. -->
+  <defs>
+    <radialGradient id="a" cx="22%" cy="30%" r="62%">
+      <stop offset="0%" stop-color="#ff2d55"/>
+      <stop offset="45%" stop-color="#cc0033"/>
+      <stop offset="100%" stop-color="#8e0d18" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b" cx="76%" cy="24%" r="55%">
+      <stop offset="0%" stop-color="#cc0033"/>
+      <stop offset="60%" stop-color="#8e0d18"/>
+      <stop offset="100%" stop-color="#222222" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="c" cx="52%" cy="88%" r="66%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="38%" stop-color="#cc0033" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#8e0d18" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="d" cx="8%" cy="82%" r="48%">
+      <stop offset="0%" stop-color="#8e0d18"/>
+      <stop offset="100%" stop-color="#222222" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="42%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="#8e0d18"/>
+  <rect width="1200" height="600" fill="url(#d)"/>
+  <rect width="1200" height="600" fill="url(#b)"/>
+  <rect width="1200" height="600" fill="url(#a)"/>
+  <rect width="1200" height="600" fill="url(#c)"/>
+  <rect width="1200" height="600" fill="url(#sheen)"/>
+</svg>

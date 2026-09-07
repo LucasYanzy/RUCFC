@@ -1,155 +1,132 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { useLang } from "./LangProvider";
 import NewsletterForm from "./NewsletterForm";
 import { JOIN_URL } from "@/app/lib/links";
+import LightRays from "./LightRays";
+import SafeVisual, { useWebGLSupport } from "./SafeVisual";
+import MaskedHeading from "./MaskedHeading";
+import SpecularButton from "./SpecularButton";
+import StarBorder from "./StarBorder";
+import mesh from "@/public/mesh.svg";
 
-/* ── Animated geometric mesh background ── */
-function GeometricMesh() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationId: number | undefined;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    // Nodes for the mesh
-    const nodes: { x: number; y: number; vx: number; vy: number; baseX: number; baseY: number }[] = [];
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(canvas.offsetWidth * dpr);
-      canvas.height = Math.floor(canvas.offsetHeight * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      // Reset nodes
-      nodes.length = 0;
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      const nodeCount = reducedMotion ? 18 : window.innerWidth < 768 ? 24 : 40;
-      for (let i = 0; i < nodeCount; i++) {
-        const x = Math.random() * w;
-        const y = Math.random() * h;
-        nodes.push({
-          x, y,
-          baseX: x, baseY: y,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-        });
-      }
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    const draw = () => {
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      ctx.clearRect(0, 0, w, h);
-
-      // Update positions
-      nodes.forEach((n) => {
-        n.x += n.vx;
-        n.y += n.vy;
-
-        // Soft boundary bounce
-        if (n.x < 0 || n.x > w) n.vx *= -1;
-        if (n.y < 0 || n.y > h) n.vy *= -1;
-
-        // Gentle drift back toward base
-        n.vx += (n.baseX - n.x) * 0.0001;
-        n.vy += (n.baseY - n.y) * 0.0001;
-      });
-
-      // Draw connections
-      const maxDist = 180;
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < maxDist) {
-            const alpha = (1 - dist / maxDist) * 0.08;
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw nodes
-      nodes.forEach((n) => {
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
-        ctx.fill();
-      });
-
-      if (!reducedMotion) {
-        animationId = requestAnimationFrame(draw);
-      }
-    };
-
-    draw();
-
-    return () => {
-      if (animationId) cancelAnimationFrame(animationId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="geo-mesh-canvas" />;
-}
-
+// Fourth background this section has had: a hand-rolled canvas mesh, Aurora,
+// DarkVeil, now LightRays. DarkVeil looked right but could not be made to obey
+// the palette -- it paints a fixed blue-violet field and exposes only a hue
+// rotation, so scarlet was reachable only by guessing at a rotation in YIQ
+// space, and every guess landed on green or magenta. LightRays takes the colour
+// as a hex, so #CC0033 is #CC0033. Volumetric beams also read as depth rather
+// than as a coloured sheet, which is the actual problem being solved here.
 export default function Hero() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const webgl = useWebGLSupport();
 
   return (
     <section className="hero" id="hero">
-      {/* Background gradient */}
-      <div className="hero-bg" />
+      <div className="hero-veil" aria-hidden="true">
+        {webgl && (
+        <SafeVisual>
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#cc0033"
+          raysSpeed={0.7}
+          lightSpread={0.85}
+          rayLength={2.4}
+          fadeDistance={1.1}
+          saturation={0.85}
+          followMouse
+          mouseInfluence={0.08}
+          noiseAmount={0.06}
+          distortion={0.04}
+        />
+        </SafeVisual>
+        )}
+      </div>
 
-      {/* Animated geometric mesh */}
-      <GeometricMesh />
-
-      {/* Subtle grid */}
-      <div className="hero-grid" />
-
-      {/* Content */}
       <div className="hero-content">
-        <div className="hero-badge animate-float-in">
+        <StarBorder
+          as="div"
+          className="hero-badge-star animate-float-in"
+          color="#cc0033"
+          speed="6s"
+          thickness={1}
+          backgroundColor="var(--bg-card)"
+          textColor="var(--text-secondary)"
+          borderColor="var(--border-color)"
+        >
           <span className="dot" />
           {t("hero.badge")}
-        </div>
+        </StarBorder>
 
-        <h1 className="animate-hero-title">
-          {t("hero.title1")}
-          <br />
-          <span className="hero-title-accent">{t("hero.title2")}</span>
-        </h1>
+        {/* The headline is a window onto public/mesh.svg rather than a block of
+            solid colour -- that mesh is built from the Rutgers scarlet, dark red
+            and dark grey, so the type is lit by brand colour instead of painted
+            with it. `lang` in the key forces a clean re-measure on toggle, since
+            the mask is laid out per glyph. */}
+        <MaskedHeading
+          key={`mh-${lang}`}
+          className="hero-masked"
+          text={`${t("hero.title1")} ${t("hero.title2")}`}
+          tag="h1"
+          src={mesh.src}
+          align="center"
+          weight={400}
+          reveal="rise"
+          trigger="mount"
+          duration={1.1}
+          stagger={0.05}
+          parallax={18}
+          drift={14}
+          /* Han glyphs fill their em box far more densely than Latin, so the
+             two languages do not balance at one size -- Chinese set at the
+             Latin size reads as significantly larger and heavier. Sizing it
+             down is an optical match, not a smaller headline. */
+          textScale={lang === "zh" ? 0.10 : 0.118}
+          /* Tracking is a per-language value, not a constant. -0.018em is the
+             optical correction for Instrument Serif's Latin; the same number
+             applied to ZCOOL XiaoWei leaves the Han characters visibly apart,
+             since its sidebearings are much wider and Chinese has no word
+             spaces to absorb them. */
+          tracking={lang === "zh" ? -0.14 : -0.018}
+          lineHeight={1.04}
+        />
 
-        <p className="animate-hero-desc">{t("hero.desc")}</p>
+        <p className="animate-hero-desc hero-lede">{t("hero.desc")}</p>
 
         <div className="hero-buttons animate-hero-buttons">
-          <a
+          <SpecularButton
+            className="cta-primary"
+            
             href={JOIN_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary"
+            size="lg"
+            radius={6}
+            baseColor="#cc0033"
+            tint="#ff2d55"
+            tintOpacity={0.25}
+            textColor="#ffffff"
+            lineColor="#ffffff"
+            intensity={1.15}
           >
             {t("hero.cta1")}
-            <span className="btn-arrow">→</span>
-          </a>
-          <a href="#programs" className="btn-secondary">
+          </SpecularButton>
+
+          <SpecularButton
+            className="cta-secondary"
+            
+            href="#programs"
+            size="lg"
+            radius={6}
+            baseColor="#222222"
+            tint="#ffffff"
+            tintOpacity={0.06}
+            textColor="var(--text-primary)"
+            lineColor="#ffffff"
+            intensity={0.7}
+          >
             {t("hero.cta2")}
-          </a>
+          </SpecularButton>
         </div>
 
         <div className="hero-newsletter animate-hero-buttons">
@@ -158,8 +135,7 @@ export default function Hero() {
           <NewsletterForm />
         </div>
       </div>
-      
-      {/* Minimal scroll arrow */}
+
       <a href="#programs" className="scroll-arrow animate-hero-buttons" aria-label="Scroll down">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="6 9 12 15 18 9" />

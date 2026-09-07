@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { useLang } from "./LangProvider";
+import SpecularButton from "./SpecularButton";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
@@ -106,9 +107,21 @@ export default function NewsletterForm() {
           {messageKey ? t(messageKey) : ""}
         </p>
       </div>
-      <button type="submit" disabled={state === "submitting"}>
+      <SpecularButton
+        className="newsletter-submit"
+        type="submit"
+        disabled={state === "submitting"}
+        size="sm"
+        radius={6}
+        baseColor="#cc0033"
+        tint="#ff2d55"
+        tintOpacity={0.25}
+        textColor="#ffffff"
+        lineColor="#ffffff"
+        intensity={1.15}
+      >
         {buttonLabel}
-      </button>
+      </SpecularButton>
     </form>
   );
 }

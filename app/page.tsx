@@ -7,15 +7,19 @@ import Hero from "./components/Hero";
 import Programs from "./components/Programs";
 import Join from "./components/Join";
 import Footer from "./components/Footer";
-import { useScrollReveal } from "./components/useScrollReveal";
+import Noise from "./components/Noise";
 
 export default function Home() {
-  useScrollReveal();
 
   // Who we are, what we run, and how to join.
   return (
     <ThemeProvider>
       <LangProvider>
+        {/* The grain sits over everything at a very low alpha. It is the cheapest
+            and most effective fix for the flat, moulded look: real surfaces have
+            noise, and a page composited entirely from solid fills does not. */}
+        <Noise patternSize={220} patternAlpha={9} patternRefreshInterval={3} />
+
         <Navbar />
         <Hero />
         <Programs />
