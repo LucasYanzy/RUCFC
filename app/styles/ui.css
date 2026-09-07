@@ -499,7 +499,7 @@
 }
 
 .newsletter__status[data-state="success"] {
-  color: var(--gold);
+  color: var(--success);
 }
 
 .newsletter button[disabled] {

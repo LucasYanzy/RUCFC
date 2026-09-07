@@ -171,7 +171,7 @@
 .timeline__spine span {
   display: block;
   height: 100%;
-  background: linear-gradient(to bottom, var(--brand), var(--gold));
+  background: linear-gradient(to bottom, var(--brand), var(--ember));
   transform: scaleY(0);
   transform-origin: 50% 0;
 }

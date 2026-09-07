@@ -85,12 +85,26 @@
   --brand-glow: rgba(204, 0, 51, 0.45);
   --on-brand: #ffffff;
 
-  /* The one secondary accent, kept for the eastern-market motif. Never a fill. */
-  --gold: #e2b45c;
+  /* The one secondary accent. Ember rather than gold: scarlet sits at 345deg
+     and gold at 43deg, far enough apart to read as two competing colours
+     instead of one palette. Ember lands at 24deg, close enough to scarlet to
+     read as its warm end. Never a fill. */
+  --ember: #f08a4b;
 
+  /* Success is the only hue in the system that is not in the red family, and
+     it earns that: it is functional feedback, not decoration, and a red
+     "sent" message would contradict itself. Kept low-chroma so it never
+     competes for attention. */
+  --success: #6fbf9a;
+
+  /* Analogous, anchored on scarlet. The middle stop used to be indigo
+     (255deg), which put red, violet and gold on the page at once -- a full
+     triad, the widest hue spread there is, and the reason the hero read as
+     several colours arguing. Plum keeps the depth on the cool side of the
+     wash without leaving the red family: 332 -> 345 -> 24deg. */
   --aurora-1: rgba(204, 0, 51, 0.55);
-  --aurora-2: rgba(72, 42, 160, 0.5);
-  --aurora-3: rgba(226, 180, 92, 0.28);
+  --aurora-2: rgba(138, 22, 78, 0.5);
+  --aurora-3: rgba(240, 138, 75, 0.26);
   --aurora-opacity: 0.62;
   --grain-opacity: 0.035;
 
@@ -128,11 +142,12 @@
   --brand-glow: rgba(204, 0, 51, 0.22);
   --on-brand: #ffffff;
 
-  --gold: #a97c1e;
+  --ember: #c2622a;
+  --success: #2f8f68;
 
   --aurora-1: rgba(204, 0, 51, 0.3);
-  --aurora-2: rgba(72, 42, 160, 0.22);
-  --aurora-3: rgba(226, 180, 92, 0.22);
+  --aurora-2: rgba(138, 22, 78, 0.2);
+  --aurora-3: rgba(240, 138, 75, 0.2);
   --aurora-opacity: 0.5;
   --grain-opacity: 0.028;
 
