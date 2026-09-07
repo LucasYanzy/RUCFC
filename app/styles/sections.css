@@ -30,10 +30,10 @@
   margin-block: var(--s-1) 0;
 }
 
-/* The second line carries the scarlet-to-gold wash — the only place in the
+/* The second line carries the scarlet-to-ember wash — the only place in the
    system where the brand colour becomes a gradient. */
 .hero__title-accent .line-mask > span {
-  background: linear-gradient(96deg, var(--brand-ink) 6%, var(--gold) 92%);
+  background: linear-gradient(96deg, var(--brand-ink) 6%, var(--ember) 92%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -44,6 +44,71 @@
      paint box down to the mask's limit; the negative margin keeps layout put. */
   padding-bottom: var(--mask-descender);
   margin-bottom: calc(-1 * var(--mask-descender));
+}
+
+/* The wash drifts along the line instead of sitting still. It is the cheapest
+   dynamism available here: the repaint is the width of one headline, not of a
+   full-viewport layer, so it costs a fraction of what the aurora does. Held to
+   pointer-capable widths and to no-preference, and slow enough (16s) to read
+   as light moving across the type rather than as an animation. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 769px) {
+  .hero__title-accent .line-mask > span {
+    background-size: 220% 100%;
+    animation: accent-sweep 16s var(--ease-in-out) infinite alternate;
+  }
+}
+
+@keyframes accent-sweep {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+/* Cursor glow across the whole hero, tracking --mx/--my from the same
+   delegated listener the cards use. Gated on a fine pointer: a touch device
+   has no hover position to follow, and this is another full-hero layer --
+   exactly the kind of thing the phones were already struggling with. */
+@media (hover: hover) and (pointer: fine) {
+  /* Seeded here rather than as a var() fallback on the pseudo-element: Chrome
+     resolves viewport units inside a fallback against a box the pseudo does not
+     have yet and lands on zero, which parks the disc in the top-left corner
+     until the first pointermove. As a real declaration they resolve normally. */
+  .hero {
+    --mx: 50vw;
+    --my: 32vh;
+  }
+
+  /* A fixed-size disc moved by transform, not a viewport-sized gradient whose
+     centre moves. `at var(--mx) var(--my)` on a full-bleed layer re-rasterises
+     the whole hero every pointer frame; a translated child is a texture the
+     compositor already holds and only has to place. Same picture, no repaint. */
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    z-index: 0;
+    width: 920px;
+    height: 920px;
+    /* Centres the disc on the cursor without spending the transform on it, so
+       the transform below carries nothing but the pointer position. */
+    margin: -460px 0 0 -460px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-4) var(--ease-out);
+    transform: translate3d(var(--mx), var(--my), 0);
+    background: radial-gradient(
+      circle closest-side,
+      var(--brand-glow),
+      transparent 68%
+    );
+  }
+
+  .hero:hover::after {
+    opacity: 0.55;
+    /* Only while it is actually moving: a standing hint would keep a ~14MB
+       layer promoted on every page that has a hero. */
+    will-change: transform;
+  }
 }
 
 .hero__lead {
