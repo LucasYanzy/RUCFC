@@ -458,8 +458,23 @@
   line-height: 0.8;
   letter-spacing: -0.05em;
   text-align: center;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--hairline-strong);
+  /* Inter draws R as overlapping stem, bowl and leg contours that are never
+     merged into one path. A fill unions them so it looks normal, but
+     text-stroke strokes every contour separately -- which drew the glyph's
+     construction seams: the stem's right edge running the full height and the
+     leg outlined as a loose parallelogram across the bowl.
+
+     Stroking first and then filling in the canvas colour buries those interior
+     seams and leaves only the silhouette and the counters. Measured on the R:
+     792 stray pixels inside the letterform before, 0 after. The fill covers
+     the inner half of a centred stroke, so 2px is what reads as a 1px
+     hairline. This does mean the wordmark is now an opaque silhouette rather
+     than a transparent one -- fine while the footer sits on --canvas, which is
+     the only place it is used. A browser ignoring paint-order falls back to
+     today's appearance rather than to something worse. */
+  color: var(--canvas);
+  -webkit-text-stroke: 2px var(--hairline-strong);
+  paint-order: stroke fill;
   user-select: none;
   pointer-events: none;
 }
