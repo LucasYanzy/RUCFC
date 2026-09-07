@@ -184,23 +184,41 @@ export default function MotionProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
-    let frame = 0;
-    let pending: { el: HTMLElement; x: number; y: number } | null = null;
+    /* Two surfaces can want the pointer at the same time: a card, and the hero
+       behind it. Both are tracked so moving onto a card does not strand the
+       hero glow wherever it was last seen. */
+    const TRACKED = [".spotlight", ".hero"];
 
+    let frame = 0;
+    let point: { x: number; y: number } | null = null;
+    let targets: HTMLElement[] = [];
+
+    /* Rects are read here rather than in the move handler. Reading them per
+       event would force layout on every pointermove; in the rAF callback it
+       happens once a frame however fast the mouse is going. */
     const flush = () => {
       frame = 0;
-      if (!pending) return;
-      const { el, x, y } = pending;
-      el.style.setProperty("--mx", `${x}px`);
-      el.style.setProperty("--my", `${y}px`);
-      pending = null;
+      if (!point) return;
+      for (const el of targets) {
+        const rect = el.getBoundingClientRect();
+        el.style.setProperty("--mx", `${point.x - rect.left}px`);
+        el.style.setProperty("--my", `${point.y - rect.top}px`);
+      }
     };
 
     const onMove = (event: PointerEvent) => {
-      const target = (event.target as HTMLElement | null)?.closest<HTMLElement>(".spotlight");
-      if (!target) return;
-      const rect = target.getBoundingClientRect();
-      pending = { el: target, x: event.clientX - rect.left, y: event.clientY - rect.top };
+      const node = event.target as HTMLElement | null;
+      if (!node) return;
+
+      const next: HTMLElement[] = [];
+      for (const selector of TRACKED) {
+        const el = node.closest<HTMLElement>(selector);
+        if (el) next.push(el);
+      }
+      if (!next.length) return;
+
+      targets = next;
+      point = { x: event.clientX, y: event.clientY };
       if (!frame) frame = requestAnimationFrame(flush);
     };
 

@@ -54,6 +54,12 @@
 .js-motion [data-revealed="true"] .line-mask > span {
   opacity: 1 !important;
   transform: none !important;
+  /* The hint above is a promise to the compositor, and it keeps the promise:
+     every element still holding it owns a layer for the life of the page. A
+     long page has dozens, and each one has already finished animating. Handing
+     the memory back at the end of the reveal is the whole point of the hint
+     being a hint. */
+  will-change: auto !important;
 }
 
 /* ---------- Scroll progress ---------- */
@@ -67,7 +73,7 @@
   height: 2px;
   transform: scaleX(0);
   transform-origin: 0 50%;
-  background: linear-gradient(90deg, var(--brand), var(--brand-ink), var(--gold));
+  background: linear-gradient(90deg, var(--brand), var(--brand-ink), var(--ember));
   pointer-events: none;
 }
 
@@ -214,53 +220,69 @@
 .spotlight {
   position: relative;
   isolation: isolate;
+  /* --mx/--my inherit, and the hero seeds them for its own glow, so a card
+     sitting inside the hero would open centred on the hero's coordinate space
+     instead of its own. Re-seeding here keeps every card's default local. */
+  --mx: 50%;
+  --my: 50%;
 }
 
-.spotlight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity var(--dur-3) var(--ease-out);
-  background: radial-gradient(
-    420px circle at var(--mx, 50%) var(--my, 50%),
-    var(--brand-soft),
-    transparent 62%
-  );
-  pointer-events: none;
-  z-index: -1;
-}
+/* Everything below follows the pointer, so it only exists where there is one.
+   On touch these were two extra gradient layers per card that never lit up --
+   except when a tap left :hover latched, which is the one time they did fire
+   and the one time they read as a bug. The masked edge is the expensive half:
+   mask-composite forces an offscreen pass per card. */
+@media (hover: hover) and (pointer: fine) {
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--dur-3) var(--ease-out);
+    background: radial-gradient(
+      420px circle at var(--mx) var(--my),
+      var(--brand-soft),
+      transparent 62%
+    );
+    pointer-events: none;
+    /* Above the panel, not behind it. .panel paints an opaque surface colour,
+       so a negative z-index put this underneath the very thing it was meant to
+       light. At 12% alpha washing over the text is the effect, not a cost --
+       a spotlight lights what is standing in it. */
+    z-index: 0;
+  }
 
-.spotlight:hover::before,
-.spotlight:focus-within::before {
-  opacity: 1;
-}
+  .spotlight:hover::before,
+  .spotlight:focus-within::before {
+    opacity: 1;
+  }
 
-/* A brand-tinted edge that only lights the side nearest the cursor. */
-.spotlight::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  opacity: 0;
-  transition: opacity var(--dur-3) var(--ease-out);
-  background: radial-gradient(
-    320px circle at var(--mx, 50%) var(--my, 50%),
-    var(--brand-glow),
-    transparent 60%
-  );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
+  /* A brand-tinted edge that only lights the side nearest the cursor. */
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    opacity: 0;
+    transition: opacity var(--dur-3) var(--ease-out);
+    background: radial-gradient(
+      320px circle at var(--mx) var(--my),
+      var(--brand-glow),
+      transparent 60%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 
-.spotlight:hover::after,
-.spotlight:focus-within::after {
-  opacity: 1;
+  .spotlight:hover::after,
+  .spotlight:focus-within::after {
+    opacity: 1;
+  }
 }
 
 /* ---------- Marquee ---------- */
