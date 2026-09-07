@@ -303,7 +303,20 @@ button, input { font: inherit; }
 /* Must NOT be a `ch` width. MaskedHeading sizes itself from its own box
    (fontSize = clientWidth * textScale), so a font-relative max-width feeds back
    into the measurement it depends on and the loop settles on the 20px floor. */
-.hero-masked { margin: 0 auto 22px; max-width: min(100%, 880px); }
+.hero-masked { margin: 0 auto; max-width: min(100%, 880px); }
+
+/* The gap under the headline has to beat MaskedHeading.css's `.masked-heading
+   { margin: 0 }`. Both are single-class selectors, so they tie on specificity
+   and the winner is whichever stylesheet the bundler happens to emit last --
+   the margin was silently computing to 0 and the descenders of "Advancing"
+   were landing on the lede. Qualifying with the component class settles it.
+   The value is in em because the text layer runs about 0.12em taller than the
+   box it is measured into (line-height 1.04 is tighter than the font's own
+   metrics, so glyphs overflow top and bottom); expressing the clearance in em
+   keeps it correct at every headline size. em is safe here where a font
+   relative max-width would not be -- margin does not feed back into
+   clientWidth. */
+.masked-heading.hero-masked { margin-bottom: 0.34em; }
 .masked-heading.hero-masked,
 .hero-masked .masked-heading__measure {
   font-family: var(--font-display);
@@ -316,7 +329,7 @@ button, input { font: inherit; }
   .hero { padding-top: calc(var(--nav-height) + 4px); }
   .hero-content { padding: 18px 0; }
   .hero-badge-star { margin-bottom: 16px; }
-  .hero-masked { max-width: min(100%, 680px); margin-bottom: 16px; }
+  .masked-heading.hero-masked { max-width: min(100%, 680px); margin-bottom: 0.24em; }
   .hero p { font-size: 1rem; margin-bottom: 22px; }
   .hero-newsletter { margin-top: 22px; padding-top: 16px; }
   .hero-newsletter-desc { display: none; }
