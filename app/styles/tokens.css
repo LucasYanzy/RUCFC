@@ -83,6 +83,7 @@
   --brand-ink: #ff3d63;
   --brand-soft: rgba(204, 0, 51, 0.12);
   --brand-glow: rgba(204, 0, 51, 0.45);
+  --brand-edge: rgba(255, 61, 99, 0.36);
   --on-brand: #ffffff;
 
   /* The one secondary accent. Ember rather than gold: scarlet sits at 345deg
@@ -102,11 +103,21 @@
      triad, the widest hue spread there is, and the reason the hero read as
      several colours arguing. Plum keeps the depth on the cool side of the
      wash without leaving the red family: 332 -> 345 -> 24deg. */
-  --aurora-1: rgba(204, 0, 51, 0.55);
-  --aurora-2: rgba(138, 22, 78, 0.5);
-  --aurora-3: rgba(240, 138, 75, 0.26);
+  /* Bare rgb triples, not finished colours. The blobs used to be a hard-edged
+     gradient smoothed by a 60px blur; a blur is a per-frame filter pass and on
+     Safari it is the single most expensive thing on the page. Shaping the alpha
+     ramp directly gets the same soft body for the price of one gradient, so the
+     peak alpha has to live apart from the hue for the stops to scale it. */
+  --aurora-1: 204 0 51;
+  --aurora-2: 138 22 78;
+  --aurora-3: 240 138 75;
+  --aurora-1-peak: 0.62;
+  --aurora-2-peak: 0.56;
+  --aurora-3-peak: 0.3;
   --aurora-opacity: 0.62;
-  --grain-opacity: 0.035;
+  --grain-opacity: 0.04;
+  --grain-coarse-opacity: 0.022;
+  --vignette: rgba(2, 2, 4, 0.5);
 
   --scrim: rgba(6, 6, 8, 0.72);
   --nav-scrim: rgba(6, 6, 8, 0.7);
@@ -140,16 +151,22 @@
   --brand-ink: #c00030;
   --brand-soft: rgba(204, 0, 51, 0.07);
   --brand-glow: rgba(204, 0, 51, 0.22);
+  --brand-edge: rgba(204, 0, 51, 0.28);
   --on-brand: #ffffff;
 
   --ember: #c2622a;
   --success: #2f8f68;
 
-  --aurora-1: rgba(204, 0, 51, 0.3);
-  --aurora-2: rgba(138, 22, 78, 0.2);
-  --aurora-3: rgba(240, 138, 75, 0.2);
+  --aurora-1: 204 0 51;
+  --aurora-2: 138 22 78;
+  --aurora-3: 240 138 75;
+  --aurora-1-peak: 0.34;
+  --aurora-2-peak: 0.23;
+  --aurora-3-peak: 0.23;
   --aurora-opacity: 0.5;
-  --grain-opacity: 0.028;
+  --grain-opacity: 0.03;
+  --grain-coarse-opacity: 0.016;
+  --vignette: rgba(120, 100, 108, 0.16);
 
   --scrim: rgba(255, 255, 255, 0.75);
   --nav-scrim: rgba(255, 255, 255, 0.72);
