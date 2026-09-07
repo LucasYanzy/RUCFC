@@ -46,21 +46,47 @@
   margin-bottom: calc(-1 * var(--mask-descender));
 }
 
-/* The wash drifts along the line instead of sitting still. It is the cheapest
-   dynamism available here: the repaint is the width of one headline, not of a
-   full-viewport layer, so it costs a fraction of what the aurora does. Held to
-   pointer-capable widths and to no-preference, and slow enough (16s) to read
-   as light moving across the type rather than as an animation. */
+/* A single specular pass across the type as the headline lands, and then
+   nothing. The first version of this looped forever, which was wrong twice
+   over: animating background-position under background-clip: text repaints the
+   glyphs on every frame -- cheap for a second and a half, a permanent tax at
+   16s on repeat, and worst on Safari -- and an ambient loop is not what reads
+   as expensive. What reads as expensive is one decisive movement that finishes
+   and leaves the type still.
+
+   No JS trigger: the headline already stamps data-revealed when its mask
+   finishes, so the sweep starts exactly where the entrance ends. Switching
+   language clears and re-stamps that flag, so it plays again on the new words,
+   which is right -- they are arriving too. */
 @media (prefers-reduced-motion: no-preference) and (min-width: 769px) {
-  .hero__title-accent .line-mask > span {
-    background-size: 220% 100%;
-    animation: accent-sweep 16s var(--ease-in-out) infinite alternate;
+  .hero__title[data-revealed="true"] .hero__title-accent .line-mask > span {
+    animation: accent-sweep var(--dur-5) var(--ease-entrance) 60ms both;
   }
 }
 
 @keyframes accent-sweep {
-  from { background-position: 0% 50%; }
-  to   { background-position: 100% 50%; }
+  from {
+    background-image: linear-gradient(
+        100deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.62) 50%,
+        transparent 60%
+      ),
+      linear-gradient(96deg, var(--brand-ink) 6%, var(--ember) 92%);
+    background-size: 300% 100%, 100% 100%;
+    background-position: 190% 50%, 0 0;
+  }
+  to {
+    background-image: linear-gradient(
+        100deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.62) 50%,
+        transparent 60%
+      ),
+      linear-gradient(96deg, var(--brand-ink) 6%, var(--ember) 92%);
+    background-size: 300% 100%, 100% 100%;
+    background-position: -110% 50%, 0 0;
+  }
 }
 
 /* Cursor glow across the whole hero, tracking --mx/--my from the same

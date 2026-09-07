@@ -16,10 +16,15 @@ import { setLenis } from "./scroll";
    the reduced-motion path is not "the same animations, faster" -- it is no
    scroll animation at all. */
 
+/* Short travel, long settle. 22px over 0.95s reads as a slide; 14px over 1.1s
+   on a curve that spends most of its time decelerating reads as something
+   arriving and coming to rest. The distance is what makes it look cheap, not
+   the duration -- the further a thing moves the more it announces that it was
+   animated. */
 const REVEAL_FROM: Record<string, gsap.TweenVars> = {
-  up: { opacity: 0, y: 22 },
+  up: { opacity: 0, y: 14 },
   fade: { opacity: 0 },
-  scale: { opacity: 0, scale: 0.97 },
+  scale: { opacity: 0, scale: 0.985 },
 };
 
 function markRevealed(elements: Element[]) {
@@ -88,9 +93,9 @@ export default function MotionProvider({ children }: { children: ReactNode }) {
               opacity: 1,
               y: 0,
               scale: 1,
-              duration: 0.95,
-              ease: "power3.out",
-              stagger: 0.085,
+              duration: 1.1,
+              ease: "power4.out",
+              stagger: 0.07,
               overwrite: true,
               onComplete: () => markRevealed(elements),
             });

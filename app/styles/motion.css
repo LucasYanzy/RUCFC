@@ -15,7 +15,9 @@
 }
 
 .js-motion [data-reveal="up"] {
-  transform: translate3d(0, 22px, 0);
+  /* Must match REVEAL_FROM in MotionProvider: this is the same position, held
+     before hydration so nothing jumps when GSAP takes over. */
+  transform: translate3d(0, 14px, 0);
 }
 
 .js-motion [data-reveal="fade"] {
@@ -23,7 +25,7 @@
 }
 
 .js-motion [data-reveal="scale"] {
-  transform: scale(0.97);
+  transform: scale(0.985);
 }
 
 /* Line-by-line masked reveal for headings. Each line sits in an overflow

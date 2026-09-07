@@ -29,56 +29,62 @@ export default function Hero() {
       });
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        /* One curve for the whole sequence. Mixed easings inside a single
+           entrance is what makes a page feel assembled from parts. */
+        const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
+        /* Heavy overlap on purpose. Each element starts while the one before
+           it is still settling, so the eye reads one movement travelling down
+           the column rather than six things taking turns. The whole sequence
+           is under two seconds; the headline is legible in the first four
+           hundred milliseconds of it. */
         tl.fromTo(
           "[data-hero='badge']",
-          { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.7 },
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.8 },
         )
           .fromTo(
             title.current?.querySelectorAll(".line-mask > span") ?? [],
             { yPercent: 110 },
             {
               yPercent: 0,
-              duration: 1.15,
-              ease: "power4.out",
-              stagger: 0.045,
+              duration: 1.25,
+              stagger: 0.07,
               onComplete: () =>
                 title.current?.setAttribute("data-revealed", "true"),
             },
-            "-=0.45",
+            "-=0.6",
           )
           .fromTo(
             "[data-hero='lead']",
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.8 },
-            "-=0.7",
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.95 },
+            "-=0.85",
           )
           .fromTo(
             "[data-hero='actions'] > *",
-            { opacity: 0, y: 14 },
-            { opacity: 1, y: 0, duration: 0.65, stagger: 0.08 },
-            "-=0.55",
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, duration: 0.8, stagger: 0.07 },
+            "-=0.72",
           )
           .fromTo(
             "[data-hero='newsletter']",
-            { opacity: 0, y: 18 },
-            { opacity: 1, y: 0, duration: 0.8 },
-            "-=0.45",
+            { opacity: 0, y: 14 },
+            { opacity: 1, y: 0, duration: 0.95 },
+            "-=0.62",
           )
           .fromTo(
             "[data-hero='cue']",
             { opacity: 0 },
-            { opacity: 1, duration: 0.6 },
-            "-=0.3",
+            { opacity: 1, duration: 0.7 },
+            "-=0.45",
           );
 
         // Content drifts up and dims as the section leaves, so the hero hands
         // off to the next block instead of simply scrolling away.
         gsap.to(content.current, {
-          yPercent: -14,
-          opacity: 0.15,
+          yPercent: -10,
+          opacity: 0.12,
           ease: "none",
           scrollTrigger: {
             trigger: root.current,
@@ -114,7 +120,7 @@ export default function Hero() {
           yPercent: 0,
           duration: 0.85,
           ease: "power4.out",
-          stagger: 0.03,
+          stagger: 0.05,
           onComplete: () =>
             title.current?.setAttribute("data-revealed", "true"),
         },

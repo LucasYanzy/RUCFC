@@ -47,10 +47,16 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  /* Entrances only. Almost all of the travel is spent in the first third and
+     the last two thirds are the settle -- the thing that separates motion that
+     reads as engineered from motion that reads as a transition with a long
+     duration on it. Nothing loops on this curve; it is for arrivals. */
+  --ease-entrance: cubic-bezier(0.22, 1, 0.28, 1);
   --dur-1: 140ms;
   --dur-2: 260ms;
   --dur-3: 420ms;
   --dur-4: 720ms;
+  --dur-5: 1100ms;
 }
 
 /* ==========================================================================
