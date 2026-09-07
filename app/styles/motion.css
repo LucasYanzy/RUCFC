@@ -29,10 +29,16 @@
 /* Line-by-line masked reveal for headings. Each line sits in an overflow
    clip so the type rises out of an invisible edge rather than fading in. */
 .line-mask {
+  /* Descenders overhang line-height 1.03 by about 0.06em, so the clip has to
+     sit lower than the line box or every g and y loses its tail. This is that
+     allowance; anything painting into it reads the variable instead of
+     repeating the number, so the two can't drift apart. The negative margin
+     hands the space back so the extra padding costs no layout. */
+  --mask-descender: 0.08em;
   display: block;
   overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
+  padding-bottom: var(--mask-descender);
+  margin-bottom: calc(-1 * var(--mask-descender));
 }
 
 .js-motion .line-mask > span {

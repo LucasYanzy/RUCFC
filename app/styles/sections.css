@@ -37,6 +37,13 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  /* These glyphs are painted by the background, not by color -- and a
+     background stops at the padding box. The g of "Advancing" overhangs the
+     line box by ~0.06em, so that tail fell outside the paint area and simply
+     never got drawn, while the plain white line above kept its own. Push the
+     paint box down to the mask's limit; the negative margin keeps layout put. */
+  padding-bottom: var(--mask-descender);
+  margin-bottom: calc(-1 * var(--mask-descender));
 }
 
 .hero__lead {
