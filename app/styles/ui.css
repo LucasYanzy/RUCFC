@@ -266,37 +266,53 @@
   gap: var(--s-1);
 }
 
-/* Underline grows from the centre — the same gesture as the eyebrow rule. */
+/* Underline grows from the centre — the same gesture as the eyebrow rule.
+   One 1px rule that only appeared on the active item was close to no signal:
+   nothing marked a link as a link until you were already on it, and the current
+   section was a hairline you had to hunt for. Three states now read at a
+   glance -- hovering takes a surface and a half-width rule, the active item
+   holds a brand-tinted pill, and its rule is 2px with a glow so it survives
+   against the blurred nav backdrop. */
 .nav__link {
   position: relative;
   padding: 8px 12px;
+  border-radius: var(--r-sm);
   font-size: 0.875rem;
   color: var(--ink-subtle);
-  transition: color var(--dur-2) var(--ease-out);
+  transition: color var(--dur-2) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out);
 }
 
 .nav__link::after {
   content: "";
   position: absolute;
-  inset-block-end: 2px;
+  inset-block-end: 3px;
   inset-inline: 12px;
-  height: 1px;
-  background: var(--brand);
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: var(--brand-ink);
+  box-shadow: 0 0 10px var(--brand-glow);
   transform: scaleX(0);
+  transform-origin: 50% 50%;
   transition: transform var(--dur-3) var(--ease-out);
 }
 
 .nav__link:hover {
   color: var(--ink);
+  background: var(--surface-2);
 }
 
-.nav__link:hover::after,
-.nav__link[aria-current="true"]::after {
-  transform: scaleX(1);
+.nav__link:hover::after {
+  transform: scaleX(0.45);
 }
 
 .nav__link[aria-current="true"] {
   color: var(--ink);
+  background: var(--brand-soft);
+}
+
+.nav__link[aria-current="true"]::after {
+  transform: scaleX(1);
 }
 
 .nav__tools {
