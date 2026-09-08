@@ -10,9 +10,9 @@ const geist = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Rutgers Chinese Finance Club — Bridging Cultures, Advancing Careers",
+  title: "RUCFC — Chinese Markets, AI & Global Business | Rutgers",
   description:
-    "A dynamic platform empowering Rutgers students in finance by bridging Eastern and Western business cultures.",
+    "Explore Chinese markets, practical AI in finance, business culture, and career connections with Rutgers Chinese Finance Club. Open to all Rutgers students; no Chinese language skills or finance background required.",
 };
 
 export default function RootLayout({

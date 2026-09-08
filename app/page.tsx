@@ -71,6 +71,11 @@ function ProgramVisual({ index }: { index: number }) {
           <span>01 — 03</span>
         </div>
         <div className="tool-row">
+          <span className="tool-icon">⌘</span>
+          <span>AI in Finance</span>
+          <span>↗</span>
+        </div>
+        <div className="tool-row">
           <span className="tool-icon">B</span>
           <span>Bloomberg Terminal</span>
           <span>↗</span>
@@ -80,18 +85,13 @@ function ProgramVisual({ index }: { index: number }) {
           <span>BMC & ESG</span>
           <span>↗</span>
         </div>
-        <div className="tool-row">
-          <span className="tool-icon">⌘</span>
-          <span>AI in Finance</span>
-          <span>↗</span>
-        </div>
       </div>
     );
   if (index === 1)
     return (
       <div className="conversation-visual" aria-hidden="true">
         <div className="visual-topline">
-          <span>A DIFFERENT PERSPECTIVE</span>
+          <span>CHINA IN CONTEXT</span>
           <span>↗</span>
         </div>
         <svg viewBox="0 0 360 150" fill="none">
@@ -109,8 +109,8 @@ function ProgramVisual({ index }: { index: number }) {
         </svg>
         <div className="visual-footline">
           <span>MARKETS</span>
-          <span>CAREERS</span>
-          <span>CONVERSATIONS</span>
+          <span>TECHNOLOGY</span>
+          <span>CULTURE</span>
         </div>
       </div>
     );
@@ -275,53 +275,53 @@ function Website() {
 
   const programs = [
     {
-      name: c("将知识转化为实力", "Build practical fluency"),
-      short: c("技能工作坊", "Workshops"),
-      label: "LEARN",
+      name: c("把 AI 用于真实分析", "Put AI into practice"),
+      short: c("AI 与金融实践", "AI & finance"),
+      label: "PRACTICE",
       description: c(
-        "走出课堂，亲手使用金融行业的工具。",
-        "Step beyond the classroom. Work with the tools the industry uses.",
+        "探索 AI 在金融研究与商业工作中的实际应用。",
+        "Explore AI tools for financial research, market analysis, and business.",
       ),
       detail: c(
-        "通过实操工作坊，探索彭博终端、BMC 与 ESG 认证，以及 AI 工具在金融领域的应用。让每一次练习，都成为你的下一步。",
-        "Explore Bloomberg Terminal, BMC and ESG certifications, and practical AI tools through hands-on workshops. Make every session a step forward.",
+        "结合彭博终端、BMC / ESG 学习资源，通过实操工作坊探索 AI 在金融研究、市场分析和日常商业工作中的应用。理解工具的能力与局限，把课堂知识带入真实问题。",
+        "Explore AI tools for financial research, market analysis, and everyday business work through practical workshops. Work with Bloomberg Terminal and BMC / ESG learning resources, and understand both the possibilities and limits of these tools.",
       ),
-      tags: ["Bloomberg Terminal", "BMC / ESG", "AI in Finance"],
+      tags: ["AI in Finance", "Bloomberg Terminal", "BMC / ESG"],
     },
     {
-      name: c("让行业离你更近", "Get closer to the industry"),
-      short: c("行业对话", "Conversations"),
-      label: "CONNECT",
+      name: c("读懂市场背后的逻辑", "Understand the landscape"),
+      short: c("中国市场与商业文化", "Chinese markets & culture"),
+      label: "UNDERSTAND",
       description: c(
-        "从真实的经验中，找到自己的方向。",
-        "Find your direction through conversations with people doing the work.",
+        "理解中国科技产业、企业竞争与跨文化合作。",
+        "Discover China’s technology industries, competition, and business culture.",
       ),
       detail: c(
-        "与一线金融从业者交流市场观点、真实的工作方式与职业路径。带着问题来，在开放的对话中建立自己的判断。",
-        "Meet finance practitioners and discuss markets, the realities of their work, and career paths. Bring your questions and build a perspective of your own.",
+        "从中国 AI 与科技企业的案例出发，讨论产业布局、竞争格局及其对全球市场的影响。结合中国商业文化，帮助希望跨境创业或参与企业运营的同学建立背景知识。",
+        "Use case studies of Chinese AI and technology companies to understand the industry landscape, competition, and global market impact. Explore Chinese business culture and build context for entrepreneurship and business operations across borders.",
       ),
       tags: [
-        c("市场观点", "Market perspectives"),
-        c("职业路径", "Career paths"),
-        c("从业者交流", "Industry conversations"),
+        c("AI 与科技", "AI & technology"),
+        c("企业竞争", "Competitive landscape"),
+        c("跨文化商业", "Business across cultures"),
       ],
     },
     {
-      name: c("与同路人一起成长", "Find your people"),
-      short: c("同伴社群", "Community"),
-      label: "BELONG",
+      name: c("连接行业，探索下一步", "Connect with what’s next"),
+      short: c("行业连接与职业探索", "Connections & careers"),
+      label: "CONNECT",
       description: c(
-        "分享学习与求职的旅程，一起走得更远。",
-        "Share the learning, the recruiting journey, and everything in between.",
+        "在校友与从业者的经验中，探索跨境职业方向。",
+        "Explore careers across borders through alumni and practitioner perspectives.",
       ),
       detail: c(
-        "连接来自金融、经济和商科等不同领域的同学，交流学习心得与求职经验。无需金融背景，也能在这里找到自己的位置。",
-        "Meet students across finance, economics, business, and beyond. Exchange ideas and recruiting experiences. No finance background needed — there is a place for you here.",
+        "通过校友与从业者分享、同伴交流和机会资讯，了解与中国市场相关的职业路径。连接 Rutgers 社群，一起交流学习、求职与跨文化工作的经验。",
+        "Explore career paths connected to Chinese markets through alumni and practitioner conversations, peer exchange, and opportunity updates. Share learning, recruiting, and cross-cultural work experiences with the Rutgers community.",
       ),
       tags: [
-        c("同伴学习", "Peer learning"),
-        c("求职交流", "Career support"),
-        c("跨文化连接", "Cross-cultural connection"),
+        c("校友与行业交流", "Alumni & industry"),
+        c("职业资讯", "Career insights"),
+        c("同伴连接", "Peer connection"),
       ],
     },
   ];
@@ -456,14 +456,14 @@ function Website() {
               <Arrow />
             </a>
             <h1>
-              {c("跨越边界，", "Beyond borders.")}
+              {c("从中国市场，", "Understand China.")}
               <br />
-              <span>{c("向未来生长。", "Forward, together.")}</span>
+              <span>{c("看全球商业。", "Think globally.")}</span>
             </h1>
             <p className="hero-description">
               {c(
-                "连接东西方商业文化的罗格斯金融社群。\n拓宽视野，磨练技能，与同路人一起向前。",
-                "A Rutgers finance community connecting Eastern and Western business cultures. Build your perspective, your skills, and your next chapter.",
+                "中国的 AI 与科技发展，正在影响全球市场。\n在 Rutgers，一起理解趋势、动手实践、探索职业方向。",
+                "Explore how China’s AI and technology advances shape global markets. Build practical skills and explore career paths at Rutgers.",
               )}
             </p>
             <div className="hero-newsletter" id="newsletter">
@@ -476,8 +476,8 @@ function Website() {
               <NewsletterForm />
               <p className="newsletter-caption">
                 {c(
-                  "社团活动、实操工作坊与中国市场洞察。",
-                  "Club events, hands-on workshops, and Chinese market perspectives.",
+                  "AI 实操工作坊、中国市场洞察与职业资讯。",
+                  "AI workshops, Chinese market insights, and career updates.",
                 )}
               </p>
             </div>
@@ -492,6 +492,12 @@ function Website() {
                 <Arrow />
               </a>
             </div>
+            <p className="hero-welcome">
+              {c(
+                "面向所有 Rutgers 学生，无需中文或金融背景。",
+                "Open to all Rutgers students. No Chinese language skills or finance background required.",
+              )}
+            </p>
           </div>
           <div className="hero-world">
             <div className="world-caption">
@@ -558,21 +564,21 @@ function Website() {
           </div>
           <div className="about-layout">
             <h2 data-reveal>
-              {c("金融连接世界。", "Finance connects the world.")}
+              {c("中国视角。", "A lens on China.")}
               <br />
-              <span>{c("我们连接彼此。", "We connect each other.")}</span>
+              <span>{c("读懂全球商业。", "A global perspective.")}</span>
             </h2>
             <div className="about-description" data-reveal>
               <p>
                 {c(
-                  "我们相信，好的金融视野，来自不同文化之间的理解，也来自真实的实践与交流。",
-                  "We believe a stronger perspective on finance comes from understanding different cultures — and from real practice and open conversations.",
+                  "从人工智能到科技产业，中国市场的变化正在影响全球企业、投资与竞争。理解这些发展，也需要理解背后的产业布局和商业文化。",
+                  "From artificial intelligence to technology industries, developments in China are shaping global business, investment, and competition. Understanding these changes means understanding the industry landscape and business culture behind them.",
                 )}
               </p>
               <p>
                 {c(
-                  "RUCFC 立足 Rutgers，将对中国市场的好奇与全球商业视角连接起来。我们一起学习工具、走近行业，在共同成长中探索更多可能。",
-                  "Rooted at Rutgers, RUCFC connects curiosity about Chinese markets with a global business perspective. We learn the tools, meet the industry, and build what comes next, together.",
+                  "RUCFC 为 Rutgers 学生提供认识中国科技与商业市场的视角。通过 AI 与金融实践、企业案例、行业交流和跨文化连接，把新的认识用于学习、职业探索与未来的跨境创业。",
+                  "RUCFC gives Rutgers students a perspective on China’s technology and business markets. Through AI and finance workshops, company case studies, industry conversations, and cross-cultural connections, we turn that perspective into practical learning, career exploration, and a foundation for entrepreneurship across borders.",
                 )}
               </p>
               <a className="text-link" href="#programs">
@@ -600,8 +606,8 @@ function Website() {
                 <h3>{c("保持开放", "Open by nature")}</h3>
                 <p>
                   {c(
-                    "不同背景，共同的好奇心。",
-                    "Different backgrounds. Shared curiosity.",
+                    "面向所有专业，无需中文或金融背景。",
+                    "All majors welcome. No Chinese fluency or finance experience needed.",
                   )}
                 </p>
               </div>
@@ -629,8 +635,8 @@ function Website() {
             <h2>{c("为你的下一步而设计。", "Built for your next step.")}</h2>
             <p>
               {c(
-                "从学习工具到认识行业，再到找到同伴。\n三条路径，一起成长。",
-                "Learn the tools. Meet the industry. Find your people.\nThree ways to move forward.",
+                "AI 工具、中国市场与职业连接。\n把新的视角，用于你的下一步。",
+                "Practical AI. Chinese markets. Career connections.\nBring a new perspective to your next step.",
               )}
             </p>
           </div>
@@ -746,8 +752,8 @@ function Website() {
               </h2>
               <p>
                 {c(
-                  "无论刚刚开始对金融感到好奇，还是已找到自己的方向，这里都有你的位置。",
-                  "Whether you are just getting curious about finance or already finding your direction, there is a place for you here.",
+                  "无论你对金融、AI、创业还是跨文化商业感到好奇，这里都有你的位置。欢迎所有专业与文化背景的 Rutgers 学生一起参与。",
+                  "Whether you are curious about finance, AI, entrepreneurship, or business across cultures, there is a place for you here. Rutgers students of every major and cultural background are welcome.",
                 )}
               </p>
               <div className="community-links">
@@ -787,8 +793,8 @@ function Website() {
                 <h3>{c("成为创始成员。", "Become a founding member.")}</h3>
                 <p>
                   {c(
-                    "面向所有 Rutgers 学生，无需金融背景。",
-                    "Open to all Rutgers students. No finance background required.",
+                    "面向所有 Rutgers 学生，无需中文或金融背景。",
+                    "Open to all Rutgers students. No Chinese language skills or finance background required.",
                   )}
                 </p>
                 <External href={JOIN_URL} className="button button-primary">

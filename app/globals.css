@@ -361,6 +361,13 @@ h1 > span {
   max-width: 478px;
   scroll-margin-top: 110px;
 }
+.hero-welcome {
+  max-width: 478px;
+  margin-top: 18px;
+  color: var(--body);
+  font-size: 11px;
+  line-height: 1.7;
+}
 .hero-newsletter > h2 {
   font-size: 14px;
   font-weight: 450;
