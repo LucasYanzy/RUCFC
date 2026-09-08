@@ -1,0 +1,26 @@
+{
+  "name": "rucfc-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "RAILWAY_NEXT_START=1 next start -p ${PORT:-3000}",
+    "newsletter:server": "node server/newsletter-server.mjs",
+    "dev:local": "SITE_BASE_PATH='' WATCHPACK_POLLING=true next dev --hostname 127.0.0.1",
+    "build:local": "SITE_BASE_PATH='' next build",
+    "preview": "python3 server.py",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
+  }
+}

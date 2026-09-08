@@ -1,0 +1,860 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { ThemeProvider, useTheme } from "./components/ThemeProvider";
+import { LangProvider, useLang } from "./components/LangProvider";
+import NewsletterForm from "./components/NewsletterForm";
+import Globe from "./components/Globe";
+import { JOIN_URL, DISCORD_INVITE, LINKEDIN_URL } from "./lib/links";
+
+function Arrow({ diagonal = false }: { diagonal?: boolean }) {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {diagonal ? (
+        <path d="M6 18 18 6M6 6h12v12" />
+      ) : (
+        <path d="M5 12h14m-5-5 5 5-5 5" />
+      )}
+    </svg>
+  );
+}
+function Brand() {
+  return (
+    <span className="brand">
+      <span className="brand-symbol" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </span>
+      <span>
+        RUCFC<span className="brand-period">.</span>
+      </span>
+    </span>
+  );
+}
+function External({
+  href,
+  children,
+  className = "",
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <a
+      className={className}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </a>
+  );
+}
+function ProgramVisual({ index }: { index: number }) {
+  if (index === 0)
+    return (
+      <div className="toolkit-visual" aria-hidden="true">
+        <div className="visual-topline">
+          <span>THE TOOLKIT</span>
+          <span>01 — 03</span>
+        </div>
+        <div className="tool-row">
+          <span className="tool-icon">B</span>
+          <span>Bloomberg Terminal</span>
+          <span>↗</span>
+        </div>
+        <div className="tool-row">
+          <span className="tool-icon">↗</span>
+          <span>BMC & ESG</span>
+          <span>↗</span>
+        </div>
+        <div className="tool-row">
+          <span className="tool-icon">⌘</span>
+          <span>AI in Finance</span>
+          <span>↗</span>
+        </div>
+      </div>
+    );
+  if (index === 1)
+    return (
+      <div className="conversation-visual" aria-hidden="true">
+        <div className="visual-topline">
+          <span>A DIFFERENT PERSPECTIVE</span>
+          <span>↗</span>
+        </div>
+        <svg viewBox="0 0 360 150" fill="none">
+          <path d="M0 75h360" stroke="currentColor" opacity=".12" />
+          {Array.from({ length: 39 }, (_, i) => (
+            <path
+              key={i}
+              className="wave-line"
+              d={`M${9 + i * 9} ${75 - (Math.sin(i * 0.52) ** 2 * 44 + 6)}v${(Math.sin(i * 0.52) ** 2 * 44 + 6) * 2}`}
+              stroke="currentColor"
+              strokeWidth="2"
+              style={{ animationDelay: `${i * 55}ms` }}
+            />
+          ))}
+        </svg>
+        <div className="visual-footline">
+          <span>MARKETS</span>
+          <span>CAREERS</span>
+          <span>CONVERSATIONS</span>
+        </div>
+      </div>
+    );
+  return (
+    <div className="network-visual" aria-hidden="true">
+      <div className="visual-topline">
+        <span>BUILT ON CONNECTION</span>
+        <span>↗</span>
+      </div>
+      <svg viewBox="0 0 360 176" fill="none">
+        <path
+          d="m66 86 57-47 112 8 58 58-68 34-104-4ZM66 86l114 0 55-39M123 39l57 47 45 53M121 135l59-49 113 19"
+          stroke="currentColor"
+          opacity=".2"
+        />
+        {[
+          [66, 86],
+          [123, 39],
+          [235, 47],
+          [293, 105],
+          [225, 139],
+          [121, 135],
+        ].map(([x, y]) => (
+          <g key={x}>
+            <circle
+              cx={x}
+              cy={y}
+              r="12"
+              fill="var(--surface)"
+              stroke="currentColor"
+              strokeOpacity=".25"
+            />
+            <circle cx={x} cy={y} r="2" fill="currentColor" />
+          </g>
+        ))}
+        <circle
+          cx="180"
+          cy="86"
+          r="28"
+          fill="var(--surface)"
+          stroke="currentColor"
+          strokeOpacity=".4"
+        />
+        <text
+          x="180"
+          y="90"
+          fill="currentColor"
+          textAnchor="middle"
+          fontSize="10"
+          fontWeight="600"
+        >
+          RUCFC
+        </text>
+      </svg>
+    </div>
+  );
+}
+
+function Website() {
+  const { lang, toggleLang } = useLang();
+  const { theme, toggleTheme } = useTheme();
+  const c = (zh: string, en: string) => (lang === "zh" ? zh : en);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const [activeSection, setActiveSection] = useState("hero");
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const header = useRef<HTMLElement>(null);
+  const progress = useRef<HTMLDivElement>(null);
+  const motionOff = paused || reducedMotion;
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    document.documentElement.dataset.motion = motionOff ? "off" : "on";
+    return () => {
+      delete document.documentElement.dataset.motion;
+    };
+  }, [motionOff]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+    document
+      .querySelectorAll("[data-reveal]")
+      .forEach((el) => observer.observe(el));
+    const navObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-20% 0px -55% 0px" },
+    );
+    document
+      .querySelectorAll("main > section[id]")
+      .forEach((el) => navObserver.observe(el));
+    const onScroll = () => {
+      const height = document.documentElement.scrollHeight - innerHeight;
+      if (progress.current)
+        progress.current.style.transform = `scaleX(${height > 0 ? scrollY / height : 0})`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      observer.disconnect();
+      navObserver.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+  useEffect(() => {
+    if (!menuOpen) return;
+    document.body.classList.add("menu-open");
+    const key = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
+      if (event.key === "Tab") {
+        const nodes = Array.from(
+          header.current?.querySelectorAll<HTMLElement>(
+            "a[href],button:not([disabled])",
+          ) ?? [],
+        ).filter((el) => el.getClientRects().length > 0);
+        const first = nodes[0],
+          last = nodes[nodes.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        }
+        if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    const resize = () => {
+      if (innerWidth > 820) setMenuOpen(false);
+    };
+    window.addEventListener("keydown", key);
+    window.addEventListener("resize", resize);
+    return () => {
+      document.body.classList.remove("menu-open");
+      window.removeEventListener("keydown", key);
+      window.removeEventListener("resize", resize);
+    };
+  }, [menuOpen]);
+
+  const programs = [
+    {
+      name: c("将知识转化为实力", "Build practical fluency"),
+      short: c("技能工作坊", "Workshops"),
+      label: "LEARN",
+      description: c(
+        "走出课堂，亲手使用金融行业的工具。",
+        "Step beyond the classroom. Work with the tools the industry uses.",
+      ),
+      detail: c(
+        "通过实操工作坊，探索彭博终端、BMC 与 ESG 认证，以及 AI 工具在金融领域的应用。让每一次练习，都成为你的下一步。",
+        "Explore Bloomberg Terminal, BMC and ESG certifications, and practical AI tools through hands-on workshops. Make every session a step forward.",
+      ),
+      tags: ["Bloomberg Terminal", "BMC / ESG", "AI in Finance"],
+    },
+    {
+      name: c("让行业离你更近", "Get closer to the industry"),
+      short: c("行业对话", "Conversations"),
+      label: "CONNECT",
+      description: c(
+        "从真实的经验中，找到自己的方向。",
+        "Find your direction through conversations with people doing the work.",
+      ),
+      detail: c(
+        "与一线金融从业者交流市场观点、真实的工作方式与职业路径。带着问题来，在开放的对话中建立自己的判断。",
+        "Meet finance practitioners and discuss markets, the realities of their work, and career paths. Bring your questions and build a perspective of your own.",
+      ),
+      tags: [
+        c("市场观点", "Market perspectives"),
+        c("职业路径", "Career paths"),
+        c("从业者交流", "Industry conversations"),
+      ],
+    },
+    {
+      name: c("与同路人一起成长", "Find your people"),
+      short: c("同伴社群", "Community"),
+      label: "BELONG",
+      description: c(
+        "分享学习与求职的旅程，一起走得更远。",
+        "Share the learning, the recruiting journey, and everything in between.",
+      ),
+      detail: c(
+        "连接来自金融、经济和商科等不同领域的同学，交流学习心得与求职经验。无需金融背景，也能在这里找到自己的位置。",
+        "Meet students across finance, economics, business, and beyond. Exchange ideas and recruiting experiences. No finance background needed — there is a place for you here.",
+      ),
+      tags: [
+        c("同伴学习", "Peer learning"),
+        c("求职交流", "Career support"),
+        c("跨文化连接", "Cross-cultural connection"),
+      ],
+    },
+  ];
+  const nav = [
+    { id: "about", name: c("关于我们", "Our story") },
+    { id: "programs", name: c("项目与活动", "Programs") },
+    { id: "join", name: c("加入社群", "Community") },
+  ];
+
+  return (
+    <>
+      <a className="skip-link" href="#main">
+        {c("跳到主要内容", "Skip to content")}
+      </a>
+      <header
+        className={`site-header ${menuOpen ? "menu-is-open" : ""}`}
+        ref={header}
+      >
+        <div className="nav-shell container">
+          <a
+            className="brand-link"
+            href="#hero"
+            aria-label="RUCFC"
+            onClick={() => setMenuOpen(false)}
+          >
+            <Brand />
+          </a>
+          <nav
+            className={`nav-links ${menuOpen ? "open" : ""}`}
+            id="navigation"
+            aria-label={c("主导航", "Main navigation")}
+          >
+            {nav.map((item) => (
+              <a
+                href={`#${item.id}`}
+                key={item.id}
+                aria-current={
+                  activeSection === item.id ? "location" : undefined
+                }
+                onClick={() => setMenuOpen(false)}
+              >
+                {item.name}
+              </a>
+            ))}
+            <a
+              href="#newsletter"
+              className="mobile-newsletter"
+              onClick={() => setMenuOpen(false)}
+            >
+              {c("订阅邮件", "Newsletter")}
+              <Arrow />
+            </a>
+          </nav>
+          <div className="nav-actions">
+            <button
+              className="language-button"
+              onClick={toggleLang}
+              aria-label={c("切换为英文", "Switch to Chinese")}
+            >
+              {lang === "zh" ? "EN" : "中"}
+            </button>
+            <button
+              className="theme-button"
+              onClick={toggleTheme}
+              aria-label={
+                theme === "dark"
+                  ? c("切换浅色模式", "Switch to light mode")
+                  : c("切换深色模式", "Switch to dark mode")
+              }
+            >
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
+                {theme === "dark" ? (
+                  <>
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1" />
+                  </>
+                ) : (
+                  <path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z" />
+                )}
+              </svg>
+            </button>
+            <External
+              href={JOIN_URL}
+              className="button button-small button-outline nav-join"
+            >
+              {c("成为会员", "Become a member")}
+              <Arrow diagonal />
+            </External>
+            <button
+              className={`menu-button ${menuOpen ? "open" : ""}`}
+              ref={menuButton}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-expanded={menuOpen}
+              aria-controls="navigation"
+              aria-label={
+                menuOpen
+                  ? c("关闭菜单", "Close menu")
+                  : c("打开菜单", "Open menu")
+              }
+            >
+              <span />
+              <span />
+            </button>
+          </div>
+        </div>
+        <div className="reading-progress" ref={progress} />
+      </header>
+      {menuOpen && (
+        <button
+          className="menu-backdrop"
+          aria-label={c("关闭导航菜单", "Close navigation")}
+          onClick={() => {
+            setMenuOpen(false);
+            menuButton.current?.focus();
+          }}
+        />
+      )}
+      <main id="main">
+        <section className="hero container" id="hero">
+          <div className="hero-copy">
+            <a href="#join" className="announcement">
+              <span className="announcement-dot" />
+              {c("2026 秋季 · 创始成员招募", "Fall 2026 · The founding cohort")}
+              <Arrow />
+            </a>
+            <h1>
+              {c("跨越边界，", "Beyond borders.")}
+              <br />
+              <span>{c("向未来生长。", "Forward, together.")}</span>
+            </h1>
+            <p className="hero-description">
+              {c(
+                "连接东西方商业文化的罗格斯金融社群。\n拓宽视野，磨练技能，与同路人一起向前。",
+                "A Rutgers finance community connecting Eastern and Western business cultures. Build your perspective, your skills, and your next chapter.",
+              )}
+            </p>
+            <div className="hero-newsletter" id="newsletter">
+              <h2>
+                {c(
+                  "让下一次机会，先到你的邮箱。",
+                  "Your next opportunity. In your inbox.",
+                )}
+              </h2>
+              <NewsletterForm />
+              <p className="newsletter-caption">
+                {c(
+                  "社团活动、实操工作坊与中国市场洞察。",
+                  "Club events, hands-on workshops, and Chinese market perspectives.",
+                )}
+              </p>
+            </div>
+            <div className="hero-actions">
+              <External href={JOIN_URL}>
+                {c("成为创始成员", "Become a founding member")}
+                <Arrow diagonal />
+              </External>
+              <span />
+              <a href="#programs">
+                {c("探索我们的项目", "Explore programs")}
+                <Arrow />
+              </a>
+            </div>
+          </div>
+          <div className="hero-world">
+            <div className="world-caption">
+              <span>LOCAL ROOTS. GLOBAL REACH.</span>
+              <span className="world-plus">+</span>
+            </div>
+            <div className="globe-stage">
+              <Globe paused={motionOff} />
+            </div>
+            <div className="world-footer">
+              <div>
+                <span className="world-dot" />
+                <span>
+                  NEW BRUNSWICK <span className="world-divider">↔</span> THE
+                  WORLD
+                </span>
+              </div>
+              <button
+                className="motion-button"
+                aria-pressed={motionOff}
+                disabled={reducedMotion}
+                onClick={() => setPaused(!paused)}
+                aria-label={
+                  motionOff
+                    ? c("播放动态效果", "Play animations")
+                    : c("暂停动态效果", "Pause animations")
+                }
+              >
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  {motionOff ? (
+                    <path d="m4 2 6 4-6 4Z" />
+                  ) : (
+                    <path d="M3 2h2v8H3zm4 0h2v8H7z" />
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div className="hero-baseline">
+            <span>
+              {c("罗格斯华人金融社团", "Rutgers Chinese Finance Club")}
+            </span>
+            <span>
+              {c("面向所有 Rutgers 学生", "Open to all Rutgers students")}
+            </span>
+            <span>
+              {c(
+                "始于 2026，未来未设限。",
+                "Founded in 2026. Built for what’s next.",
+              )}
+            </span>
+          </div>
+        </section>
+        <section className="about container section" id="about">
+          <div className="section-label" data-reveal>
+            <span>01</span>
+            {c("我们的出发点", "Our starting point")}
+          </div>
+          <div className="about-layout">
+            <h2 data-reveal>
+              {c("金融连接世界。", "Finance connects the world.")}
+              <br />
+              <span>{c("我们连接彼此。", "We connect each other.")}</span>
+            </h2>
+            <div className="about-description" data-reveal>
+              <p>
+                {c(
+                  "我们相信，好的金融视野，来自不同文化之间的理解，也来自真实的实践与交流。",
+                  "We believe a stronger perspective on finance comes from understanding different cultures — and from real practice and open conversations.",
+                )}
+              </p>
+              <p>
+                {c(
+                  "RUCFC 立足 Rutgers，将对中国市场的好奇与全球商业视角连接起来。我们一起学习工具、走近行业，在共同成长中探索更多可能。",
+                  "Rooted at Rutgers, RUCFC connects curiosity about Chinese markets with a global business perspective. We learn the tools, meet the industry, and build what comes next, together.",
+                )}
+              </p>
+              <a className="text-link" href="#programs">
+                {c("了解我们在做什么", "Discover what we do")}
+                <Arrow />
+              </a>
+            </div>
+          </div>
+          <div className="principles" data-reveal>
+            <div>
+              <span className="principle-mark">↗</span>
+              <div>
+                <h3>{c("立足实践", "Practical from day one")}</h3>
+                <p>
+                  {c(
+                    "让课堂知识走向真实应用。",
+                    "Turn what you learn into what you can do.",
+                  )}
+                </p>
+              </div>
+            </div>
+            <div>
+              <span className="principle-mark">◎</span>
+              <div>
+                <h3>{c("保持开放", "Open by nature")}</h3>
+                <p>
+                  {c(
+                    "不同背景，共同的好奇心。",
+                    "Different backgrounds. Shared curiosity.",
+                  )}
+                </p>
+              </div>
+            </div>
+            <div>
+              <span className="principle-mark">↔</span>
+              <div>
+                <h3>{c("一起向前", "Better together")}</h3>
+                <p>
+                  {c(
+                    "彼此支持，走出更远的路。",
+                    "Find support for the journey ahead.",
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="programs section container" id="programs">
+          <div className="section-label" data-reveal>
+            <span>02</span>
+            {c("把好奇变成行动", "Put curiosity into motion")}
+          </div>
+          <div className="section-heading" data-reveal>
+            <h2>{c("为你的下一步而设计。", "Built for your next step.")}</h2>
+            <p>
+              {c(
+                "从学习工具到认识行业，再到找到同伴。\n三条路径，一起成长。",
+                "Learn the tools. Meet the industry. Find your people.\nThree ways to move forward.",
+              )}
+            </p>
+          </div>
+          <div className="desktop-programs" data-reveal>
+            <div
+              className="program-grid"
+              role="tablist"
+              aria-label={c("项目介绍", "Explore programs")}
+            >
+              {programs.map((item, i) => (
+                <button
+                  key={item.label}
+                  className={`program-card ${selected === i ? "selected" : ""}`}
+                  role="tab"
+                  id={`program-tab-${i}`}
+                  aria-controls="program-panel"
+                  aria-selected={selected === i}
+                  tabIndex={selected === i ? 0 : -1}
+                  onClick={() => setSelected(i)}
+                  onKeyDown={(event) => {
+                    let next = i;
+                    if (event.key === "ArrowRight") next = (i + 1) % 3;
+                    else if (event.key === "ArrowLeft") next = (i + 2) % 3;
+                    else if (event.key === "Home") next = 0;
+                    else if (event.key === "End") next = 2;
+                    else return;
+                    event.preventDefault();
+                    setSelected(next);
+                    document.getElementById(`program-tab-${next}`)?.focus();
+                  }}
+                >
+                  <div className="program-label">
+                    <span>
+                      0{i + 1} / {item.label}
+                    </span>
+                    <Arrow diagonal />
+                  </div>
+                  <h3>{item.name}</h3>
+                  <p>{item.description}</p>
+                  <ProgramVisual index={i} />
+                  <span className="program-bottom">
+                    {item.short}
+                    <span>{selected === i ? "−" : "+"}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <div
+              className="program-panel"
+              role="tabpanel"
+              tabIndex={0}
+              id="program-panel"
+              aria-labelledby={`program-tab-${selected}`}
+            >
+              <div className="panel-copy" key={selected}>
+                <h3>{programs[selected].short}</h3>
+                <p>{programs[selected].detail}</p>
+                <div className="tags">
+                  {programs[selected].tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <External className="text-link" href={JOIN_URL}>
+                {c("一起参与", "Be part of it")}
+                <Arrow diagonal />
+              </External>
+            </div>
+          </div>
+          <div className="mobile-programs" data-reveal>
+            {programs.map((item, i) => (
+              <details
+                key={item.label}
+                name="mobile-programs"
+                open={i === 0 ? true : undefined}
+              >
+                <summary>
+                  <span className="mobile-program-index">0{i + 1}</span>
+                  <div>
+                    <span>{item.label}</span>
+                    <h3>{item.short}</h3>
+                  </div>
+                  <span className="detail-toggle">+</span>
+                </summary>
+                <div className="mobile-program-body">
+                  <h4>{item.name}</h4>
+                  <p>{item.detail}</p>
+                  <div className="tags">
+                    {item.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                  <External className="text-link" href={JOIN_URL}>
+                    {c("一起参与", "Be part of it")}
+                    <Arrow diagonal />
+                  </External>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+        <section className="join section container" id="join">
+          <div className="section-label" data-reveal>
+            <span>03</span>
+            {c("第一章，邀请你一起写", "Help write the first chapter")}
+          </div>
+          <div className="join-layout">
+            <div className="join-copy" data-reveal>
+              <h2>
+                {c("有你，", "There’s a place")}
+                <br />
+                <span>{c("才是我们的未来。", "for you here.")}</span>
+              </h2>
+              <p>
+                {c(
+                  "无论刚刚开始对金融感到好奇，还是已找到自己的方向，这里都有你的位置。",
+                  "Whether you are just getting curious about finance or already finding your direction, there is a place for you here.",
+                )}
+              </p>
+              <div className="community-links">
+                <External href={DISCORD_INVITE}>
+                  <span className="social-icon">#</span>
+                  <span>
+                    <strong>Discord</strong>
+                    <small>{c("加入日常交流", "Join the conversation")}</small>
+                  </span>
+                  <Arrow diagonal />
+                </External>
+                <External href={LINKEDIN_URL}>
+                  <span className="social-icon linkedin">in</span>
+                  <span>
+                    <strong>LinkedIn</strong>
+                    <small>{c("关注社团动态", "Follow our journey")}</small>
+                  </span>
+                  <Arrow diagonal />
+                </External>
+              </div>
+            </div>
+            <div className="membership" data-reveal>
+              <div className="membership-head">
+                <Brand />
+                <span>MEMBERSHIP / 2026</span>
+              </div>
+              <div className="membership-center">
+                <span className="membership-edition">THE FOUNDING CHAPTER</span>
+                <div className="membership-wordmark" aria-hidden="true">
+                  RUCFC<span>.</span>
+                </div>
+                <span className="membership-location">
+                  RUTGERS UNIVERSITY · NEW BRUNSWICK
+                </span>
+              </div>
+              <div className="membership-bottom">
+                <h3>{c("成为创始成员。", "Become a founding member.")}</h3>
+                <p>
+                  {c(
+                    "面向所有 Rutgers 学生，无需金融背景。",
+                    "Open to all Rutgers students. No finance background required.",
+                  )}
+                </p>
+                <External href={JOIN_URL} className="button button-primary">
+                  {c("填写入会申请", "Apply for membership")}
+                  <Arrow diagonal />
+                </External>
+                <small>
+                  {c(
+                    "大约 1 分钟，开启你的下一步。",
+                    "About a minute to take your next step.",
+                  )}
+                </small>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="closing container" data-reveal>
+          <div>
+            <span>STAY CURIOUS. STAY CONNECTED.</span>
+            <h2>
+              {c(
+                "下一次连接，从这里发生。",
+                "Good things start with a connection.",
+              )}
+            </h2>
+          </div>
+          <a href="#newsletter" className="button button-outline">
+            {c("订阅 RUCFC 邮件", "Get the RUCFC newsletter")}
+            <Arrow />
+          </a>
+        </section>
+      </main>
+      <footer className="footer container">
+        <div className="footer-top">
+          <a href="#hero" aria-label="RUCFC">
+            <Brand />
+          </a>
+          <p>
+            {c("跨越文化，连接未来。", "Bridging cultures. Advancing futures.")}
+          </p>
+          <a
+            href="#hero"
+            className="back-top"
+            aria-label={c("返回顶部", "Back to top")}
+          >
+            ↑
+          </a>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 Rutgers Chinese Finance Club</span>
+          <span>NEW BRUNSWICK, NEW JERSEY</span>
+          <div>
+            <External href={DISCORD_INVITE}>Discord</External>
+            <External href={LINKEDIN_URL}>LinkedIn</External>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+}
+export default function Home() {
+  return (
+    <ThemeProvider>
+      <LangProvider>
+        <Website />
+      </LangProvider>
+    </ThemeProvider>
+  );
+}
