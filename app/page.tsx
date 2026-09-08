@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import markDark from "@/public/rucfc-mark-dark.png";
+import markLight from "@/public/rucfc-mark-light.png";
 import { ThemeProvider, useTheme } from "./components/ThemeProvider";
 import { LangProvider, useLang } from "./components/LangProvider";
 import NewsletterForm from "./components/NewsletterForm";
@@ -31,10 +34,9 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 function Brand() {
   return (
     <span className="brand">
-      <span className="brand-symbol" aria-hidden="true">
-        <i />
-        <i />
-        <i />
+      <span className="brand-logo-wrap" aria-hidden="true">
+        <Image className="brand-logo brand-logo-dark" src={markDark} alt="" />
+        <Image className="brand-logo brand-logo-light" src={markLight} alt="" />
       </span>
       <span>
         RUCFC<span className="brand-period">.</span>

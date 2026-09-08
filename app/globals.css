@@ -179,26 +179,30 @@ p {
 .brand-period {
   color: var(--accent-text);
 }
-.brand-symbol {
-  display: flex;
-  gap: 3px;
-  width: 23px;
-  height: 24px;
-  align-items: center;
-  transform: skewY(-19deg);
-}
-.brand-symbol i {
-  height: 20px;
-  width: 5px;
-  background: var(--ink);
+.brand-logo-wrap {
+  position: relative;
   display: block;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
 }
-.brand-symbol i:nth-child(2) {
-  height: 15px;
+.brand-logo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.22s ease;
 }
-.brand-symbol i:nth-child(3) {
-  height: 10px;
-  background: var(--accent);
+.brand-logo-light {
+  opacity: 0;
+}
+[data-theme="light"] .brand-logo-dark {
+  opacity: 0;
+}
+[data-theme="light"] .brand-logo-light {
+  opacity: 1;
 }
 .nav-links {
   display: flex;
@@ -952,6 +956,11 @@ h2 > span {
   height: 15px;
   gap: 2px;
 }
+.membership-head .brand-logo-wrap {
+  width: 25px;
+  height: 25px;
+  flex-basis: 25px;
+}
 .membership-head .brand-symbol i {
   height: 14px;
   width: 4px;
@@ -1288,12 +1297,10 @@ h2 > span {
   .brand {
     font-size: 23px;
   }
-  .brand-symbol {
-    height: 21px;
-    width: 21px;
-  }
-  .brand-symbol i {
-    width: 4px;
+  .brand-logo-wrap {
+    width: 31px;
+    height: 31px;
+    flex-basis: 31px;
   }
   .nav-links {
     display: none;
