@@ -8,7 +8,16 @@ import logo from "@/public/logo.png";
 import logoWhite from "@/public/logo-white.png";
 import { JOIN_URL } from "@/app/lib/links";
 
-export default function Navbar() {
+type NavItem = { labelKey: string; href: string };
+
+const DEFAULT_ITEMS: NavItem[] = [
+  { labelKey: "nav.home", href: "#hero" },
+  { labelKey: "nav.programs", href: "#programs" },
+];
+
+// `items` lets a page point the in-page links at its own sections; /classic
+// keeps the defaults.
+export default function Navbar({ items = DEFAULT_ITEMS }: { items?: NavItem[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
@@ -46,10 +55,7 @@ export default function Navbar() {
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
-  const navItems = [
-    { label: t("nav.home"), href: "#hero" },
-    { label: t("nav.programs"), href: "#programs" },
-  ];
+  const navItems = items.map((item) => ({ label: t(item.labelKey), href: item.href }));
 
   // Use white-bg logo for light theme, dark logo for dark theme
   const logoSrc = theme === "light" ? logoWhite : logo;

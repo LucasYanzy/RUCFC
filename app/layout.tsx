@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Rutgers Chinese Finance Club — Bridging Cultures, Advancing Careers",
+  title: "Rutgers Chinese Finance Club — From Rutgers to China",
   description:
-    "A dynamic platform empowering Rutgers students in finance by bridging Eastern and Western business cultures.",
+    "Educating and connecting the Rutgers community to advanced education and opportunities to work in China, across Chinese finance, AI and innovation, exchange, and supply chains.",
 };
 
 export default function RootLayout({
