@@ -14,7 +14,8 @@ site, deployed twice. See [Deployment](#deployment).
 |---|---|
 | Framework | Next.js 15 (App Router) |
 | UI | React 19, TypeScript |
-| Styling | Hand-written CSS — `app/globals.css`, ~740 lines. 34 custom properties define both themes. No UI library. |
+| Styling | Hand-written CSS — `app/globals.css`, ~1,260 lines. 34 custom properties define both themes. No UI library. |
+| Motion | CSS animations plus two canvas/pointer effects in the hero. No animation library. |
 | Hosting | Static export, served from GitHub Pages and from a Caddy VPS |
 | Newsletter API | Standalone Node HTTP server on the VPS, storing to Resend |
 
@@ -55,7 +56,8 @@ Output lands in `out/`.
 ```
 app/
   layout.tsx              Root layout; inline script applies the saved theme before paint
-  page.tsx                Composes every section in order
+  page.tsx                Home page — the dynamic version, wrapped in .site-v2
+  classic/page.tsx        The previous home page, kept intact at /classic/
   globals.css             The entire design system — both themes, all animations
   icon.png                Favicon (Next file convention; picks up basePath automatically)
   lib/links.ts            JOIN_URL, DISCORD_INVITE, LINKEDIN_URL — the only copies
@@ -63,19 +65,39 @@ app/
     ThemeProvider.tsx     Dark/light, persisted to localStorage
     LangProvider.tsx      EN/中文 dictionary and the `t()` helper — all UI copy lives here
     Navbar.tsx            Nav, theme toggle, language toggle
-    Hero.tsx              Headline, the two CTAs, and the newsletter signup
+    HeroDynamic.tsx       Home hero: canvas backdrop, pointer parallax, word-by-word headline
+    Hero.tsx              The original hero, still used by /classic
+    TopicMarquee.tsx      Scrolling strip of the topics the program cards cover
+    ScrollProgress.tsx    Reading-progress hairline at the top of the viewport
     Programs.tsx          The three things the club runs
     Join.tsx              Membership form CTA plus Discord and LinkedIn cards
     Footer.tsx
     NewsletterForm.tsx    Posts to the newsletter API, or falls back to localStorage
     useScrollReveal.ts    IntersectionObserver reveal-on-scroll
+    useCardGlow.ts        Cursor spotlight and tilt on the home page's cards
 server/
   newsletter-server.mjs   The newsletter API
 public/
   logo.png  logo-white.png
 ```
 
-The page is four sections: **Hero → Programs → Join → Footer**.
+The home page is **Hero → Topic strip → Programs → Join → Footer**.
+
+### Two versions of the page
+
+`/` is the dynamic version. `/classic/` is the page as it was before, kept rather
+than deleted; each footer links to the other. Both use the same `Programs`, `Join`
+and `Footer` components. The motion layer in `globals.css` only applies under
+`.site-v2`, which only `app/page.tsx` sets, so `/classic/` renders the way it always
+did. The one addition is the footer link back to `/`. It is marked `noindex` so it
+does not compete with the home page in search.
+
+Every animation respects `prefers-reduced-motion`. The hero canvas draws one still
+frame, the marquee becomes a static list, and parallax and tilt switch off. The
+canvas also pauses whenever the hero is off screen or the tab is hidden.
+
+To make the classic page the home page again, swap `HeroDynamic` back to `Hero` in
+`app/page.tsx` and drop the `.site-v2` wrapper.
 
 ---
 
@@ -106,6 +128,8 @@ Next gives every JS and CSS asset a content hash in its filename, so those are s
 cache forever. `index.html` is not hashed — it is the file that points at the new hashed
 assets — so Caddy serves it with `Cache-Control: no-cache`. Without that, Cloudflare or a
 browser can pin an old shell that requests assets a deploy has already replaced.
+The export also contains `classic/index.html`, so the no-cache rule has to cover it too.
+A `*.html` matcher does; a rule that names only `/index.html` does not.
 
 ### If the repository is ever renamed
 
@@ -186,6 +210,7 @@ Most updates do not require touching layout or CSS.
 |---|---|
 | Any UI text, in either language | `app/components/LangProvider.tsx` — one `translations` object keyed by string id |
 | The three program cards | `app/components/Programs.tsx` — the `programs` array, plus the matching `programs.*` keys |
+| Hero chips and the topic strip | `topic.*` keys in `LangProvider.tsx`; the lists are in `HeroDynamic.tsx` and `TopicMarquee.tsx` |
 | Membership form, Discord, or LinkedIn URL | `app/lib/links.ts` — every component reads from there |
 
 ---

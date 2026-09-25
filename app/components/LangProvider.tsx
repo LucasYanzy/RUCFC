@@ -31,6 +31,20 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "Events, workshops, and Chinese market insights in your inbox.",
     zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
   },
+  "hero.scroll": { en: "Scroll", zh: "向下滑动" },
+
+  // Topics -- the floating hero chips and the marquee strip. Every one of these
+  // is something the program cards already say the club does.
+  "topics.label": { en: "What we cover", zh: "我们关注的领域" },
+  "topic.bloomberg": { en: "Bloomberg Terminal", zh: "彭博终端" },
+  "topic.bmc": { en: "BMC Certification", zh: "BMC 认证" },
+  "topic.esg": { en: "ESG Certification", zh: "ESG 认证" },
+  "topic.ai": { en: "AI × Finance", zh: "AI × 金融" },
+  "topic.leaders": { en: "Industry Leaders", zh: "行业领袖" },
+  "topic.markets": { en: "Chinese Markets", zh: "中国市场" },
+  "topic.careers": { en: "Career Paths", zh: "职业路径" },
+  "topic.community": { en: "Peer Community", zh: "同伴社群" },
+  "topic.bridge": { en: "East ⇄ West", zh: "东方 ⇄ 西方" },
 
   // Programs
   "programs.label": { en: "What We Do", zh: "我们做什么" },
@@ -85,6 +99,8 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "© 2026 Rutgers Chinese Finance Club. All rights reserved.",
     zh: "© 2026 罗格斯华人金融社团 版权所有",
   },
+  "footer.classic": { en: "Classic version", zh: "经典版页面" },
+  "footer.newVersion": { en: "New version", zh: "新版页面" },
 
   // Newsletter
   "newsletter.subscribe": { en: "Subscribe", zh: "订阅" },
@@ -116,6 +132,12 @@ export function LangProvider({ children }: { children: ReactNode }) {
       setLang(stored);
     }
   }, []);
+
+  // Screen readers and font fallback both key off <html lang>, which the root
+  // layout hardcodes to "en".
+  useEffect(() => {
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  }, [lang]);
 
   const toggleLang = () => {
     const next = lang === "en" ? "zh" : "en";

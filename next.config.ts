@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Export every route as <route>/index.html. /classic would otherwise come out
+  // as classic.html, which GitHub Pages resolves but a plain file server --
+  // Caddy without a try_files rule, say -- does not.
+  trailingSlash: true,
 };
 
 if (!isRailway) {
