@@ -31,10 +31,9 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "Events, workshops, and Chinese market insights in your inbox.",
     zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
   },
-  "hero.scroll": { en: "Scroll", zh: "向下滑动" },
 
-  // Topics -- the floating hero chips and the marquee strip. Every one of these
-  // is something the program cards already say the club does.
+  // Topics for the marquee strip. Every one of these is something the program
+  // cards already say the club does.
   "topics.label": { en: "What we cover", zh: "我们关注的领域" },
   "topic.bloomberg": { en: "Bloomberg Terminal", zh: "彭博终端" },
   "topic.bmc": { en: "BMC Certification", zh: "BMC 认证" },

@@ -14,8 +14,8 @@ site, deployed twice. See [Deployment](#deployment).
 |---|---|
 | Framework | Next.js 15 (App Router) |
 | UI | React 19, TypeScript |
-| Styling | Hand-written CSS — `app/globals.css`, ~1,260 lines. 34 custom properties define both themes. No UI library. |
-| Motion | CSS animations plus two canvas/pointer effects in the hero. No animation library. |
+| Styling | Hand-written CSS — `app/globals.css`, ~1,000 lines. 34 custom properties define both themes. No UI library. |
+| Motion | CSS animations plus one canvas band under the hero. No animation library. |
 | Hosting | Static export, served from GitHub Pages and from a Caddy VPS |
 | Newsletter API | Standalone Node HTTP server on the VPS, storing to Resend |
 
@@ -65,7 +65,7 @@ app/
     ThemeProvider.tsx     Dark/light, persisted to localStorage
     LangProvider.tsx      EN/中文 dictionary and the `t()` helper — all UI copy lives here
     Navbar.tsx            Nav, theme toggle, language toggle
-    HeroDynamic.tsx       Home hero: canvas backdrop, pointer parallax, word-by-word headline
+    HeroDynamic.tsx       Home hero: word-by-word headline, and a band of flowing lines under it
     Hero.tsx              The original hero, still used by /classic
     TopicMarquee.tsx      Scrolling strip of the topics the program cards cover
     ScrollProgress.tsx    Reading-progress hairline at the top of the viewport
@@ -74,7 +74,6 @@ app/
     Footer.tsx
     NewsletterForm.tsx    Posts to the newsletter API, or falls back to localStorage
     useScrollReveal.ts    IntersectionObserver reveal-on-scroll
-    useCardGlow.ts        Cursor spotlight and tilt on the home page's cards
 server/
   newsletter-server.mjs   The newsletter API
 public/
@@ -92,9 +91,13 @@ and `Footer` components. The motion layer in `globals.css` only applies under
 did. The one addition is the footer link back to `/`. It is marked `noindex` so it
 does not compete with the home page in search.
 
-Every animation respects `prefers-reduced-motion`. The hero canvas draws one still
-frame, the marquee becomes a static list, and parallax and tilt switch off. The
-canvas also pauses whenever the hero is off screen or the tab is hidden.
+Motion stays out of the way of content. Nothing follows the pointer. The one
+running animation, the band of lines, has its own space under the hero content,
+so it never passes behind text. It pauses whenever it is off screen or the tab is
+hidden.
+
+Every animation respects `prefers-reduced-motion`: the band draws one still
+frame, and the marquee becomes a static list.
 
 To make the classic page the home page again, swap `HeroDynamic` back to `Hero` in
 `app/page.tsx` and drop the `.site-v2` wrapper.
@@ -210,7 +213,7 @@ Most updates do not require touching layout or CSS.
 |---|---|
 | Any UI text, in either language | `app/components/LangProvider.tsx` — one `translations` object keyed by string id |
 | The three program cards | `app/components/Programs.tsx` — the `programs` array, plus the matching `programs.*` keys |
-| Hero chips and the topic strip | `topic.*` keys in `LangProvider.tsx`; the lists are in `HeroDynamic.tsx` and `TopicMarquee.tsx` |
+| The topic strip | `topic.*` keys in `LangProvider.tsx`; the list is in `TopicMarquee.tsx` |
 | Membership form, Discord, or LinkedIn URL | `app/lib/links.ts` — every component reads from there |
 
 ---
