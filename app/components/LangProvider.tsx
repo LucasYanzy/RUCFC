@@ -32,18 +32,13 @@ const translations: Record<string, Record<Lang, string>> = {
     zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
   },
 
-  // Topics for the marquee strip. Every one of these is something the program
-  // cards already say the club does.
+  // Topics for the marquee strip: the club's focus areas, in the club's order.
   "topics.label": { en: "What we cover", zh: "我们关注的领域" },
-  "topic.bloomberg": { en: "Bloomberg Terminal", zh: "彭博终端" },
-  "topic.bmc": { en: "BMC Certification", zh: "BMC 认证" },
-  "topic.esg": { en: "ESG Certification", zh: "ESG 认证" },
-  "topic.ai": { en: "AI × Finance", zh: "AI × 金融" },
-  "topic.leaders": { en: "Industry Leaders", zh: "行业领袖" },
-  "topic.markets": { en: "Chinese Markets", zh: "中国市场" },
-  "topic.careers": { en: "Career Paths", zh: "职业路径" },
-  "topic.community": { en: "Peer Community", zh: "同伴社群" },
-  "topic.bridge": { en: "East ⇄ West", zh: "东方 ⇄ 西方" },
+  "topic.finance": { en: "Chinese Finance", zh: "中国金融" },
+  "topic.ai": { en: "Artificial Intelligence / Innovation", zh: "人工智能 / 创新" },
+  "topic.exchange": { en: "Exchange", zh: "交流" },
+  "topic.fintech": { en: "Fintech", zh: "金融科技" },
+  "topic.research": { en: "China Insight Research", zh: "中国洞察研究" },
 
   // Programs
   "programs.label": { en: "What We Do", zh: "我们做什么" },

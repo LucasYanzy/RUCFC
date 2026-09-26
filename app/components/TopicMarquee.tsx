@@ -2,29 +2,31 @@
 
 import { useLang } from "./LangProvider";
 
-// Everything here comes from the program cards -- the strip restates what the
-// club runs, it does not add claims of its own.
+// The club's focus areas, in the club's order.
 const TOPICS = [
-  "topic.bloomberg",
-  "topic.bmc",
-  "topic.esg",
+  "topic.finance",
   "topic.ai",
-  "topic.leaders",
-  "topic.markets",
-  "topic.careers",
-  "topic.community",
-  "topic.bridge",
+  "topic.exchange",
+  "topic.fintech",
+  "topic.research",
 ];
 
 export default function TopicMarquee() {
   const { t } = useLang();
 
-  // The list is rendered twice and the track slides by exactly half its width,
-  // which makes the loop seamless. The copy is hidden from assistive tech.
+  // The track holds two identical groups and slides by exactly half its width,
+  // which makes the loop seamless; the second group is hidden from assistive
+  // tech. Items alternate filled and outlined, and with an odd number of topics
+  // each group lists them twice so the alternation also lines up at the seam.
+  const items = [...TOPICS, ...TOPICS];
   const group = (copy: boolean) => (
     <ul className="marquee-group" aria-hidden={copy || undefined}>
-      {TOPICS.map((key, i) => (
-        <li key={key} className={i % 2 ? "is-outline" : undefined}>
+      {items.map((key, i) => (
+        <li
+          key={`${key}-${i}`}
+          className={i % 2 ? "is-outline" : undefined}
+          aria-hidden={(!copy && i >= TOPICS.length) || undefined}
+        >
           {t(key)}
         </li>
       ))}

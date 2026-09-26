@@ -15,7 +15,7 @@ site, deployed twice. See [Deployment](#deployment).
 | Framework | Next.js 15 (App Router) |
 | UI | React 19, TypeScript |
 | Styling | Hand-written CSS — `app/globals.css`, ~1,000 lines. 34 custom properties define both themes. No UI library. |
-| Motion | CSS animations plus one canvas band under the hero. No animation library. |
+| Motion | CSS animations only. No animation library. |
 | Hosting | Static export, served from GitHub Pages and from a Caddy VPS |
 | Newsletter API | Standalone Node HTTP server on the VPS, storing to Resend |
 
@@ -65,9 +65,9 @@ app/
     ThemeProvider.tsx     Dark/light, persisted to localStorage
     LangProvider.tsx      EN/中文 dictionary and the `t()` helper — all UI copy lives here
     Navbar.tsx            Nav, theme toggle, language toggle
-    HeroDynamic.tsx       Home hero: word-by-word headline, and a band of flowing lines under it
+    HeroDynamic.tsx       Home hero: headline that rises in word by word, CTAs, newsletter
     Hero.tsx              The original hero, still used by /classic
-    TopicMarquee.tsx      Scrolling strip of the topics the program cards cover
+    TopicMarquee.tsx      Scrolling strip of the club's five focus areas
     ScrollProgress.tsx    Reading-progress hairline at the top of the viewport
     Programs.tsx          The three things the club runs
     Join.tsx              Membership form CTA plus Discord and LinkedIn cards
@@ -91,13 +91,9 @@ and `Footer` components. The motion layer in `globals.css` only applies under
 did. The one addition is the footer link back to `/`. It is marked `noindex` so it
 does not compete with the home page in search.
 
-Motion stays out of the way of content. Nothing follows the pointer. The one
-running animation, the band of lines, has its own space under the hero content,
-so it never passes behind text. It pauses whenever it is off screen or the tab is
-hidden.
-
-Every animation respects `prefers-reduced-motion`: the band draws one still
-frame, and the marquee becomes a static list.
+Motion stays out of the way of content: nothing follows the pointer or runs
+behind text. Every animation respects `prefers-reduced-motion`, and the marquee
+becomes a static list.
 
 To make the classic page the home page again, swap `HeroDynamic` back to `Hero` in
 `app/page.tsx` and drop the `.site-v2` wrapper.

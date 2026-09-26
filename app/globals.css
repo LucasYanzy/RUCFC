@@ -774,13 +774,11 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
    app/page.tsx sets. /classic renders the same Programs, Join and Footer
    without it, so it keeps looking exactly as it did.
 
-   Motion stays out of the way of content: nothing follows the pointer, and the
-   only running animation, the line band, has its own space under the hero.
+   Motion stays out of the way of content: nothing follows the pointer or runs
+   behind text.
    ========================================================================== */
 
 :root { --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); }
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- Scroll progress ---------- */
 .scroll-progress {
@@ -797,10 +795,7 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
 }
 
 /* ---------- Hero ---------- */
-/* A column: the content, then the line band under it. The content is centred
-   in the space above the band, and the band never sits behind it. */
-.hero-x { flex-direction: column; isolation: isolate; }
-.hero-x .hero-content { margin-block: auto; }
+.hero-x { isolation: isolate; }
 
 .hero-x-backdrop { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .hero-x-aurora { position: absolute; inset: 0; }
@@ -818,7 +813,7 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
 @keyframes auroraDrift { to { transform: translate3d(6%, 4%, 0); } }
 [data-theme="light"] .hero-x-aurora { opacity: 0.7; }
 
-.hero-x-content { z-index: 2; padding-bottom: 32px; }
+.hero-x-content { z-index: 2; }
 
 .hero-x-badge { animation: fadeInDown 0.8s ease-out 0.15s both; }
 
@@ -871,17 +866,6 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
   max-width: none; margin: 8px 0 0; font-size: 0.76rem; line-height: 1.45;
 }
 .hero-x .newsletter-status:empty { margin-top: 0; }
-
-.hero-x-band {
-  position: relative; z-index: 1; flex-shrink: 0;
-  width: 100%; height: clamp(96px, 16vh, 176px);
-  animation: fadeIn 1.6s ease 0.8s both;
-}
-.hero-x-band canvas {
-  display: block; width: 100%; height: 100%;
-  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-}
 
 /* ---------- Topic marquee ---------- */
 .marquee {
@@ -967,10 +951,9 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
 
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
-  .hero-x-content { padding-bottom: 24px; }
+  .hero-x-content { padding-bottom: 56px; }
   .hero-x-title { margin-bottom: 20px; }
   .hero-x .hero-newsletter { margin-top: 32px; padding: 18px 16px; }
-  .hero-x-band { height: 96px; }
   .marquee { padding: 18px 0; }
   .marquee-group,
   .marquee-group li { gap: 28px; }
@@ -991,6 +974,7 @@ a.join-card:hover .join-card-arrow { color: var(--accent-light); transform: tran
   .marquee { mask-image: none; -webkit-mask-image: none; }
   .marquee-track { animation: none; width: auto; justify-content: center; }
   .marquee-group { flex-wrap: wrap; justify-content: center; row-gap: 12px; padding: 0 24px; }
-  .marquee-group[aria-hidden] { display: none; }
+  .marquee-group[aria-hidden],
+  .marquee-group li[aria-hidden] { display: none; }
   .js-reveal .site-v2 .reveal-stagger > * { translate: none; }
 }
