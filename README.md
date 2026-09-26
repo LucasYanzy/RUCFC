@@ -14,8 +14,8 @@ site, deployed twice. See [Deployment](#deployment).
 |---|---|
 | Framework | Next.js 15 (App Router) |
 | UI | React 19, TypeScript |
-| Styling | Hand-written CSS — `app/globals.css`, ~1,100 lines. Custom properties define both themes. No UI library. |
-| Motion | CSS animations and one SVG animation on the route map. No animation library. |
+| Styling | Hand-written CSS — `app/globals.css`, ~1,260 lines. 34 custom properties define both themes. No UI library. |
+| Motion | CSS animations plus two canvas/pointer effects in the hero. No animation library. |
 | Hosting | Static export, served from GitHub Pages and from a Caddy VPS |
 | Newsletter API | Standalone Node HTTP server on the VPS, storing to Resend |
 
@@ -56,79 +56,48 @@ Output lands in `out/`.
 ```
 app/
   layout.tsx              Root layout; inline script applies the saved theme before paint
-  page.tsx                Home page — the current version, wrapped in .site-v2
+  page.tsx                Home page — the dynamic version, wrapped in .site-v2
   classic/page.tsx        The previous home page, kept intact at /classic/
   globals.css             The entire design system — both themes, all animations
   icon.png                Favicon (Next file convention; picks up basePath automatically)
   lib/links.ts            JOIN_URL, DISCORD_INVITE, LINKEDIN_URL — the only copies
-  lib/focus.ts            The four focus areas and their characters (金 智 交 链)
-  lib/polarLand.ts        Generated land mask for the route map — do not edit
   components/
     ThemeProvider.tsx     Dark/light, persisted to localStorage
     LangProvider.tsx      EN/中文 dictionary and the `t()` helper — all UI copy lives here
     Navbar.tsx            Nav, theme toggle, language toggle
-    HomeHero.tsx          Home hero: thesis, focus tags, CTAs, newsletter, route map
-    RouteMap.tsx          Polar map with the New Brunswick–Shanghai route and live local times
-    Seal.tsx              The red seal stamp (华人金融) after the headline
-    Focus.tsx             The four focus areas, in scarlet-ruled columns
+    HeroDynamic.tsx       Home hero: canvas backdrop, pointer parallax, word-by-word headline
     Hero.tsx              The original hero, still used by /classic
-    Programs.tsx          The original three program cards, still used by /classic
+    TopicMarquee.tsx      Scrolling strip of the topics the program cards cover
+    ScrollProgress.tsx    Reading-progress hairline at the top of the viewport
+    Programs.tsx          The three things the club runs
     Join.tsx              Membership form CTA plus Discord and LinkedIn cards
     Footer.tsx
     NewsletterForm.tsx    Posts to the newsletter API, or falls back to localStorage
     useScrollReveal.ts    IntersectionObserver reveal-on-scroll
-scripts/
-  generate-polar-land.mjs Rebuilds lib/polarLand.ts from Natural Earth data
+    useCardGlow.ts        Cursor spotlight and tilt on the home page's cards
 server/
   newsletter-server.mjs   The newsletter API
 public/
   logo.png  logo-white.png
 ```
 
-The home page is **Hero → Focus → Join → Footer**.
+The home page is **Hero → Topic strip → Programs → Join → Footer**.
 
 ### Two versions of the page
 
-`/` is the current version, built around the club's focus on China: Chinese
-finance, AI and innovation, exchange, and supply chains. `/classic/` is the page as
-it was before, kept rather than deleted, with its original copy and design; each
-footer links to the other. It is marked `noindex` so it does not compete with the
-home page in search.
+`/` is the dynamic version. `/classic/` is the page as it was before, kept rather
+than deleted; each footer links to the other. Both use the same `Programs`, `Join`
+and `Footer` components. The motion layer in `globals.css` only applies under
+`.site-v2`, which only `app/page.tsx` sets, so `/classic/` renders the way it always
+did. The one addition is the footer link back to `/`. It is marked `noindex` so it
+does not compete with the home page in search.
 
-The two share `Navbar`, `Join` and `Footer`. `Navbar` and `Footer` take props for
-the in-page links and the footer blurb, and `/classic/` uses the defaults. The home
-page's palette and type live under `.site-v2` in `globals.css`, which only
-`app/page.tsx` sets, so `/classic/` keeps the original design system. Home-page copy
-uses its own `home.*`, `focus.*` and `route.*` keys, so editing it never changes
-`/classic/`.
+Every animation respects `prefers-reduced-motion`. The hero canvas draws one still
+frame, the marquee becomes a static list, and parallax and tilt switch off. The
+canvas also pauses whenever the hero is off screen or the tab is hidden.
 
-**Design.** Rutgers scarlet doubles as the vermilion of Chinese lacquer and seal
-paste. It sits on lacquer black, or on xuan-paper white in the light theme, with
-Song-style serif type for display (Source Serif 4 with Noto Serif SC). The Chinese
-details are functional:
-- the seal stamp reads 华人金融;
-- each focus area is headed by one character: 金 finance, 智 intelligence,
-  交 exchange, 链 chain;
-- the focus columns are ruled in red like traditional Chinese letter paper.
-
-**Route map.** It is a north-polar azimuthal equidistant projection, because the
-shortest route from New Brunswick to Shanghai crosses the Arctic (11,872 km). Land
-comes from a 112×112 mask generated from Natural Earth data. To regenerate it:
-
-```bash
-npm install --no-save world-atlas@2 topojson-client@3 d3-geo@3
-node scripts/generate-polar-land.mjs
-```
-
-The map deliberately shows land only, with no country borders.
-
-**Motion.** Nothing moves with the pointer or covers content:
-- The hero fades in.
-- The seal is stamped once.
-- The route draws once, then a pulse travels it every 8 s.
-- The focus characters sharpen in as they scroll into view.
-
-`prefers-reduced-motion` shows everything at rest and hides the pulse.
+To make the classic page the home page again, swap `HeroDynamic` back to `Hero` in
+`app/page.tsx` and drop the `.site-v2` wrapper.
 
 ---
 
@@ -240,9 +209,8 @@ Most updates do not require touching layout or CSS.
 | To change | Edit |
 |---|---|
 | Any UI text, in either language | `app/components/LangProvider.tsx` — one `translations` object keyed by string id |
-| The three program cards (`/classic/` only) | `app/components/Programs.tsx` — the `programs` array, plus the matching `programs.*` keys |
-| The four focus areas | `focus.*` keys in `LangProvider.tsx`; the list and characters are in `app/lib/focus.ts` |
-| Home hero copy | `home.*` keys in `LangProvider.tsx` |
+| The three program cards | `app/components/Programs.tsx` — the `programs` array, plus the matching `programs.*` keys |
+| Hero chips and the topic strip | `topic.*` keys in `LangProvider.tsx`; the lists are in `HeroDynamic.tsx` and `TopicMarquee.tsx` |
 | Membership form, Discord, or LinkedIn URL | `app/lib/links.ts` — every component reads from there |
 
 ---
