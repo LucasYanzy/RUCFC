@@ -32,6 +32,14 @@ const translations: Record<string, Record<Lang, string>> = {
     zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
   },
 
+  // Topics for the marquee strip: the club's focus areas, in the club's order.
+  "topics.label": { en: "What we cover", zh: "我们关注的领域" },
+  "topic.finance": { en: "Chinese Finance", zh: "中国金融" },
+  "topic.ai": { en: "Artificial Intelligence / Innovation", zh: "人工智能 / 创新" },
+  "topic.exchange": { en: "Exchange", zh: "交流" },
+  "topic.fintech": { en: "Fintech", zh: "金融科技" },
+  "topic.research": { en: "China Insight Research", zh: "中国洞察研究" },
+
   // Programs
   "programs.label": { en: "What We Do", zh: "我们做什么" },
   "programs.title": { en: "Our Programs & Events", zh: "项目与活动" },
@@ -85,6 +93,8 @@ const translations: Record<string, Record<Lang, string>> = {
     en: "© 2026 Rutgers Chinese Finance Club. All rights reserved.",
     zh: "© 2026 罗格斯华人金融社团 版权所有",
   },
+  "footer.classic": { en: "Classic version", zh: "经典版页面" },
+  "footer.newVersion": { en: "New version", zh: "新版页面" },
 
   // Newsletter
   "newsletter.subscribe": { en: "Subscribe", zh: "订阅" },
@@ -116,6 +126,12 @@ export function LangProvider({ children }: { children: ReactNode }) {
       setLang(stored);
     }
   }, []);
+
+  // Screen readers and font fallback both key off <html lang>, which the root
+  // layout hardcodes to "en".
+  useEffect(() => {
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  }, [lang]);
 
   const toggleLang = () => {
     const next = lang === "en" ? "zh" : "en";
