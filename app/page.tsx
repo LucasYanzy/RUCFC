@@ -4,6 +4,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import { LangProvider } from "./components/LangProvider";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import Ticker from "./components/Ticker";
 import Programs from "./components/Programs";
 import Join from "./components/Join";
 import Footer from "./components/Footer";
@@ -18,6 +19,7 @@ export default function Home() {
       <LangProvider>
         <Navbar />
         <Hero />
+        <Ticker />
         <Programs />
         <Join />
         <Footer />

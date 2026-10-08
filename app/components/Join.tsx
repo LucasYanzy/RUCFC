@@ -36,45 +36,46 @@ export default function Join() {
   return (
     <section className="join-section" id="join">
       <div className="container">
-        <div className="join-header reveal">
-          <div className="section-label">{t("join.label")}</div>
-          <h2 className="section-title">{t("join.title")}</h2>
-          <p className="section-subtitle">{t("join.subtitle")}</p>
-        </div>
+        <div className="join-panel reveal">
+          <div className="join-main">
+            <div className="section-label">{t("join.label")}</div>
+            <h2 className="section-title">{t("join.title")}</h2>
+            <p className="section-subtitle">{t("join.subtitle")}</p>
 
-        <div className="join-primary reveal">
-          <a
-            href={JOIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-          >
-            {t("join.form")}
-            <span className="btn-arrow">→</span>
-          </a>
-          <span className="join-primary-note">{t("join.formNote")}</span>
-        </div>
+            <div className="join-primary">
+              <a
+                href={JOIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
+                {t("join.form")}
+                <span className="btn-arrow">→</span>
+              </a>
+              <span className="join-primary-note">{t("join.formNote")}</span>
+            </div>
+          </div>
 
-        <div className="join-grid reveal-stagger">
-          {channels.map((channel) => (
-            <a
-              key={channel.href}
-              className="join-card"
-              href={channel.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="join-card-icon">{channel.icon}</span>
-              <span className="join-card-body">
-                <strong>{t(channel.labelKey)}</strong>
-                <span>{t(channel.descKey)}</span>
-              </span>
-              <span className="join-card-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
-          ))}
-
+          <div className="join-channels">
+            {channels.map((channel) => (
+              <a
+                key={channel.href}
+                className="join-card"
+                href={channel.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="join-card-icon">{channel.icon}</span>
+                <span className="join-card-body">
+                  <strong>{t(channel.labelKey)}</strong>
+                  <span>{t(channel.descKey)}</span>
+                </span>
+                <span className="join-card-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>

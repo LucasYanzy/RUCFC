@@ -5,14 +5,13 @@ import { useLang } from "./LangProvider";
 import { DISCORD_INVITE, LINKEDIN_URL } from "@/app/lib/links";
 import logo from "@/public/logo.png";
 
-// The newsletter form moved to the Join section, which is where someone reading
-// top to bottom is ready to act. The Instagram and WeChat icons that used to sit
-// here were href="#" -- no account exists yet, so they are gone rather than dead.
+// The Instagram and WeChat icons that used to sit here were href="#" -- no
+// account exists yet, so they are gone rather than dead. The "Quick Links"
+// column is folded into one row: three anchors did not need a heading.
 export default function Footer() {
   const { t } = useLang();
 
   const links = [
-    { href: "#hero", label: t("nav.home") },
     { href: "#programs", label: t("nav.programs") },
     { href: "#join", label: t("nav.join") },
   ];
@@ -29,26 +28,26 @@ export default function Footer() {
             <p>{t("footer.desc")}</p>
           </div>
 
-          <div className="footer-col">
-            <h4>{t("footer.links")}</h4>
+          <nav className="footer-links" aria-label="Footer">
             {links.map((link) => (
               <a key={link.href} href={link.href}>
                 {link.label}
               </a>
             ))}
-          </div>
+            <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
+              Discord ↗
+            </a>
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+              LinkedIn ↗
+            </a>
+          </nav>
         </div>
 
         <div className="footer-bottom">
           <p>{t("footer.copyright")}</p>
-          <div className="footer-socials">
-            <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
-              Discord
-            </a>
-            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
-              LinkedIn
-            </a>
-          </div>
+          <a href="#hero" className="footer-top-link">
+            {t("footer.top")} ↑
+          </a>
         </div>
       </div>
     </footer>

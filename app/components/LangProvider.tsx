@@ -21,7 +21,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "hero.title1": { en: "Bridging Cultures,", zh: "跨越文化，" },
   "hero.title2": { en: "Advancing Careers", zh: "驱动未来" },
   "hero.desc": {
-    en: "A Rutgers finance community bridging Eastern and Western business cultures — practical skills, industry access, and a perspective on Chinese markets.",
+    en: "A Rutgers finance community connecting Eastern and Western business cultures — practical skills, industry access, and a perspective on Chinese markets.",
     zh: "连接东西方商业文化的罗格斯金融社区——实用技能、行业资源，以及对中国市场的独特视角。",
   },
   "hero.cta1": { en: "Become a Member", zh: "成为会员" },
@@ -32,11 +32,21 @@ const translations: Record<string, Record<Lang, string>> = {
     zh: "活动、工作坊与中国市场洞察，直接送到邮箱。",
   },
 
+  // Ticker -- every item restates something the programs or channels below
+  // already promise, so the strip adds no claim of its own.
+  "ticker.1": { en: "Bloomberg Terminal", zh: "彭博终端" },
+  "ticker.2": { en: "BMC Certification", zh: "BMC 认证" },
+  "ticker.3": { en: "ESG Certification", zh: "ESG 认证" },
+  "ticker.4": { en: "AI in Finance", zh: "金融 AI 实操" },
+  "ticker.5": { en: "Industry Speakers", zh: "行业嘉宾" },
+  "ticker.6": { en: "Career Events", zh: "职业活动" },
+  "ticker.7": { en: "Chinese Markets", zh: "中国市场" },
+
   // Programs
   "programs.label": { en: "What We Do", zh: "我们做什么" },
   "programs.title": { en: "Our Programs & Events", zh: "项目与活动" },
   "programs.subtitle": {
-    en: "Bridging the gap between coursework and how finance actually works.",
+    en: "Closing the gap between coursework and how finance actually works.",
     zh: "弥合课堂知识与真实金融工作之间的差距。",
   },
   "programs.card1.title": { en: "Skill Advancement Workshops", zh: "技能进阶工作坊" },
@@ -77,10 +87,10 @@ const translations: Record<string, Record<Lang, string>> = {
 
   // Footer
   "footer.desc": {
-    en: "Bridging Eastern and Western business cultures for Rutgers finance students since 2026.",
-    zh: "自 2026 年起，为罗格斯金融学生连接东西方商业文化。",
+    en: "A student finance club at Rutgers University, founded in 2026.",
+    zh: "罗格斯大学学生金融社团，成立于 2026 年。",
   },
-  "footer.links": { en: "Quick Links", zh: "快速链接" },
+  "footer.top": { en: "Back to top", zh: "回到顶部" },
   "footer.copyright": {
     en: "© 2026 Rutgers Chinese Finance Club. All rights reserved.",
     zh: "© 2026 罗格斯华人金融社团 版权所有",
@@ -116,6 +126,12 @@ export function LangProvider({ children }: { children: ReactNode }) {
       setLang(stored);
     }
   }, []);
+
+  // Keep <html lang> in step with the copy, so screen readers pick the right
+  // voice and the :lang(zh) typography rules in globals.css apply.
+  useEffect(() => {
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+  }, [lang]);
 
   const toggleLang = () => {
     const next = lang === "en" ? "zh" : "en";

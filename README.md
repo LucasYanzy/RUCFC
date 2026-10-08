@@ -14,7 +14,8 @@ site, deployed twice. See [Deployment](#deployment).
 |---|---|
 | Framework | Next.js 15 (App Router) |
 | UI | React 19, TypeScript |
-| Styling | Hand-written CSS — `app/globals.css`, ~740 lines. 34 custom properties define both themes. No UI library. |
+| Styling | Hand-written CSS — `app/globals.css`, ~680 lines. Both themes are custom properties built on the logo's coral (`#ff5757`) and slate (`#212730`). No UI library. |
+| Fonts | Poppins (headings — the logo's lettering) and Inter (body), from Google Fonts in `layout.tsx`; each stack falls back to the platform's Chinese faces. |
 | Hosting | Static export, served from GitHub Pages and from a Caddy VPS |
 | Newsletter API | Standalone Node HTTP server on the VPS, storing to Resend |
 
@@ -63,9 +64,10 @@ app/
     ThemeProvider.tsx     Dark/light, persisted to localStorage
     LangProvider.tsx      EN/中文 dictionary and the `t()` helper — all UI copy lives here
     Navbar.tsx            Nav, theme toggle, language toggle
-    Hero.tsx              Headline, the two CTAs, and the newsletter signup
-    Programs.tsx          The three things the club runs
-    Join.tsx              Membership form CTA plus Discord and LinkedIn cards
+    Hero.tsx              Headline, the two CTAs, the newsletter signup, and the logo emblem
+    Ticker.tsx            Scrolling strip of what the club covers, under the hero
+    Programs.tsx          The three things the club runs, as a numbered list
+    Join.tsx              One panel: membership form CTA plus Discord and LinkedIn cards
     Footer.tsx
     NewsletterForm.tsx    Posts to the newsletter API, or falls back to localStorage
     useScrollReveal.ts    IntersectionObserver reveal-on-scroll
@@ -75,7 +77,7 @@ public/
   logo.png  logo-white.png
 ```
 
-The page is four sections: **Hero → Programs → Join → Footer**.
+The page is five sections: **Hero → Ticker → Programs → Join → Footer**.
 
 ---
 
@@ -185,7 +187,8 @@ Most updates do not require touching layout or CSS.
 | To change | Edit |
 |---|---|
 | Any UI text, in either language | `app/components/LangProvider.tsx` — one `translations` object keyed by string id |
-| The three program cards | `app/components/Programs.tsx` — the `programs` array, plus the matching `programs.*` keys |
+| The three programs | `app/components/Programs.tsx` — the `programs` array, plus the matching `programs.*` keys |
+| The ticker strip | the `ticker.*` keys in `LangProvider.tsx`, and `itemKeys` in `app/components/Ticker.tsx` |
 | Membership form, Discord, or LinkedIn URL | `app/lib/links.ts` — every component reads from there |
 
 ---
